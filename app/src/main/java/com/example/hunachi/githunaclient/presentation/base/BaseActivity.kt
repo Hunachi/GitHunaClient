@@ -1,8 +1,7 @@
-package com.example.hunachi.githunaclient.view.base
+package com.example.hunachi.githunaclient.presentation.base
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import com.example.hunachi.githunaclient.viewModel.base.BaseViewModel
 import com.github.salomonbrys.kodein.android.KodeinAppCompatActivity
 
 /**

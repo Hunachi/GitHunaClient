@@ -1,6 +1,6 @@
-package com.example.hunachi.githunaclient.viewModel
+package com.example.hunachi.githunaclient.presentation.main
 
-import com.example.hunachi.githunaclient.viewModel.base.BaseViewModel
+import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
 
 /**
  * Created by hunachi on 2018/01/27.
