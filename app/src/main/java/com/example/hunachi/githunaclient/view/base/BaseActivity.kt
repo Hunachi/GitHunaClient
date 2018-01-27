@@ -1,8 +1,8 @@
-package com.example.hunachi.githunaclient.presentation.base
+package com.example.hunachi.githunaclient.view.base
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
+import com.example.hunachi.githunaclient.viewModel.base.BaseViewModel
 import com.github.salomonbrys.kodein.android.KodeinAppCompatActivity
 
 /**
@@ -31,8 +31,5 @@ abstract class BaseActivity: KodeinAppCompatActivity(){
     override fun onDestroy() {
         super.onDestroy()
         viewModel.onDestroy()
-    }
-    
-    fun replaceFragment(){
     }
 }

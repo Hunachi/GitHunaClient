@@ -1,8 +1,8 @@
-package com.example.hunachi.githunaclient.presentation
+package com.example.hunachi.githunaclient
 
 import android.app.Application
-import com.example.hunachi.githunaclient.presentation.main.MainActivity
-import com.example.hunachi.githunaclient.presentation.main.MainViewModel
+import com.example.hunachi.githunaclient.view.MainActivity
+import com.example.hunachi.githunaclient.viewModel.MainViewModel
 import com.github.salomonbrys.kodein.*
 
 /**

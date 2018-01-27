@@ -1,8 +1,12 @@
-package com.example.hunachi.githunaclient.presentation.base
+package com.example.hunachi.githunaclient.viewModel.base
 
 import android.databinding.BaseObservable
-import com.example.hunachi.githunaclient.presentation.MyApplication
+import com.example.hunachi.githunaclient.MyApplication
+import com.example.hunachi.githunaclient.view.base.BaseActivity
+import com.github.salomonbrys.kodein.KodeinInjected
+import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.instance
+import com.github.salomonbrys.kodein.kodein
 
 /**
  * Created by hunachi on 2018/01/27.
