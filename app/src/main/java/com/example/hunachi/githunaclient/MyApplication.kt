@@ -1,6 +1,7 @@
 package com.example.hunachi.githunaclient
 
 import android.app.Application
+import com.example.hunachi.githunaclient.view.MainActivity
 import com.github.salomonbrys.kodein.*
 
 /**
