@@ -3,6 +3,7 @@ package com.example.hunachi.githunaclient.presentation.main
 import android.os.Bundle
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
+import com.example.hunachi.githunaclient.presentation.base.BaseFragment
 import com.github.salomonbrys.kodein.instance
 
 class MainActivity : BaseActivity() {
