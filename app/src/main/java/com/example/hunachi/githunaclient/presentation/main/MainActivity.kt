@@ -8,10 +8,11 @@ import com.example.hunachi.githunaclient.presentation.base.BaseActivity
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
 import com.example.hunachi.githunaclient.presentation.oauth.OauthAuthorizationFragment
 import com.github.salomonbrys.kodein.instance
+import com.github.salomonbrys.kodein.with
 
 class MainActivity : BaseActivity() {
     
-    private val viewModel: MainViewModel by instance()
+    private val viewModel: MainViewModel by with(this).instance()
     private val oauthAuthorizationFragment: OauthAuthorizationFragment by instance()
     private lateinit var binding: ActivityMainBinding
     

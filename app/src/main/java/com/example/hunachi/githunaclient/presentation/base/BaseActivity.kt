@@ -15,9 +15,10 @@ abstract class BaseActivity : KodeinAppCompatActivity() {
     
     open fun setViewModel(viewModel: BaseViewModel) {
         this.viewModel = viewModel
-        viewModel.create(this)
+        viewModel.onCreate()
     }
     
+    @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

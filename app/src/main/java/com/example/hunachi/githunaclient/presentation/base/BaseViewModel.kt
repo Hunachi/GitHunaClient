@@ -1,5 +1,6 @@
 package com.example.hunachi.githunaclient.presentation.base
 
+import android.content.Context
 import android.databinding.BaseObservable
 import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.github.salomonbrys.kodein.instance
@@ -7,16 +8,15 @@ import com.github.salomonbrys.kodein.instance
 /**
  * Created by hunachi on 2018/01/27.
  */
-abstract class BaseViewModel : BaseObservable(){
+abstract class BaseViewModel(protected val context: Context) : BaseObservable(){
     
-    protected lateinit var context: BaseActivity
+    //protected lateinit var context: BaseActivity
     /*if you call them(下のインスタンスs) when context is uninitialized,you're exploding.*/
-    
+    /*
     //todo change kodein
     fun create(context: BaseActivity) {
-        this.context = context
         onCreate()
-    }
+    }*/
     
     open fun onCreate(){}
     
