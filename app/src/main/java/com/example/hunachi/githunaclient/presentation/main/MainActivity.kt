@@ -13,7 +13,6 @@ import com.github.salomonbrys.kodein.with
 class MainActivity : BaseActivity() {
     
     private val viewModel: MainViewModel by with(this).instance()
-    private val oauthAuthorizationFragment: OauthAuthorizationFragment by instance()
     private lateinit var binding: ActivityMainBinding
     
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +21,5 @@ class MainActivity : BaseActivity() {
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
         setViewModel(viewModel)
-        
-        replaceFragment(oauthAuthorizationFragment, R.id.container)
     }
 }

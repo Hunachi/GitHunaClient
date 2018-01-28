@@ -10,17 +10,19 @@ import com.github.salomonbrys.kodein.instance
  */
 abstract class BaseViewModel(protected val context: Context) : BaseObservable(){
     
-    //protected lateinit var context: BaseActivity
-    /*if you call them(下のインスタンスs) when context is uninitialized,you're exploding.*/
-    /*
-    //todo change kodein
-    fun create(context: BaseActivity) {
-        onCreate()
-    }*/
-    
+    /*多分役立つのでActivity LifeCycleに同期させた🍣*/
     open fun onCreate(){}
+    
+    open fun onRestart(){}
     
     open fun onStart() {}
     
+    open fun onResume() {}
+    
+    open fun onPause() {}
+    
+    open fun onStop(){}
+    
     open fun onDestroy() {}
+    
 }

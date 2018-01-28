@@ -14,7 +14,7 @@ class MyApplication : Application(), KodeinAware {
     override val kodein by Kodein.lazy {
         bind<MyApplication>() with singleton { this@MyApplication }
         import(mainViewModelModule)
-        bind<MainActivity>() with instance(MainActivity())
+        bind<MainActivity>() with singleton { MainActivity() }
         bind<OauthAuthorizationFragment>() with instance(OauthAuthorizationFragment.newInstance())
     }
 }
