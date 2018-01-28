@@ -9,16 +9,19 @@ import com.github.salomonbrys.kodein.instance
  */
 abstract class BaseViewModel : BaseObservable(){
     
-    private lateinit var context: BaseActivity
+    protected lateinit var context: BaseActivity
     /*if you call them(下のインスタンスs) when context is uninitialized,you're exploding.*/
-    private val application: MyApplication by context.instance()
+    private lateinit var application: Lazy<MyApplication>
     
+    
+    //todo change kodein
     fun create(context: BaseActivity) {
         this.context = context
         onCreate()
     }
     
-    open fun onCreate(){}
+    open fun onCreate(){
+    }
     
     open fun onStart() {}
     

@@ -10,19 +10,20 @@ import com.github.salomonbrys.kodein.android.KodeinSupportFragment
 /**
  * Created by hunachi on 2018/01/28.
  */
-class BaseFragment: KodeinSupportFragment() {
+abstract class BaseFragment: KodeinSupportFragment() {
     
-    private lateinit var context: BaseActivity
+    protected lateinit var context: BaseActivity
     
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+        this.context = context as BaseActivity
     }
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
     
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    open override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return super.onCreateView(inflater, container, savedInstanceState)
     }
     
