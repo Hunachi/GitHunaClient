@@ -11,8 +11,6 @@ abstract class BaseViewModel : BaseObservable(){
     
     protected lateinit var context: BaseActivity
     /*if you call them(下のインスタンスs) when context is uninitialized,you're exploding.*/
-    private lateinit var application: Lazy<MyApplication>
-    
     
     //todo change kodein
     fun create(context: BaseActivity) {
@@ -20,8 +18,7 @@ abstract class BaseViewModel : BaseObservable(){
         onCreate()
     }
     
-    open fun onCreate(){
-    }
+    open fun onCreate(){}
     
     open fun onStart() {}
     
