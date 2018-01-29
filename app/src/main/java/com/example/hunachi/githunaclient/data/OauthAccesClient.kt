@@ -1,6 +1,7 @@
 package com.example.hunachi.githunaclient.data
 
 import android.content.Intent
+import android.util.Log
 import com.example.hunachi.githunaclient.util.Key
 import java.io.IOException
 
@@ -22,6 +23,7 @@ class OauthAccesClient {
     }
     
     private fun accessToken(code: String){
+        Log.d("コードを受け取ったよ！！",code) //OK
         //todo
     }
 }

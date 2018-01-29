@@ -7,4 +7,3 @@ data class User(
         val token: String = ""
 )
 
-typealias Scopes = MutableList<String>
