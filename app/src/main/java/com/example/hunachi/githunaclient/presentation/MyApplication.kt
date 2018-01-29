@@ -2,7 +2,7 @@ package com.example.hunachi.githunaclient.presentation
 
 import android.app.Application
 import android.content.Context
-import com.example.hunachi.githunaclient.data.OauthAccesClient
+import com.example.hunachi.githunaclient.data.OauthAccessClient
 import com.example.hunachi.githunaclient.data.api.OauthAdapter
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
 import com.example.hunachi.githunaclient.presentation.main.mainViewModelModule
@@ -23,7 +23,7 @@ class MyApplication : Application(), KodeinAware {
         import(loginViewModels)
         bind<MainActivity>() with singleton { MainActivity() }
         bind<OauthAdapter>() with factory { scopes: Scopes -> OauthAdapter(scopes = scopes) }
-        bind<OauthAccesClient>() with singleton { OauthAccesClient() }
+        bind<OauthAccessClient>() with singleton { OauthAccessClient() }
     }
     
     companion object {

@@ -4,7 +4,7 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import com.example.hunachi.githunaclient.R
-import com.example.hunachi.githunaclient.data.OauthAccesClient
+import com.example.hunachi.githunaclient.data.OauthAccessClient
 import com.example.hunachi.githunaclient.databinding.ActivityLoginGitHubBinding
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
@@ -18,7 +18,7 @@ class LoginGithubActivity : BaseActivity() {
     
     private val mainActivity: MainActivity by instance()
     private val viewModel: LoginGithubViewModel by with(this).instance()
-    private val oauthAccesClient: OauthAccesClient by instance()
+    private val oauthAccessClient: OauthAccessClient by instance()
     private val binding: ActivityLoginGitHubBinding by lazy {
         DataBindingUtil.setContentView<ActivityLoginGitHubBinding>(this, R.layout.activity_login_git_hub)
     }
@@ -36,7 +36,7 @@ class LoginGithubActivity : BaseActivity() {
     
     override fun onResume() {
         super.onResume()
-        oauthAccesClient.callbackToken(intent)
+        oauthAccessClient.callbackToken(intent)
     }
     
     override fun onDestroy() {

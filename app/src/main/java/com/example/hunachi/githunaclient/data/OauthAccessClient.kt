@@ -8,7 +8,7 @@ import java.io.IOException
 /**
  * Created by hunachi on 2018/01/29.
  */
-class OauthAccesClient {
+class OauthAccessClient {
     
     fun callbackToken(intent: Intent){
         if(intent.action == Intent.ACTION_VIEW){
