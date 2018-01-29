@@ -13,7 +13,12 @@ import com.github.salomonbrys.kodein.scopedSingleton
  * Created by hunachi on 2018/01/29.
  */
 class OauthViewModel(private val modules: OauthFragmentModlules) : BaseFragmentViewModel(modules.application) {
-
+    fun onClickWebOauth(){
+    
+    }
+    fun onClickBasicOauth(){
+    
+    }
 }
 
 val oauthFragmentViewModel = Kodein.Module {
