@@ -6,16 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.hunachi.githunaclient.databinding.FragmentOuthAuthorizationBinding
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
+import com.github.salomonbrys.kodein.instance
+import com.github.salomonbrys.kodein.with
 
 /**
  * Created by hunachi on 2018/01/28.
  */
-class OauthAuthorizationFragment: BaseFragment() {
+class OauthFragment : BaseFragment() {
     
+    private val viewModel: OauthViewModel by with(this).instance()
     
     companion object {
-        fun newInstance(): OauthAuthorizationFragment{
-            return OauthAuthorizationFragment().apply {  }
+        fun newInstance(): OauthFragment {
+            return OauthFragment().apply {  }
         }
     }
     
@@ -24,6 +27,8 @@ class OauthAuthorizationFragment: BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentOuthAuthorizationBinding
                 .inflate(inflater, container, false)
+        binding.setLifecycleOwner(this)
+        setViewModel(viewModel)
         return binding.root
     }
     

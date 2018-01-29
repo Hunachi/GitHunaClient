@@ -12,7 +12,7 @@ class MainViewModel(private val modules: MainViewModels) : BaseViewModel(modules
     
     /*private val textProcessor: PublishProcessor<String> = PublishProcessor.create()
     var text: LiveData<String> = LiveDataReactiveStreams.fromPublisher(textProcessor)*/
-    private val authorizationFragment = modules.authorizationFragment
+    private val authorizationFragment = modules.oauthFragment
     private val containerId = modules.containerId
     private val activity = modules.activity
     
@@ -27,6 +27,6 @@ class MainViewModel(private val modules: MainViewModels) : BaseViewModel(modules
 
 val mainViewModelModule = Kodein.Module {
     bind<MainViewModel>() with scopedSingleton(androidActivityScope) {
-        MainViewModel(MainViewModels(it as MainActivity, instance()))
+        MainViewModel(MainViewModels(it as MainActivity, instance(), instance()))
     }
 }
