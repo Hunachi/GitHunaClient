@@ -1,6 +1,7 @@
 package com.example.hunachi.githunaclient.presentation
 
 import android.app.Application
+import com.example.hunachi.githunaclient.data.OauthWebAdapter
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
 import com.example.hunachi.githunaclient.presentation.main.mainViewModelModule
 import com.example.hunachi.githunaclient.presentation.oauth.OauthFragment
@@ -17,5 +18,6 @@ class MyApplication : Application(), KodeinAware {
         import(oauthFragmentViewModel)
         bind<MainActivity>() with singleton { MainActivity() }
         bind<OauthFragment>() with factory { _: String -> OauthFragment.newInstance() }
+        bind<OauthWebAdapter>() with factory { scopes: MutableList<String> ->  OauthWebAdapter(scopes = scopes) }
     }
 }

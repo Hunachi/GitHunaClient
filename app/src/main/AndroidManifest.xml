@@ -10,11 +10,18 @@
         android:supportsRtl="true"
         android:name=".presentation.MyApplication"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.hunachi.githunaclient.presentation.main.MainActivity">
+        <activity android:name="com.example.hunachi.githunaclient.presentation.main.MainActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="githuna" android:host="callback"/>
             </intent-filter>
         </activity>
     </application>

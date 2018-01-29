@@ -12,7 +12,7 @@ import com.github.salomonbrys.kodein.android.KodeinSupportFragment
  */
 abstract class BaseFragment: KodeinSupportFragment() {
     
-    protected lateinit var context: BaseActivity
+    protected lateinit var activity: BaseActivity
     
     private var viewModel: BaseFragmentViewModel? = null
     
@@ -24,7 +24,7 @@ abstract class BaseFragment: KodeinSupportFragment() {
     
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        this.context = context as BaseActivity
+        this.activity = context as BaseActivity
     }
     
     override fun onCreate(savedInstanceState: Bundle?) {

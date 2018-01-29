@@ -19,9 +19,9 @@ class MainViewModel(private val modules: MainViewModels) : BaseViewModel(modules
     override fun onCreate() {
         super.onCreate()
         /*confirm authorization*/
-        if (true) {
+        /*if (true) {
             activity.replaceFragment(authorizationFragment, containerId)
-        }
+        }*/
     }
 }
 

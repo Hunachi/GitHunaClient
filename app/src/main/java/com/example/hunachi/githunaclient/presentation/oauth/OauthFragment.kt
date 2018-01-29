@@ -32,5 +32,4 @@ class OauthFragment : BaseFragment() {
         setViewModel(viewModel)
         return binding.root
     }
-    
 }

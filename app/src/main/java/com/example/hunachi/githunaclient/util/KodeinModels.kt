@@ -1,6 +1,7 @@
 package com.example.hunachi.githunaclient.util
 
 import com.example.hunachi.githunaclient.R
+import com.example.hunachi.githunaclient.data.OauthWebAdapter
 import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
 import com.example.hunachi.githunaclient.presentation.oauth.OauthFragment
@@ -16,7 +17,8 @@ data class MainViewModels(
         val containerId: Int = R.id.container
 )
 
-data class OauthFragmentModlules(
+data class OauthFragmentModules(
         val oauthFragment: OauthFragment,
-        val application: MyApplication
+        val application: MyApplication,
+        val oauthWebAdapter: OauthWebAdapter
 )
