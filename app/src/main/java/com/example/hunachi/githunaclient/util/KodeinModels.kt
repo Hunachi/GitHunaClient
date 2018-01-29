@@ -1,10 +1,10 @@
 package com.example.hunachi.githunaclient.util
 
 import com.example.hunachi.githunaclient.R
-import com.example.hunachi.githunaclient.data.OauthWebAdapter
+import com.example.hunachi.githunaclient.data.OauthAdapter
 import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
-import com.example.hunachi.githunaclient.presentation.oauth.LoginGitHubActivity
+import com.example.hunachi.githunaclient.presentation.oauth.LoginGithubActivity
 import com.example.hunachi.githunaclient.presentation.oauth.OauthFragment
 
 /**
@@ -21,10 +21,11 @@ data class MainViewModules(
 data class OauthFragmentModules(
         val oauthFragment: OauthFragment,
         val application: MyApplication,
-        val oauthWebAdapter: OauthWebAdapter
+        val oauthAdapter: OauthAdapter
 )
 
 data class LoginViewModules(
-        val activity: LoginGitHubActivity,
-        val application: MyApplication
+        val activity: LoginGithubActivity,
+        val application: MyApplication,
+        val oauthAdapter: OauthAdapter
 )

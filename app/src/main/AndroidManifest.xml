@@ -3,27 +3,31 @@
     package="com.example.hunachi.githunaclient">
 
     <application
+        android:name=".presentation.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".presentation.MyApplication"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.hunachi.githunaclient.presentation.main.MainActivity"
-            android:launchMode="singleTask">
+        <activity android:name="com.example.hunachi.githunaclient.presentation.main.MainActivity" />
+        <activity
+            android:name=".presentation.oauth.LoginGithubActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".presentation.oauth.LoginGitHubActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-            <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="githuna" android:host="callback"/>
+
+                <data
+                    android:host="callback"
+                    android:scheme="githuna" />
             </intent-filter>
         </activity>
     </application>

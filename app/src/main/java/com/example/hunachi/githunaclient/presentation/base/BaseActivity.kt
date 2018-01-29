@@ -6,13 +6,16 @@ import android.os.Bundle
 import android.support.annotation.IdRes
 import android.support.annotation.LayoutRes
 import android.util.Log
+import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.github.salomonbrys.kodein.android.KodeinAppCompatActivity
+import com.github.salomonbrys.kodein.instance
 
 /**
  * Created by hunachi on 2018/01/27.
  */
 abstract class BaseActivity : KodeinAppCompatActivity() {
     
+    val application: MyApplication by instance()
     private var viewModel: BaseViewModel? = null
     
     /*VMとActivityを同期させるなら必須*/

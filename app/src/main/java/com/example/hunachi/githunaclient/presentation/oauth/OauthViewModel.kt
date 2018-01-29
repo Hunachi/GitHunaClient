@@ -11,7 +11,7 @@ import com.github.salomonbrys.kodein.android.androidSupportFragmentScope
 class OauthViewModel(private val modules: OauthFragmentModules) : BaseFragmentViewModel(modules.application) {
     
     private val fragment = modules.oauthFragment
-    private val oauthWebAdapter = modules.oauthWebAdapter
+    private val oauthWebAdapter = modules.oauthAdapter
     private val intent = oauthWebAdapter.intent
     
     fun onClickWebOauth() {
