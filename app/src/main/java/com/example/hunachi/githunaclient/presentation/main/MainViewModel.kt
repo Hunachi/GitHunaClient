@@ -8,7 +8,7 @@ import com.github.salomonbrys.kodein.android.androidActivityScope
 /**
  * Created by hunachi on 2018/01/27.
  */
-class MainViewModel(private val modules: MainViewModels) : BaseViewModel(modules.activity) {
+class MainViewModel(private val modules: MainViewModels) : BaseViewModel(modules.application) {
     
     /*private val textProcessor: PublishProcessor<String> = PublishProcessor.create()
     var text: LiveData<String> = LiveDataReactiveStreams.fromPublisher(textProcessor)*/
