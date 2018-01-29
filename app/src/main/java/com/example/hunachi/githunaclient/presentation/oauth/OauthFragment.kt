@@ -28,6 +28,7 @@ class OauthFragment : BaseFragment() {
         binding = FragmentOuthAuthorizationBinding
                 .inflate(inflater, container, false)
         binding.setLifecycleOwner(this)
+        binding.viewModel = viewModel
         setViewModel(viewModel)
         return binding.root
     }

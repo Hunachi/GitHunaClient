@@ -16,6 +16,6 @@ class MyApplication : Application(), KodeinAware {
         import(mainViewModelModule)
         import(oauthFragmentViewModel)
         bind<MainActivity>() with singleton { MainActivity() }
-        bind<OauthFragment>() with instance(OauthFragment())
+        bind<OauthFragment>() with factory { _: String -> OauthFragment.newInstance() }
     }
 }

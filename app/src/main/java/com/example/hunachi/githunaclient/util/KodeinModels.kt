@@ -9,6 +9,7 @@ import com.example.hunachi.githunaclient.presentation.oauth.OauthFragment
  * Created by hunachi on 2018/01/28.
  */
 data class MainViewModels(
+        /*MainActivityしかあり得ないことを想定*/
         val activity: MainActivity,
         val application: MyApplication,
         val oauthFragment: OauthFragment,
