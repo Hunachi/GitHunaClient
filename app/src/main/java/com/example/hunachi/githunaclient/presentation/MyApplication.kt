@@ -5,9 +5,7 @@ import android.content.Context
 import com.example.hunachi.githunaclient.data.OauthAdapter
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
 import com.example.hunachi.githunaclient.presentation.main.mainViewModelModule
-import com.example.hunachi.githunaclient.presentation.oauth.OauthFragment
 import com.example.hunachi.githunaclient.presentation.oauth.loginViewModels
-import com.example.hunachi.githunaclient.presentation.oauth.oauthFragmentViewModel
 import com.example.hunachi.githunaclient.util.Scopes
 import com.example.hunachi.githunaclient.util.User
 import com.github.salomonbrys.kodein.*
@@ -21,10 +19,8 @@ class MyApplication : Application(), KodeinAware {
         bind<MyApplication>() with singleton { this@MyApplication }
         bind<Scopes>() with instance(mutableListOf("repo"))
         import(mainViewModelModule)
-        import(oauthFragmentViewModel)
         import(loginViewModels)
         bind<MainActivity>() with singleton { MainActivity() }
-        bind<OauthFragment>() with factory { _: String -> OauthFragment.newInstance() }
         bind<OauthAdapter>() with factory { scopes: Scopes -> OauthAdapter(scopes = scopes) }
     }
     

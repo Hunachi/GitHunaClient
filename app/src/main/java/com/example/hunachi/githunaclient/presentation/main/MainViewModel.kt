@@ -12,9 +12,6 @@ class MainViewModel(private val modules: MainViewModules) : BaseViewModel(module
     
     /*private val textProcessor: PublishProcessor<String> = PublishProcessor.create()
     var text: LiveData<String> = LiveDataReactiveStreams.fromPublisher(textProcessor)*/
-    private val authorizationFragment = modules.oauthFragment
-    private val containerId = modules.containerId
-    private val activity = modules.activity
     
 }
 

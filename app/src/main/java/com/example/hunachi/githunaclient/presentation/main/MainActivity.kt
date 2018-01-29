@@ -5,14 +5,12 @@ import android.os.Bundle
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.databinding.ActivityMainBinding
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
-import com.example.hunachi.githunaclient.presentation.oauth.OauthFragment
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
 
 class MainActivity : BaseActivity() {
     
     private val viewModel: MainViewModel by with(this).instance()
-    private val fragment: OauthFragment by instance()
     private val container = R.id.container
     private lateinit var binding: ActivityMainBinding
     
@@ -22,7 +20,5 @@ class MainActivity : BaseActivity() {
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
         setViewModel(viewModel)
-        
-        //replaceFragment(fragment, container)
     }
 }
