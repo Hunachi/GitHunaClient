@@ -10,7 +10,6 @@ import se.ansman.kotshi.JsonSerializable
  */
 @JsonSerializable
 data class Token(
-        //todo make kotshi.
         @Json(name = "access_token")
         val token: String,
         val scope: String?,

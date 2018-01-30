@@ -26,7 +26,10 @@ class LoginGithubActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         /*if already have token this process skip.*/
-        if(application.user.token.isNotBlank()) finish()
+        if(application.user.token.isNotBlank()) {
+            finish()
+            startActivity(Intent(this, mainActivity::class.java))
+        }
         binding.apply {
             viewModel = this@LoginGithubActivity.viewModel
             setLifecycleOwner(this@LoginGithubActivity)
@@ -41,7 +44,5 @@ class LoginGithubActivity : BaseActivity() {
     
     override fun onDestroy() {
         super.onDestroy()
-        val intent  = Intent(this, mainActivity::class.java)
-        startActivity(intent)
     }
 }
