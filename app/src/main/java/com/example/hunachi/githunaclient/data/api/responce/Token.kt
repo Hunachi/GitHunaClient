@@ -1,13 +1,18 @@
 package com.example.hunachi.githunaclient.data.api.responce
 
 import android.support.annotation.RestrictTo
+import com.squareup.moshi.Json
+import se.ansman.kotshi.JsonSerializable
 
 /**
  * Created by hunachi on 2018/01/30.
  */
+@JsonSerializable
 data class Token(
         //todo make kotshi.
-        val access_token: String,
+        @Json(name = "access_token")
+        val token: String,
         val scope: String,
-        val token_type: String
+        @Json(name = "token_type")
+        val tokenType: String
 )
