@@ -4,9 +4,7 @@ import android.media.session.MediaSession
 import com.example.hunachi.githunaclient.data.api.responce.Token
 import io.reactivex.Observable
 import io.reactivex.Single
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 /**
  * Created by hunachi on 2018/01/31.
@@ -14,13 +12,12 @@ import retrofit2.http.POST
 interface GithubOauth {
     
     @FormUrlEncoded
-    @POST("/access_token")
+    @Headers("Accept: application/json")
+    @POST("access_token")
     fun accessToken(
-            @Field("client_id") client_id: String,
-            @Field("client_secret") client_secret: String,
-            @Field("code")code: String,
-            @Field("state")state: String
+            @Field("client_id") clientId: String,
+            @Field("client_secret") clientSecret: String,
+            @Field("code")code: String
     ): Observable<Token>
-    
     
 }

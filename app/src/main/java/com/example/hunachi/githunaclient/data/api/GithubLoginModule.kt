@@ -1,6 +1,7 @@
 package com.example.hunachi.githunaclient.data.api
 
 import com.example.hunachi.githunaclient.data.api.responce.mapper.ApplicationJsonAdapterFactory
+import com.example.hunachi.githunaclient.util.Key
 import com.squareup.moshi.Moshi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -24,7 +25,7 @@ class GithubLoginModule() {
         /*log出力させたい*/
         val logging = HttpLoggingInterceptor()
                 .apply {
-                    level = HttpLoggingInterceptor.Level.BASIC
+                    level = HttpLoggingInterceptor.Level.BODY
                 }
         val httpClient = OkHttpClient.Builder()
                 .apply {
@@ -33,13 +34,16 @@ class GithubLoginModule() {
         
         val retrofit by lazy {
             Retrofit.Builder()
-                    .baseUrl("https://github.com/login/oauth")
-                    .addConverterFactory(MoshiConverterFactory.create(kotshi))
+                    .baseUrl("https://github.com/login/oauth/")
+                    .addConverterFactory(MoshiConverterFactory.create(kotshi).asLenient())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(httpClient.build())
                     .build()
         }
         githubOauth = retrofit.create(GithubOauth::class.java)
     }
+    
+    fun register(code: String)
+            = githubOauth.accessToken(Key.clientId, Key.clientSecret, code)
     
 }
