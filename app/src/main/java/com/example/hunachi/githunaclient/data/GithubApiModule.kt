@@ -15,7 +15,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 /**
  * Created by hunachi on 2018/01/31.
  */
-class ApiModule(token: String = ""){
+class GithubApiModule(token: String = ""){
     
     private var token: String = token
     
