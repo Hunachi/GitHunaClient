@@ -1,8 +1,8 @@
-package com.example.hunachi.githunaclient.data
+package com.example.hunachi.githunaclient.data.api.oauth
 
 import android.content.Intent
 import android.util.Log
-import com.example.hunachi.githunaclient.data.api.GithubLoginModule
+import com.example.hunachi.githunaclient.data.api.modules.GithubLoginModule
 import com.example.hunachi.githunaclient.util.AppSchedulerProvider
 import com.example.hunachi.githunaclient.util.Key
 import com.github.salomonbrys.kodein.Kodein

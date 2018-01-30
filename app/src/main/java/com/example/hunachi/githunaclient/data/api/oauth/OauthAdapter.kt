@@ -1,4 +1,4 @@
-package com.example.hunachi.githunaclient.data.api
+package com.example.hunachi.githunaclient.data.api.oauth
 
 import android.content.Intent
 import android.net.Uri

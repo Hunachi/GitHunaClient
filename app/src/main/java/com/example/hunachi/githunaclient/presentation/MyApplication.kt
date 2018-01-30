@@ -2,10 +2,9 @@ package com.example.hunachi.githunaclient.presentation
 
 import android.app.Application
 import android.content.Context
-import com.example.hunachi.githunaclient.data.OauthAccessClient
-import com.example.hunachi.githunaclient.data.api.GithubLoginModule
-import com.example.hunachi.githunaclient.data.api.OauthAdapter
-import com.example.hunachi.githunaclient.data.oauthAccessClientModule
+import com.example.hunachi.githunaclient.data.api.modules.GithubLoginModule
+import com.example.hunachi.githunaclient.data.api.oauth.OauthAdapter
+import com.example.hunachi.githunaclient.data.api.oauth.oauthAccessClientModule
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
 import com.example.hunachi.githunaclient.presentation.main.mainViewModelModule
 import com.example.hunachi.githunaclient.presentation.oauth.loginViewModels

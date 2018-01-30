@@ -1,10 +1,8 @@
-package com.example.hunachi.githunaclient.data
+package com.example.hunachi.githunaclient.data.api.modules
 
-import android.net.Uri
 import com.example.hunachi.githunaclient.data.api.GithubApi
 import com.example.hunachi.githunaclient.data.api.responce.mapper.ApplicationJsonAdapterFactory
 import com.squareup.moshi.Moshi
-import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

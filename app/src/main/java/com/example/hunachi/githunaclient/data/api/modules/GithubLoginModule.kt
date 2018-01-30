@@ -1,5 +1,6 @@
-package com.example.hunachi.githunaclient.data.api
+package com.example.hunachi.githunaclient.data.api.modules
 
+import com.example.hunachi.githunaclient.data.api.GithubOauth
 import com.example.hunachi.githunaclient.data.api.responce.mapper.ApplicationJsonAdapterFactory
 import com.example.hunachi.githunaclient.util.Key
 import com.squareup.moshi.Moshi

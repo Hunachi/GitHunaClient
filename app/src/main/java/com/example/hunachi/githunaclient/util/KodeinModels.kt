@@ -1,7 +1,7 @@
 package com.example.hunachi.githunaclient.util
 
 import com.example.hunachi.githunaclient.R
-import com.example.hunachi.githunaclient.data.api.OauthAdapter
+import com.example.hunachi.githunaclient.data.api.oauth.OauthAdapter
 import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
 import com.example.hunachi.githunaclient.presentation.oauth.LoginGithubActivity

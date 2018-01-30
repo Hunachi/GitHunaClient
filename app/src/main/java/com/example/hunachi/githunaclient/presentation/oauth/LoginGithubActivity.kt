@@ -4,7 +4,7 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import com.example.hunachi.githunaclient.R
-import com.example.hunachi.githunaclient.data.OauthAccessClient
+import com.example.hunachi.githunaclient.data.api.oauth.OauthAccessClient
 import com.example.hunachi.githunaclient.databinding.ActivityLoginGitHubBinding
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
