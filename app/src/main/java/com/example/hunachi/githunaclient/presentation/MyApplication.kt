@@ -6,6 +6,8 @@ import com.example.hunachi.githunaclient.data.api.modules.GithubLoginModule
 import com.example.hunachi.githunaclient.data.api.oauth.OauthAdapter
 import com.example.hunachi.githunaclient.data.api.oauth.oauthAccessClientModule
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialog
+import com.example.hunachi.githunaclient.presentation.helper.navigatorModule
+import com.example.hunachi.githunaclient.presentation.login.LoginGithubActivity
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
 import com.example.hunachi.githunaclient.presentation.main.mainViewModelModule
 import com.example.hunachi.githunaclient.presentation.login.loginViewModels
@@ -22,12 +24,15 @@ class MyApplication : Application(), KodeinAware {
     
     override val kodein by Kodein.lazy {
         bind<MyApplication>() with singleton { this@MyApplication }
+        /*if hunachi want to change scope, please change below scope's item.*/
         bind<Scopes>() with instance(mutableListOf("repo"))
         bind<LoadingDialog>() with singleton { LoadingDialog(this@MyApplication) }
         import(mainViewModelModule)
         import(loginViewModels)
         import(oauthAccessClientModule)
+        import(navigatorModule)
         bind<MainActivity>() with singleton { MainActivity() }
+        bind<LoginGithubActivity>() with singleton { LoginGithubActivity() }
         bind<OauthAdapter>() with factory { scopes: Scopes -> OauthAdapter(scopes = scopes) }
         bind<GithubLoginModule>() with singleton { GithubLoginModule() }
         bind<SchedulerProvider>() with singleton { AppSchedulerProvider() }

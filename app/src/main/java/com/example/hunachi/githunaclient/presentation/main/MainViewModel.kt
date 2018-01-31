@@ -15,6 +15,9 @@ class MainViewModel(private val modules: MainViewModules) : BaseViewModel(module
 
 val mainViewModelModule = Kodein.Module {
     bind<MainViewModel>() with scopedSingleton(androidActivityScope) {
-        MainViewModel(MainViewModules(it as MainActivity, instance()))
+        MainViewModel(MainViewModules(
+                navigator = with(it as MainActivity).instance(),
+                application = instance())
+        )
     }
 }

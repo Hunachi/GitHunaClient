@@ -43,6 +43,12 @@ class OauthAccessClient(private val module: OauthClientModules) {
 
 val oauthAccessClientModule = Kodein.Module {
     bind<OauthAccessClient>() with factory { callback: OauthAccessCallback ->
-        OauthAccessClient(OauthClientModules(instance(), instance(), instance(), callback, instance()))
+        OauthAccessClient(OauthClientModules(
+                githubLoginModule = instance(),
+                appSchedulerProvider = instance(),
+                application = instance(),
+                callback = callback,
+                loadingDialog = instance())
+        )
     }
 }

@@ -23,8 +23,8 @@ class LoginGithubActivity : BaseActivity() {
     private val viewModel: LoginGithubViewModel by with(this).instance()
     private val loadingDialog: LoadingDialog by instance()
     
-    private val oauthAccessCallback: OauthAccessCallback = { status ->
-        when (status) {
+    private val oauthAccessCallback: OauthAccessCallback = {
+        when (it) {
             StatusModule.SUCCESS -> startMainActivity()
             StatusModule.ERROR   -> {/*todo set ...dialog????*/}
         }

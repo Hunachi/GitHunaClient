@@ -1,5 +1,6 @@
 package com.example.hunachi.githunaclient.presentation.login
 
+import android.support.v7.app.AppCompatActivity
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
 import com.example.hunachi.githunaclient.util.LoginViewModules
 import com.example.hunachi.githunaclient.util.Scopes
@@ -13,9 +14,10 @@ class LoginGithubViewModel(private val modules: LoginViewModules) : BaseViewMode
     
     private val oauthAdapter = modules.oauthAdapter
     private val loadingDialog = modules.loadingDialog
+    private val navigator = modules.navigator
     
     fun onClickOauth() {
-        context.startActivity(oauthAdapter.intent)
+        navigator.navigateToOauth()
     }
     
     fun onClickBasic() {
@@ -26,7 +28,7 @@ class LoginGithubViewModel(private val modules: LoginViewModules) : BaseViewMode
 val loginViewModels = Kodein.Module {
     bind<LoginGithubViewModel>() with scopedSingleton(androidActivityScope) {
         LoginGithubViewModel(LoginViewModules(
-                activity = it as LoginGithubActivity,
+                navigator = with(it as AppCompatActivity).instance(),
                 application = instance(),
                 oauthAdapter = with(instance<Scopes>()).instance(),
                 loadingDialog = instance())
