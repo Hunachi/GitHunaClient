@@ -26,6 +26,7 @@ data class LoginViewModules(
 
 data class OauthClientModules(
         val githubLoginModule: GithubLoginModule,
-        val appSchedulerProvider: AppSchedulerProvider,
-        val application: MyApplication
+        val appSchedulerProvider: SchedulerProvider,
+        val application: MyApplication,
+        val callback: OauthAccessCallback
 )

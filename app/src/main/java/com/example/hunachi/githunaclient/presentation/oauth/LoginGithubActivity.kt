@@ -8,6 +8,8 @@ import com.example.hunachi.githunaclient.data.api.oauth.OauthAccessClient
 import com.example.hunachi.githunaclient.databinding.ActivityLoginGitHubBinding
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
+import com.example.hunachi.githunaclient.util.OauthAccessCallback
+import com.example.hunachi.githunaclient.util.StatusModule
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
 
@@ -18,7 +20,15 @@ class LoginGithubActivity : BaseActivity() {
     
     private val mainActivity: MainActivity by instance()
     private val viewModel: LoginGithubViewModel by with(this).instance()
-    private val oauthAccessClient: OauthAccessClient by instance()
+    
+    private val oauthAccessCallback: OauthAccessCallback = { status ->
+        when (status) {
+            StatusModule.SUCCESS -> startMainActivity()
+            StatusModule.ERROR   -> {/*todo set ...dialog????*/}
+        }
+    }
+    private val oauthAccessClient: OauthAccessClient by with(oauthAccessCallback).instance()
+    
     private val binding: ActivityLoginGitHubBinding by lazy {
         DataBindingUtil.setContentView<ActivityLoginGitHubBinding>(this, R.layout.activity_login_git_hub)
     }
@@ -26,15 +36,17 @@ class LoginGithubActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         /*if already have token this process skip.*/
-        if(application.user.token.isNotBlank()) {
-            finish()
-            startActivity(Intent(this, mainActivity::class.java))
-        }
+        if (application.user.token.isNotBlank()) startMainActivity()
         binding.apply {
             viewModel = this@LoginGithubActivity.viewModel
             setLifecycleOwner(this@LoginGithubActivity)
         }
         setViewModel(viewModel)
+    }
+    
+    private fun startMainActivity(){
+        startActivity(Intent(this, mainActivity::class.java))
+        finish()
     }
     
     override fun onResume() {

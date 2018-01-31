@@ -10,6 +10,7 @@ import com.example.hunachi.githunaclient.presentation.main.MainActivity
 import com.example.hunachi.githunaclient.presentation.main.mainViewModelModule
 import com.example.hunachi.githunaclient.presentation.oauth.loginViewModels
 import com.example.hunachi.githunaclient.util.AppSchedulerProvider
+import com.example.hunachi.githunaclient.util.SchedulerProvider
 import com.example.hunachi.githunaclient.util.Scopes
 import com.example.hunachi.githunaclient.util.User
 import com.github.salomonbrys.kodein.*
@@ -29,7 +30,7 @@ class MyApplication : Application(), KodeinAware {
         bind<MainActivity>() with singleton { MainActivity() }
         bind<OauthAdapter>() with factory { scopes: Scopes -> OauthAdapter(scopes = scopes) }
         bind<GithubLoginModule>() with singleton { GithubLoginModule() }
-        bind<AppSchedulerProvider>() with singleton { AppSchedulerProvider() }
+        bind<SchedulerProvider>() with singleton { AppSchedulerProvider() }
     }
     
     companion object {

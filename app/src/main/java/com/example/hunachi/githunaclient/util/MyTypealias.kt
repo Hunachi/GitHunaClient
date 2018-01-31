@@ -5,4 +5,4 @@ package com.example.hunachi.githunaclient.util
  */
 typealias Scopes = MutableList<String>
 
-typealias loginCallback = (StatusModule) -> Unit
+typealias OauthAccessCallback = (StatusModule) -> Unit
