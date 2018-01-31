@@ -7,6 +7,7 @@ import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.data.api.oauth.OauthAccessClient
 import com.example.hunachi.githunaclient.databinding.ActivityLoginGitHubBinding
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
+import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialog
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
 import com.example.hunachi.githunaclient.util.OauthAccessCallback
 import com.example.hunachi.githunaclient.util.StatusModule
@@ -20,6 +21,7 @@ class LoginGithubActivity : BaseActivity() {
     
     private val mainActivity: MainActivity by instance()
     private val viewModel: LoginGithubViewModel by with(this).instance()
+    private val loadingDialog: LoadingDialog by instance()
     
     private val oauthAccessCallback: OauthAccessCallback = { status ->
         when (status) {
@@ -45,12 +47,14 @@ class LoginGithubActivity : BaseActivity() {
     }
     
     private fun startMainActivity(){
+        loadingDialog.destroy()
         startActivity(Intent(this, mainActivity::class.java))
         finish()
     }
     
     override fun onResume() {
         super.onResume()
+        loadingDialog.show()
         oauthAccessClient.callbackToken(intent)
     }
     

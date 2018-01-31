@@ -5,6 +5,7 @@ import android.content.Context
 import com.example.hunachi.githunaclient.data.api.modules.GithubLoginModule
 import com.example.hunachi.githunaclient.data.api.oauth.OauthAdapter
 import com.example.hunachi.githunaclient.data.api.oauth.oauthAccessClientModule
+import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialog
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
 import com.example.hunachi.githunaclient.presentation.main.mainViewModelModule
 import com.example.hunachi.githunaclient.presentation.login.loginViewModels
@@ -22,6 +23,7 @@ class MyApplication : Application(), KodeinAware {
     override val kodein by Kodein.lazy {
         bind<MyApplication>() with singleton { this@MyApplication }
         bind<Scopes>() with instance(mutableListOf("repo"))
+        bind<LoadingDialog>() with singleton { LoadingDialog(this@MyApplication) }
         import(mainViewModelModule)
         import(loginViewModels)
         import(oauthAccessClientModule)
@@ -36,7 +38,7 @@ class MyApplication : Application(), KodeinAware {
     }
     
     var user: User = User()
-    private set
+        private set
     
     private val preferences by lazy {
         getSharedPreferences("$packageName.txt", Context.MODE_PRIVATE)

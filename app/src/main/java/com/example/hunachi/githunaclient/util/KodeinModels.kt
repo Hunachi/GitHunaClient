@@ -4,6 +4,7 @@ import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.data.api.modules.GithubLoginModule
 import com.example.hunachi.githunaclient.data.api.oauth.OauthAdapter
 import com.example.hunachi.githunaclient.presentation.MyApplication
+import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialog
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
 import com.example.hunachi.githunaclient.presentation.login.LoginGithubActivity
 
@@ -20,12 +21,14 @@ data class MainViewModules(
 data class LoginViewModules(
         val activity: LoginGithubActivity,
         val application: MyApplication,
-        val oauthAdapter: OauthAdapter
+        val oauthAdapter: OauthAdapter,
+        val loadingDialog: LoadingDialog
 )
 
 data class OauthClientModules(
         val githubLoginModule: GithubLoginModule,
         val appSchedulerProvider: SchedulerProvider,
         val application: MyApplication,
-        val callback: OauthAccessCallback
+        val callback: OauthAccessCallback,
+        val loadingDialog: LoadingDialog
 )

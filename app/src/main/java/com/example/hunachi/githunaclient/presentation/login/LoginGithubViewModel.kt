@@ -12,6 +12,7 @@ import com.github.salomonbrys.kodein.android.androidActivityScope
 class LoginGithubViewModel(private val modules: LoginViewModules) : BaseViewModel(modules.application) {
     
     private val oauthAdapter = modules.oauthAdapter
+    private val loadingDialog = modules.loadingDialog
     
     fun onClickOauth() {
         context.startActivity(oauthAdapter.intent)
@@ -27,7 +28,8 @@ val loginViewModels = Kodein.Module {
         LoginGithubViewModel(LoginViewModules(
                 activity = it as LoginGithubActivity,
                 application = instance(),
-                oauthAdapter = with(instance<Scopes>()).instance())
+                oauthAdapter = with(instance<Scopes>()).instance(),
+                loadingDialog = instance())
         )
     }
 }
