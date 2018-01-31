@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
         <activity android:name="com.example.hunachi.githunaclient.presentation.main.MainActivity" />
         <activity
-            android:name=".presentation.oauth.LoginGithubActivity"
+            android:name=".presentation.login.LoginGithubActivity"
             android:launchMode="singleTask"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>

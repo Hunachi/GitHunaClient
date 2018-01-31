@@ -1,4 +1,4 @@
-package com.example.hunachi.githunaclient.presentation.oauth
+package com.example.hunachi.githunaclient.presentation.login
 
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
 import com.example.hunachi.githunaclient.util.LoginViewModules

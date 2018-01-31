@@ -1,4 +1,4 @@
-package com.example.hunachi.githunaclient.presentation.oauth
+package com.example.hunachi.githunaclient.presentation.login
 
 import android.content.Intent
 import android.databinding.DataBindingUtil

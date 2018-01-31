@@ -2,19 +2,17 @@ package com.example.hunachi.githunaclient.presentation
 
 import android.app.Application
 import android.content.Context
-import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.data.api.modules.GithubLoginModule
 import com.example.hunachi.githunaclient.data.api.oauth.OauthAdapter
 import com.example.hunachi.githunaclient.data.api.oauth.oauthAccessClientModule
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
 import com.example.hunachi.githunaclient.presentation.main.mainViewModelModule
-import com.example.hunachi.githunaclient.presentation.oauth.loginViewModels
+import com.example.hunachi.githunaclient.presentation.login.loginViewModels
 import com.example.hunachi.githunaclient.util.AppSchedulerProvider
 import com.example.hunachi.githunaclient.util.SchedulerProvider
 import com.example.hunachi.githunaclient.util.Scopes
 import com.example.hunachi.githunaclient.util.User
 import com.github.salomonbrys.kodein.*
-import kotlinx.android.synthetic.main.activity_main.view.*
 
 /**
  * Created by hunachi on 2018/01/27.
