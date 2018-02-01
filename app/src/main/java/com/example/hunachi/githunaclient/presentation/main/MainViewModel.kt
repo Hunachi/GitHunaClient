@@ -1,5 +1,8 @@
 package com.example.hunachi.githunaclient.presentation.main
 
+import android.graphics.Color
+import android.view.View
+import android.widget.Toast
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
 import com.example.hunachi.githunaclient.util.MainViewModels
 import com.github.salomonbrys.kodein.*
@@ -19,6 +22,7 @@ class MainViewModel(private val models: MainViewModels) : BaseViewModel(models.a
         super.onCreate()
         application.deleteUserToken()
         if (application.user.token.isBlank()) navigator.navigateToLogin()
+        Toast.makeText(context, "Github accountと未連携", Toast.LENGTH_SHORT).show()
     }
 }
 
