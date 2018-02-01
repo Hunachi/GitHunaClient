@@ -1,15 +1,13 @@
 package com.example.hunachi.githunaclient.data.api.oauth
 
 import android.content.Intent
-import android.util.Log
-import com.example.hunachi.githunaclient.data.api.modules.GithubLoginModule
 import com.example.hunachi.githunaclient.util.*
 import com.github.salomonbrys.kodein.*
 
 /**
  * Created by hunachi on 2018/01/29.
  */
-class OauthAccessClient(private val module: OauthClientModules) {
+class OauthAccessClient(private val module: OauthClientModels) {
     
     private val loginClient = module.githubLoginModule
     private val scheduler = module.appSchedulerProvider
@@ -43,7 +41,7 @@ class OauthAccessClient(private val module: OauthClientModules) {
 
 val oauthAccessClientModule = Kodein.Module {
     bind<OauthAccessClient>() with factory { callback: OauthAccessCallback ->
-        OauthAccessClient(OauthClientModules(
+        OauthAccessClient(OauthClientModels(
                 githubLoginModule = instance(),
                 appSchedulerProvider = instance(),
                 application = instance(),
