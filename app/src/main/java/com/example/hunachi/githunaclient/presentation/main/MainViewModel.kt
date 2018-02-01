@@ -11,6 +11,15 @@ import com.github.salomonbrys.kodein.android.androidActivityScope
 class MainViewModel(private val models: MainViewModels) : BaseViewModel(models.application) {
     /*private val textProcessor: PublishProcessor<String> = PublishProcessor.create()
     var text: LiveData<String> = LiveDataReactiveStreams.fromPublisher(textProcessor)*/
+    
+    private val application = models.application
+    private val navigator = models.navigator
+    
+    override fun onCreate() {
+        super.onCreate()
+        application.deleteUserToken()
+        if (application.user.token.isBlank()) navigator.navigateToLogin()
+    }
 }
 
 val mainViewModelModule = Kodein.Module {

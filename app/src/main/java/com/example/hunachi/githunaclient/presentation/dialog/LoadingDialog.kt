@@ -36,7 +36,7 @@ class LoadingDialog(private val context: Context) {
     }
     
     fun show(){
-        if(!dialog.isShowing) dialog.show()
+//        if(!dialog.isShowing) dialog.show()
     }
     
     fun destroy(){

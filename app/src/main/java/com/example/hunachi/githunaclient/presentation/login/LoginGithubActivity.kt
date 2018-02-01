@@ -25,7 +25,7 @@ class LoginGithubActivity : BaseActivity() {
     
     private val oauthAccessCallback: OauthAccessCallback = {
         when (it) {
-            StatusModule.SUCCESS -> startMainActivity()
+            StatusModule.SUCCESS -> finish()
             StatusModule.ERROR   -> {/*todo set ...dialog????*/}
         }
     }
@@ -38,7 +38,6 @@ class LoginGithubActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         /*if already have token this process skip.*/
-        if (application.user.token.isNotBlank()) startMainActivity()
         binding.apply {
             viewModel = this@LoginGithubActivity.viewModel
             setLifecycleOwner(this@LoginGithubActivity)
@@ -46,15 +45,9 @@ class LoginGithubActivity : BaseActivity() {
         setViewModel(viewModel)
     }
     
-    private fun startMainActivity(){
-        loadingDialog.destroy()
-        startActivity(Intent(this, mainActivity::class.java))
-        finish()
-    }
-    
     override fun onResume() {
         super.onResume()
-        loadingDialog.show()
+     //   loadingDialog.show()
         oauthAccessClient.callbackToken(intent)
     }
     
