@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.example.hunachi.githunaclient.data.api.modules.GithubLoginModule
 import com.example.hunachi.githunaclient.data.api.oauth.OauthAdapter
-import com.example.hunachi.githunaclient.data.api.oauth.oauthAccessClientModule
+import com.example.hunachi.githunaclient.presentation.login.oauthAccessClientModule
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialog
 import com.example.hunachi.githunaclient.presentation.helper.navigatorModule
 import com.example.hunachi.githunaclient.presentation.login.LoginGithubActivity
@@ -24,7 +24,7 @@ class MyApplication : Application(), KodeinAware {
     
     override val kodein by Kodein.lazy {
         bind<MyApplication>() with singleton { this@MyApplication }
-        /*if hunachi want to change scope, please change below scope's item.*/
+        /*if you want to change scope, please change item at below mutableList.*/
         bind<Scopes>() with instance(mutableListOf("repo"))
         bind<LoadingDialog>() with singleton { LoadingDialog(this@MyApplication) }
         import(mainViewModelModule)
