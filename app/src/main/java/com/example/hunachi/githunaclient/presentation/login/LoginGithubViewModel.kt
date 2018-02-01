@@ -2,7 +2,7 @@ package com.example.hunachi.githunaclient.presentation.login
 
 import android.support.v7.app.AppCompatActivity
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
-import com.example.hunachi.githunaclient.util.LoginViewModels
+import com.example.hunachi.githunaclient.util.models.LoginViewModels
 import com.example.hunachi.githunaclient.util.Scopes
 import com.github.salomonbrys.kodein.*
 import com.github.salomonbrys.kodein.android.androidActivityScope
@@ -27,11 +27,7 @@ class LoginGithubViewModel(private val models: LoginViewModels) : BaseViewModel(
 
 val loginViewModels = Kodein.Module {
     bind<LoginGithubViewModel>() with scopedSingleton(androidActivityScope) {
-        LoginGithubViewModel(LoginViewModels(
-                navigator = with(it as AppCompatActivity).instance(),
-                application = instance(),
-                oauthAdapter = with(instance<Scopes>()).instance(),
-                loadingDialog = instance())
+        LoginGithubViewModel(LoginViewModels(navigator = with(it as AppCompatActivity).instance(), application = instance(), oauthAdapter = with(instance<Scopes>()).instance(), loadingDialog = instance())
         )
     }
 }

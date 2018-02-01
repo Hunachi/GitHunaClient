@@ -14,7 +14,7 @@ import com.example.hunachi.githunaclient.presentation.login.loginViewModels
 import com.example.hunachi.githunaclient.util.AppSchedulerProvider
 import com.example.hunachi.githunaclient.util.SchedulerProvider
 import com.example.hunachi.githunaclient.util.Scopes
-import com.example.hunachi.githunaclient.util.User
+import com.example.hunachi.githunaclient.util.models.User
 import com.github.salomonbrys.kodein.*
 
 /**

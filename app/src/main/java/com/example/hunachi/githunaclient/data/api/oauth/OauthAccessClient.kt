@@ -2,6 +2,7 @@ package com.example.hunachi.githunaclient.data.api.oauth
 
 import android.content.Intent
 import com.example.hunachi.githunaclient.util.*
+import com.example.hunachi.githunaclient.util.models.OauthClientModels
 import com.github.salomonbrys.kodein.*
 
 /**
@@ -41,12 +42,7 @@ class OauthAccessClient(private val module: OauthClientModels) {
 
 val oauthAccessClientModule = Kodein.Module {
     bind<OauthAccessClient>() with factory { callback: OauthAccessCallback ->
-        OauthAccessClient(OauthClientModels(
-                githubLoginModule = instance(),
-                appSchedulerProvider = instance(),
-                application = instance(),
-                callback = callback,
-                loadingDialog = instance())
+        OauthAccessClient(OauthClientModels(githubLoginModule = instance(), appSchedulerProvider = instance(), application = instance(), callback = callback, loadingDialog = instance())
         )
     }
 }

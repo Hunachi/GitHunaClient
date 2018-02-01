@@ -1,4 +1,4 @@
-package com.example.hunachi.githunaclient.util
+package com.example.hunachi.githunaclient.util.models
 
 
 import android.support.v7.app.AppCompatActivity
@@ -9,6 +9,8 @@ import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialog
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
 import com.example.hunachi.githunaclient.presentation.login.LoginGithubActivity
+import com.example.hunachi.githunaclient.util.OauthAccessCallback
+import com.example.hunachi.githunaclient.util.SchedulerProvider
 
 /**
  * Created by hunachi on 2018/01/28.
