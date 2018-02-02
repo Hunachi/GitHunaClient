@@ -3,7 +3,7 @@ package com.example.hunachi.githunaclient.presentation.main
 import android.widget.Toast
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
 import com.example.hunachi.githunaclient.util.BottomNavigationListner
-import com.example.hunachi.githunaclient.util.models.MainViewModels
+import com.example.hunachi.githunaclient.kodein.MainViewModule
 import com.github.salomonbrys.kodein.*
 import com.github.salomonbrys.kodein.android.androidActivityScope
 
@@ -11,13 +11,13 @@ import com.github.salomonbrys.kodein.android.androidActivityScope
  * Created by hunachi on 2018/01/27.
  */
 
-class MainViewModel(private val models: MainViewModels) : BaseViewModel(models.application) {
+class MainViewModel(private val module: MainViewModule) : BaseViewModel(module.application) {
     
     /*private val textProcessor: PublishProcessor<String> = PublishProcessor.create()
     var text: LiveData<String> = LiveDataReactiveStreams.fromPublisher(textProcessor)*/
     
-    private val application = models.application
-    private val navigator = models.navigator
+    private val application = module.application
+    private val navigator = module.navigator
     
     override fun onCreate() {
         super.onCreate()
@@ -38,6 +38,6 @@ class MainViewModel(private val models: MainViewModels) : BaseViewModel(models.a
 
 val mainViewModelModule = Kodein.Module {
     bind<MainViewModel>() with scopedSingleton(androidActivityScope) {
-        MainViewModel(MainViewModels(navigator = with(it as MainActivity).instance(), application = instance()))
+        MainViewModel(MainViewModule(navigator = with(it as MainActivity).instance(), application = instance()))
     }
 }

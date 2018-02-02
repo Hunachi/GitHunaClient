@@ -2,7 +2,7 @@ package com.example.hunachi.githunaclient.presentation
 
 import android.app.Application
 import android.content.Context
-import com.example.hunachi.githunaclient.data.api.modules.GithubLoginModule
+import com.example.hunachi.githunaclient.data.api.modules.GithubLoginClient
 import com.example.hunachi.githunaclient.data.api.oauth.OauthAdapter
 import com.example.hunachi.githunaclient.presentation.login.oauthAccessClientModule
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialog
@@ -14,7 +14,7 @@ import com.example.hunachi.githunaclient.presentation.login.loginViewModels
 import com.example.hunachi.githunaclient.util.AppSchedulerProvider
 import com.example.hunachi.githunaclient.util.SchedulerProvider
 import com.example.hunachi.githunaclient.util.Scopes
-import com.example.hunachi.githunaclient.util.models.User
+import com.example.hunachi.githunaclient.domain.User
 import com.github.salomonbrys.kodein.*
 
 /**
@@ -34,7 +34,7 @@ class MyApplication : Application(), KodeinAware {
         bind<MainActivity>() with singleton { MainActivity() }
         bind<LoginGithubActivity>() with singleton { LoginGithubActivity() }
         bind<OauthAdapter>() with factory { scopes: Scopes -> OauthAdapter(scopes = scopes) }
-        bind<GithubLoginModule>() with singleton { GithubLoginModule() }
+        bind<GithubLoginClient>() with singleton { GithubLoginClient() }
         bind<SchedulerProvider>() with singleton { AppSchedulerProvider() }
     }
     

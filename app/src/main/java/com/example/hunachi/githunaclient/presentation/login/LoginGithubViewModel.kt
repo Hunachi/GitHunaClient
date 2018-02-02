@@ -2,7 +2,7 @@ package com.example.hunachi.githunaclient.presentation.login
 
 import android.support.v7.app.AppCompatActivity
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
-import com.example.hunachi.githunaclient.util.models.LoginViewModels
+import com.example.hunachi.githunaclient.kodein.LoginViewModels
 import com.example.hunachi.githunaclient.util.Scopes
 import com.github.salomonbrys.kodein.*
 import com.github.salomonbrys.kodein.android.androidActivityScope

@@ -1,4 +1,4 @@
-package com.example.hunachi.githunaclient.util.models
+package com.example.hunachi.githunaclient.domain
 
 /**
  * Created by hunachi on 2018/01/29.

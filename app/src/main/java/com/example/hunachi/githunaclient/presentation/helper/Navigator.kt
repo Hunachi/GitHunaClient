@@ -2,7 +2,7 @@ package com.example.hunachi.githunaclient.presentation.helper
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
-import com.example.hunachi.githunaclient.util.models.NavigatorModels
+import com.example.hunachi.githunaclient.kodein.NavigatorModule
 import com.example.hunachi.githunaclient.util.Scopes
 import com.github.salomonbrys.kodein.*
 import com.github.salomonbrys.kodein.android.androidActivityScope
@@ -10,12 +10,12 @@ import com.github.salomonbrys.kodein.android.androidActivityScope
 /**
  * Created by hunachi on 2018/02/01.
  */
-class Navigator(private val models: NavigatorModels){
+class Navigator(private val module: NavigatorModule){
     
-    private val activity = models.activity
-    private val loginGithubActivity = models.loginGithubActivity
-    private val mainActivity = models.mainActivity
-    private val oauthAdapter = models.oauthAdapter
+    private val activity = module.activity
+    private val loginGithubActivity = module.loginGithubActivity
+    private val mainActivity = module.mainActivity
+    private val oauthAdapter = module.oauthAdapter
     
     fun navigateToLogin(){
         activity.startActivity(Intent(activity, loginGithubActivity::class.java))
@@ -36,6 +36,6 @@ class Navigator(private val models: NavigatorModels){
 
 val navigatorModule = Kodein.Module{
     bind<Navigator>() with scopedSingleton(androidActivityScope){
-        Navigator(NavigatorModels(activity = it as AppCompatActivity, mainActivity = instance(), loginGithubActivity = instance(), oauthAdapter = with(instance() as Scopes).instance()))
+        Navigator(NavigatorModule(activity = it as AppCompatActivity, mainActivity = instance(), loginGithubActivity = instance(), oauthAdapter = with(instance() as Scopes).instance()))
     }
 }

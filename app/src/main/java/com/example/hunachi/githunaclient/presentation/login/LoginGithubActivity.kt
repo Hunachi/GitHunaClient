@@ -8,7 +8,7 @@ import com.example.hunachi.githunaclient.presentation.base.BaseActivity
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialog
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
 import com.example.hunachi.githunaclient.util.OauthAccessCallback
-import com.example.hunachi.githunaclient.util.StatusModule
+import com.example.hunachi.githunaclient.domain.value.StatusModule
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
 
