@@ -27,8 +27,6 @@ class MyApplication : Application(), KodeinAware {
     
     override val kodein by Kodein.lazy {
         bind<MyApplication>() with singleton { this@MyApplication }
-        /*if you want to change scope, please change item at below mutableList.*/
-        //bind<Scopes>() with instance(mutableListOf("repo"))
         bind<LoadingDialog>() with singleton { LoadingDialog(this@MyApplication) }
         import(mainViewModelModule)
         import(loginViewModels)
@@ -37,7 +35,6 @@ class MyApplication : Application(), KodeinAware {
         import(userInfoViewModelModule)
         bind<MainActivity>() with singleton { MainActivity() }
         bind<LoginGithubActivity>() with singleton { LoginGithubActivity() }
-        //bind<OauthAdapter>() with factory { scopes: Scopes -> OauthAdapter(scopes = scopes) }
         bind<SchedulerProvider>() with singleton { AppSchedulerProvider() }
         bind<UserInfoFragment>() with singleton { UserInfoFragment() }
     }

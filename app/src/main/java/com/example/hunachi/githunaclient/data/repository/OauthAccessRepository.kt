@@ -16,8 +16,7 @@ import com.github.salomonbrys.kodein.*
 class OauthAccessRepository(
         val scheduler: SchedulerProvider,
         val application: MyApplication,
-        val callback: OauthAccessCallback,
-        val loadingDialog: LoadingDialog
+        val callback: OauthAccessCallback
 ) {
     
     fun callbackToken(intent: Intent) {
@@ -53,8 +52,7 @@ val oauthAccessRepositoryModule = Kodein.Module {
         OauthAccessRepository(
             scheduler = instance(),
             application = instance(),
-            callback = callback,
-            loadingDialog = instance()
+            callback = callback
         )
     }
 }
