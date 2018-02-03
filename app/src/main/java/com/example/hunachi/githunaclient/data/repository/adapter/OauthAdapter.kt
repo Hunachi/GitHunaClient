@@ -8,13 +8,13 @@ import com.example.hunachi.githunaclient.util.Scopes
 /**
  * Created by hunachi on 2018/01/29.
  */
-class OauthAdapter(private val scopes: Scopes){
+object OauthAdapter{
     
-    companion object {
-        const val baseUrl = "https://github.com/login/oauth/authorize"
-        const val clientId: String = Key.clientId
-        const val state: String = Key.state
-    }
+    /*if you want scope to change, please change item at mutableList.*/
+    val scopes = mutableListOf("repo")
+    val baseUrl = "https://github.com/login/oauth/authorize"
+    val clientId: String = Key.clientId
+    val state: String = Key.state
     
     private val url = baseUrl + "?" +
             "client_id=" + clientId +

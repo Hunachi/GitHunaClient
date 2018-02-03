@@ -19,8 +19,7 @@ import com.github.salomonbrys.kodein.android.androidActivityScope
 class Navigator(
         val activity: BaseActivity,
         val mainActivity: MainActivity,
-        val loginGithubActivity: LoginGithubActivity,
-        val oauthAdapter: OauthAdapter
+        val loginGithubActivity: LoginGithubActivity
 ) {
     
     fun navigateToLogin() {
@@ -32,7 +31,7 @@ class Navigator(
     }
     
     fun navigateToOauth() {
-        activity.startActivity(oauthAdapter.intent)
+        activity.startActivity(OauthAdapter.intent)
     }
     
     fun replaceFragment(fragment: BaseFragment,@IdRes @LayoutRes resourceId: Int = R.id.container){
@@ -49,8 +48,7 @@ val navigatorModule = Kodein.Module {
         Navigator(
             activity = it as BaseActivity,
             mainActivity = instance(),
-            loginGithubActivity = instance(),
-            oauthAdapter = with(instance() as Scopes).instance()
+            loginGithubActivity = instance()
         )
     }
 }
