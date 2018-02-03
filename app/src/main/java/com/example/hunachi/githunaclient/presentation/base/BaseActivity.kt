@@ -15,11 +15,10 @@ import com.github.salomonbrys.kodein.instance
  */
 abstract class BaseActivity : KodeinAppCompatActivity() {
     
-    val application: MyApplication by instance()
     private var viewModel: BaseViewModel? = null
     
     /*VMとActivityを同期させるなら必須*/
-    open fun setViewModel(viewModel: BaseViewModel) {
+    protected open fun setViewModel(viewModel: BaseViewModel) {
         this.viewModel = viewModel
         viewModel.onCreate()
     }

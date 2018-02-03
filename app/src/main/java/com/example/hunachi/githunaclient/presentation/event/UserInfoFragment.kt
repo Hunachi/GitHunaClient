@@ -17,7 +17,7 @@ class UserInfoFragment : BaseFragment() {
     
     private lateinit var binding: FragmentUserInfoBinding
     //private lateinit var viewModel: UserInfoViewModel
-    private val viewModel: UserInfoViewModel by with(activity).instance()
+    private val viewModel: UserInfoViewModel by with(this).instance()
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

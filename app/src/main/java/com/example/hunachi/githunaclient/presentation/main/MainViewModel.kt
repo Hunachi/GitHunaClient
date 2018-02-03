@@ -4,6 +4,7 @@ import android.widget.Toast
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
 import com.example.hunachi.githunaclient.util.BottomNavigationListner
 import com.example.hunachi.githunaclient.kodein.MainViewModelModule
+import com.example.hunachi.githunaclient.presentation.base.BaseActivity
 import com.github.salomonbrys.kodein.*
 import com.github.salomonbrys.kodein.android.androidActivityScope
 
@@ -39,6 +40,11 @@ class MainViewModel(private val module: MainViewModelModule) : BaseViewModel(mod
 
 val mainViewModelModule = Kodein.Module {
     bind<MainViewModel>() with scopedSingleton(androidActivityScope) {
-        MainViewModel(MainViewModelModule(navigator = with(it as MainActivity).instance(), application = instance()))
+        MainViewModel(
+            MainViewModelModule(
+                navigator = with(it as BaseActivity).instance(),
+                application = instance()
+            )
+        )
     }
 }
