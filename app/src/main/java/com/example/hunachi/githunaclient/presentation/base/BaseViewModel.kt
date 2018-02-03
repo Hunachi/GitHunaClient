@@ -2,8 +2,6 @@ package com.example.hunachi.githunaclient.presentation.base
 
 import android.content.Context
 import android.databinding.BaseObservable
-import com.example.hunachi.githunaclient.presentation.MyApplication
-import com.github.salomonbrys.kodein.instance
 
 /**
  * Created by hunachi on 2018/01/27.

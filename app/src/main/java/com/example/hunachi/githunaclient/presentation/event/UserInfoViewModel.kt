@@ -1,9 +1,8 @@
 package com.example.hunachi.githunaclient.presentation.event
 
 import android.arch.lifecycle.LifecycleOwner
-import android.databinding.Bindable
 import android.support.v7.app.AppCompatActivity
-import com.example.hunachi.githunaclient.presentation.MyApplication
+import com.example.hunachi.githunaclient.presentation.MainApplication
 import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.github.salomonbrys.kodein.*
@@ -14,7 +13,7 @@ import com.github.salomonbrys.kodein.android.androidSupportFragmentScope
  */
 class UserInfoViewModel(
         val navigator: Navigator,
-        val application: MyApplication,
+        val application: MainApplication,
         val owner: LifecycleOwner
 ) : BaseFragmentViewModel(application) {
     
@@ -23,7 +22,12 @@ class UserInfoViewModel(
     override fun onCreateView() {
         super.onCreateView()
         userName = "hoge"
+        setUp()
     }
+    
+    fun setUp(){
+    }
+    
     
 }
 
