@@ -1,8 +1,8 @@
 package com.example.hunachi.githunaclient.kodein
 
-import com.example.hunachi.githunaclient.data.api.oauth.OauthAdapter
+import com.example.hunachi.githunaclient.presentation.helper.OauthAdapter
 import com.example.hunachi.githunaclient.presentation.MyApplication
-import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialog
+import com.example.hunachi.githunaclient.domain.dialog.LoadingDialog
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 
 /**

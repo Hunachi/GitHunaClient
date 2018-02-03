@@ -1,9 +1,7 @@
 package com.example.hunachi.githunaclient.data.api
 
-import android.media.session.MediaSession
 import com.example.hunachi.githunaclient.data.api.responce.Token
 import io.reactivex.Observable
-import io.reactivex.Single
 import retrofit2.http.*
 
 /**

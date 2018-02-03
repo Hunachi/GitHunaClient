@@ -25,7 +25,7 @@ class MainViewModel(private val module: MainViewModule) : BaseViewModel(module.a
             navigator.navigateToLogin()
             Toast.makeText(context, "Github accountと未連携", Toast.LENGTH_SHORT).show()
         }
-        Toast.makeText(context, "今日も一日がんばるぞい!{name}さん!", Toast.LENGTH_SHORT).show()
+        else Toast.makeText(context, "今日も一日がんばるぞい!{name}さん!", Toast.LENGTH_SHORT).show()
     }
     
     //Listener of BottomNavigation(what I made hard.)

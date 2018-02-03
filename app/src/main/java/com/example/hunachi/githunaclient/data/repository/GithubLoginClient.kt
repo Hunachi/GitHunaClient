@@ -1,7 +1,8 @@
-package com.example.hunachi.githunaclient.data.api.modules
+package com.example.hunachi.githunaclient.data.repository
 
-import com.example.hunachi.githunaclient.data.api.GithubApi
+import com.example.hunachi.githunaclient.data.api.GithubOauth
 import com.example.hunachi.githunaclient.data.api.responce.mapper.ApplicationJsonAdapterFactory
+import com.example.hunachi.githunaclient.domain.Key
 import com.squareup.moshi.Moshi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -12,11 +13,9 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 /**
  * Created by hunachi on 2018/01/31.
  */
-class GithubApiClient(token: String = ""){
+class GithubLoginClient {
     
-    private var token: String = token
-    
-    val githubApi: GithubApi
+    private val githubOauth: GithubOauth
     
     init {
         val kotshi by lazy {
@@ -27,7 +26,7 @@ class GithubApiClient(token: String = ""){
         /*log出力させたい*/
         val logging = HttpLoggingInterceptor()
                 .apply {
-                    level = HttpLoggingInterceptor.Level.BASIC
+                    level = HttpLoggingInterceptor.Level.BODY
                 }
         val httpClient = OkHttpClient.Builder()
                 .apply {
@@ -36,12 +35,16 @@ class GithubApiClient(token: String = ""){
         
         val retrofit by lazy {
             Retrofit.Builder()
-                    .baseUrl("https://api.github.com/")
-                    .addConverterFactory(MoshiConverterFactory.create(kotshi))
+                    .baseUrl("https://github.com/login/oauth/")
+                    .addConverterFactory(MoshiConverterFactory.create(kotshi).asLenient())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(httpClient.build())
                     .build()
         }
-        githubApi = retrofit.create(GithubApi::class.java)
+        githubOauth = retrofit.create(GithubOauth::class.java)
     }
+    
+    fun register(code: String)
+            = githubOauth.accessToken(Key.clientId, Key.clientSecret, code)
+    
 }

@@ -1,7 +1,5 @@
 package com.example.hunachi.githunaclient.data.api.responce
 
-import android.support.annotation.RestrictTo
-import com.example.hunachi.githunaclient.util.Scopes
 import com.squareup.moshi.Json
 import se.ansman.kotshi.JsonSerializable
 

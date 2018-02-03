@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.databinding.ActivityLoginGitHubBinding
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
-import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialog
+import com.example.hunachi.githunaclient.domain.dialog.LoadingDialog
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
 import com.example.hunachi.githunaclient.util.OauthAccessCallback
 import com.example.hunachi.githunaclient.domain.value.StatusModule
@@ -35,7 +35,7 @@ class LoginGithubActivity : BaseActivity() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        /*if already have token this process skip.*/
+        /*if already have user this process skip.*/
         binding.apply {
             viewModel = this@LoginGithubActivity.viewModel
             setLifecycleOwner(this@LoginGithubActivity)

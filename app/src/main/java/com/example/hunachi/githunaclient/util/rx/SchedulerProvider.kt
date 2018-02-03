@@ -1,4 +1,4 @@
-package com.example.hunachi.githunaclient.util
+package com.example.hunachi.githunaclient.util.rx
 
 import io.reactivex.Scheduler
 
