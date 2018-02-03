@@ -13,7 +13,7 @@ import com.github.salomonbrys.kodein.android.androidActivityScope
  */
 class Navigator(private val module: NavigatorModule){
     
-    private val activity = module.activity
+    val activity = module.activity //todo
     private val loginGithubActivity = module.loginGithubActivity
     private val mainActivity = module.mainActivity
     private val oauthAdapter = module.oauthAdapter

@@ -1,6 +1,8 @@
 package com.example.hunachi.githunaclient.presentation.main
 
+import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
+import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
 import com.example.hunachi.githunaclient.util.BottomNavigationListner
 import com.example.hunachi.githunaclient.kodein.MainViewModelModule
@@ -19,6 +21,7 @@ class MainViewModel(private val module: MainViewModelModule) : BaseViewModel(mod
     
     private val application = module.application
     private val navigator = module.navigator
+    private val fragment = module.userInfoFragment
     
     override fun onCreate() {
         super.onCreate()
@@ -33,6 +36,9 @@ class MainViewModel(private val module: MainViewModelModule) : BaseViewModel(mod
     //Listener of BottomNavigation(what I made hard.)
     fun onItemSelected(): BottomNavigationListner = BottomNavigationListner {
         item -> Toast.makeText(context, "${item.itemId}", Toast.LENGTH_SHORT).show()
+        if (item.itemId == R.id.action_search){
+            navigator.activity.replaceFragment(fragment, R.id.container)
+        }
         true
     }
     
@@ -42,8 +48,9 @@ val mainViewModelModule = Kodein.Module {
     bind<MainViewModel>() with scopedSingleton(androidActivityScope) {
         MainViewModel(
             MainViewModelModule(
-                navigator = with(it as BaseActivity).instance(),
-                application = instance()
+                navigator = with(it as AppCompatActivity).instance(),
+                application = instance(),
+                userInfoFragment = instance()
             )
         )
     }

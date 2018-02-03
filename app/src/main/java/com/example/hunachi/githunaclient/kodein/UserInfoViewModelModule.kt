@@ -1,5 +1,6 @@
 package com.example.hunachi.githunaclient.kodein
 
+import android.arch.lifecycle.LifecycleOwner
 import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 
@@ -8,5 +9,6 @@ import com.example.hunachi.githunaclient.presentation.helper.Navigator
  */
 data class UserInfoViewModelModule(
         val navigator: Navigator,
-        val application: MyApplication
+        val application: MyApplication,
+        val owner: LifecycleOwner
 )

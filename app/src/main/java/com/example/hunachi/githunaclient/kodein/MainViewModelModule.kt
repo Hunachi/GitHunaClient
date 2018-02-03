@@ -2,6 +2,7 @@ package com.example.hunachi.githunaclient.kodein
 
 
 import com.example.hunachi.githunaclient.presentation.MyApplication
+import com.example.hunachi.githunaclient.presentation.event.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 
 /**
@@ -9,5 +10,6 @@ import com.example.hunachi.githunaclient.presentation.helper.Navigator
  */
 data class MainViewModelModule(
         val navigator: Navigator,
-        val application: MyApplication
+        val application: MyApplication,
+        val userInfoFragment: UserInfoFragment
 )

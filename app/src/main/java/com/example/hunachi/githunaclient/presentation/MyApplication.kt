@@ -7,6 +7,8 @@ import com.example.hunachi.githunaclient.presentation.helper.OauthAdapter
 import com.example.hunachi.githunaclient.domain.User
 import com.example.hunachi.githunaclient.presentation.login.oauthAccessClientModule
 import com.example.hunachi.githunaclient.domain.dialog.LoadingDialog
+import com.example.hunachi.githunaclient.presentation.event.UserInfoFragment
+import com.example.hunachi.githunaclient.presentation.event.userInfoViewModelModule
 import com.example.hunachi.githunaclient.presentation.helper.navigatorModule
 import com.example.hunachi.githunaclient.presentation.login.LoginGithubActivity
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
@@ -32,12 +34,14 @@ class MyApplication : Application(), KodeinAware {
         import(loginViewModels)
         import(oauthAccessClientModule)
         import(navigatorModule)
+        import(userInfoViewModelModule)
         bind<User>() with singleton { User() }
         bind<MainActivity>() with singleton { MainActivity() }
         bind<LoginGithubActivity>() with singleton { LoginGithubActivity() }
         bind<OauthAdapter>() with factory { scopes: Scopes -> OauthAdapter(scopes = scopes) }
         //bind<GithubLoginClient>() with singleton { GithubLoginClient }
         bind<SchedulerProvider>() with singleton { AppSchedulerProvider() }
+        bind<UserInfoFragment>() with singleton { UserInfoFragment() }
     }
     
     companion object {

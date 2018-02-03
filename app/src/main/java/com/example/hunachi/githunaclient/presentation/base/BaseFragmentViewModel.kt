@@ -7,10 +7,10 @@ import android.content.Context
  */
 abstract class BaseFragmentViewModel(protected val fContext: Context) : BaseViewModel(fContext) {
     
-    fun onCreateView() {}
+    open fun onCreateView() {}
     
-    fun onActivityCreated() {}
+    open fun onActivityCreated() {}
     
-    fun onDetach() {}
+    open fun onDetach() {}
 
 }
