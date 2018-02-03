@@ -2,7 +2,6 @@ package com.example.hunachi.githunaclient.presentation
 
 import android.app.Application
 import android.content.Context
-import com.example.hunachi.githunaclient.data.repository.GithubLoginClient
 import com.example.hunachi.githunaclient.presentation.helper.OauthAdapter
 import com.example.hunachi.githunaclient.domain.User
 import com.example.hunachi.githunaclient.presentation.login.oauthAccessClientModule
@@ -39,7 +38,7 @@ class MyApplication : Application(), KodeinAware {
         bind<MainActivity>() with singleton { MainActivity() }
         bind<LoginGithubActivity>() with singleton { LoginGithubActivity() }
         bind<OauthAdapter>() with factory { scopes: Scopes -> OauthAdapter(scopes = scopes) }
-        //bind<GithubLoginClient>() with singleton { GithubLoginClient }
+        //bind<GithubLoginAdapter>() with singleton { GithubLoginAdapter }
         bind<SchedulerProvider>() with singleton { AppSchedulerProvider() }
         bind<UserInfoFragment>() with singleton { UserInfoFragment() }
     }

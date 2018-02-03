@@ -5,7 +5,7 @@ import org.junit.Test
 /**
  * Created by hunachi on 2018/02/03.
  */
-class GithubLoginClientTest {
+class GithubLoginAdapterTest {
     
     @Test
     fun register() {

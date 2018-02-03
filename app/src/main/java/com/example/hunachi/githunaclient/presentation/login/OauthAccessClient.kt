@@ -1,7 +1,7 @@
 package com.example.hunachi.githunaclient.presentation.login
 
 import android.content.Intent
-import com.example.hunachi.githunaclient.data.repository.GithubLoginClient
+import com.example.hunachi.githunaclient.data.repository.GithubLoginAdapter
 import com.example.hunachi.githunaclient.domain.Key
 import com.example.hunachi.githunaclient.domain.dialog.LoadingDialog
 import com.example.hunachi.githunaclient.domain.value.StatusModule
@@ -34,7 +34,7 @@ class OauthAccessClient(
     
     private fun accessToken(code: String) {
         //Log.d("コードを受け取ったよ！！", code) //OK
-        GithubLoginClient.register(code)
+        GithubLoginAdapter.register(code)
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .subscribe({

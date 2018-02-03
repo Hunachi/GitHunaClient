@@ -12,9 +12,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 /**
  * Created by hunachi on 2018/01/31.
  */
-object GithubApiClient{
-    
-    //private var token: String = token
+object GithubApiAdapter {
     
     val githubApi: GithubApi
     

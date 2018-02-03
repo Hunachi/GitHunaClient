@@ -18,14 +18,12 @@ class UserInfoViewModel(
         val owner: LifecycleOwner
 ) : BaseFragmentViewModel(application) {
     
-    @Bindable
     var userName = ""
     
     override fun onCreateView() {
         super.onCreateView()
         userName = "hoge"
     }
-    
     
 }
 
