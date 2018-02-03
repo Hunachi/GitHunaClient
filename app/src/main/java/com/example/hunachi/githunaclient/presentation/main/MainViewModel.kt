@@ -1,5 +1,6 @@
 package com.example.hunachi.githunaclient.presentation.main
 
+import android.util.Log
 import android.widget.Toast
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
 import com.example.hunachi.githunaclient.util.BottomNavigationListner
@@ -21,6 +22,7 @@ class MainViewModel(private val module: MainViewModule) : BaseViewModel(module.a
     
     override fun onCreate() {
         super.onCreate()
+        //Log.d("acccess_token", application.user.token)
         if (application.user.token.isBlank()) {
             navigator.navigateToLogin()
             Toast.makeText(context, "Github accountと未連携", Toast.LENGTH_SHORT).show()

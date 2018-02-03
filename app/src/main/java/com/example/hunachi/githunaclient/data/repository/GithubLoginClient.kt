@@ -13,7 +13,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 /**
  * Created by hunachi on 2018/01/31.
  */
-class GithubLoginClient {
+object GithubLoginClient {
     
     private val githubOauth: GithubOauth
     

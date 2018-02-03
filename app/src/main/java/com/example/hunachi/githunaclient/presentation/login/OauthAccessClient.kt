@@ -1,6 +1,7 @@
 package com.example.hunachi.githunaclient.presentation.login
 
 import android.content.Intent
+import com.example.hunachi.githunaclient.data.repository.GithubLoginClient
 import com.example.hunachi.githunaclient.domain.Key
 import com.example.hunachi.githunaclient.domain.value.StatusModule
 import com.example.hunachi.githunaclient.util.*
@@ -12,7 +13,6 @@ import com.github.salomonbrys.kodein.*
  */
 class OauthAccessClient(private val module: OauthClientModule) {
     
-    private val loginClient = module.githubLoginClient
     private val scheduler = module.appSchedulerProvider
     private val application = module.application
     private val callback = module.callback
@@ -31,19 +31,29 @@ class OauthAccessClient(private val module: OauthClientModule) {
     
     private fun accessToken(code: String) {
         //Log.d("コードを受け取ったよ！！", code) //OK
-        loginClient.register(code).subscribeOn(scheduler.io()).observeOn(scheduler.ui()).subscribe({
-            //Log.d("Tokenを取得した", it.toString())
-            application.setUserToken(it.token)
-            callback(StatusModule.SUCCESS)
-        }, {
-            it.printStackTrace()
-            callback(StatusModule.ERROR)
-        })
+        GithubLoginClient.register(code)
+                .subscribeOn(scheduler.io())
+                .observeOn(scheduler.ui())
+                .subscribe({
+                    //Log.d("Tokenを取得した", it.toString())
+                    application.setUserToken(it.token)
+                    callback(StatusModule.SUCCESS)
+                }, {
+                    it.printStackTrace()
+                    callback(StatusModule.ERROR)
+                })
     }
 }
 
 val oauthAccessClientModule = Kodein.Module {
     bind<OauthAccessClient>() with factory { callback: OauthAccessCallback ->
-        OauthAccessClient(OauthClientModule(githubLoginClient = instance(), appSchedulerProvider = instance(), application = instance(), callback = callback, loadingDialog = instance()))
+        OauthAccessClient(
+            OauthClientModule(
+                appSchedulerProvider = instance(),
+                application = instance(),
+                callback = callback,
+                loadingDialog = instance()
+            )
+        )
     }
 }

@@ -36,7 +36,7 @@ class MyApplication : Application(), KodeinAware {
         bind<MainActivity>() with singleton { MainActivity() }
         bind<LoginGithubActivity>() with singleton { LoginGithubActivity() }
         bind<OauthAdapter>() with factory { scopes: Scopes -> OauthAdapter(scopes = scopes) }
-        bind<GithubLoginClient>() with singleton { GithubLoginClient() }
+        //bind<GithubLoginClient>() with singleton { GithubLoginClient }
         bind<SchedulerProvider>() with singleton { AppSchedulerProvider() }
     }
     
