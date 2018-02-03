@@ -3,19 +3,22 @@ package com.example.hunachi.githunaclient.presentation.login
 import android.content.Intent
 import com.example.hunachi.githunaclient.data.repository.GithubLoginClient
 import com.example.hunachi.githunaclient.domain.Key
+import com.example.hunachi.githunaclient.domain.dialog.LoadingDialog
 import com.example.hunachi.githunaclient.domain.value.StatusModule
 import com.example.hunachi.githunaclient.util.*
-import com.example.hunachi.githunaclient.kodein.OauthAccessClientModule
+import com.example.hunachi.githunaclient.presentation.MyApplication
+import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 import com.github.salomonbrys.kodein.*
 
 /**
  * Created by hunachi on 2018/01/29.
  */
-class OauthAccessClient(private val module: OauthAccessClientModule) {
-    
-    private val scheduler = module.appSchedulerProvider
-    private val application = module.application
-    private val callback = module.callback
+class OauthAccessClient(
+        val scheduler: SchedulerProvider,
+        val application: MyApplication,
+        val callback: OauthAccessCallback,
+        val loadingDialog: LoadingDialog
+) {
     
     fun callbackToken(intent: Intent) {
         if (intent.action == Intent.ACTION_VIEW) {
@@ -48,12 +51,10 @@ class OauthAccessClient(private val module: OauthAccessClientModule) {
 val oauthAccessClientModule = Kodein.Module {
     bind<OauthAccessClient>() with factory { callback: OauthAccessCallback ->
         OauthAccessClient(
-            OauthAccessClientModule(
-                appSchedulerProvider = instance(),
-                application = instance(),
-                callback = callback,
-                loadingDialog = instance()
-            )
+            scheduler = instance(),
+            application = instance(),
+            callback = callback,
+            loadingDialog = instance()
         )
     }
 }
