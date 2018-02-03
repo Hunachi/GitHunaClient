@@ -26,7 +26,7 @@ class MainViewModel(
     
     override fun onCreate() {
         super.onCreate()
-        if (application.user.token.isBlank()) {
+        if (application.token.isBlank()) {
             navigator.navigateToLogin()
             Toast.makeText(context, "Github accountと未連携", Toast.LENGTH_SHORT).show()
         } else Toast.makeText(context, "今日も一日がんばるぞい!{name}さん!", Toast.LENGTH_SHORT).show()

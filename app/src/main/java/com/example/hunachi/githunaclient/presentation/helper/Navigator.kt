@@ -4,6 +4,7 @@ import android.content.Intent
 import android.support.annotation.IdRes
 import android.support.annotation.LayoutRes
 import com.example.hunachi.githunaclient.R
+import com.example.hunachi.githunaclient.data.repository.adapter.OauthAdapter
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
 import com.example.hunachi.githunaclient.presentation.login.LoginGithubActivity

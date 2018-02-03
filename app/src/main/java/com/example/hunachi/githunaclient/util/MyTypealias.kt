@@ -1,7 +1,7 @@
 package com.example.hunachi.githunaclient.util
 
 import android.support.design.widget.BottomNavigationView
-import com.example.hunachi.githunaclient.domain.value.StatusModule
+import com.example.hunachi.githunaclient.model.StatusModule
         
         /**
  * Created by hunachi on 2018/01/30.

@@ -1,4 +1,4 @@
-package com.example.hunachi.githunaclient.domain.dialog
+package com.example.hunachi.githunaclient.presentation.dialog
 
 import android.content.Context
 import android.databinding.DataBindingUtil

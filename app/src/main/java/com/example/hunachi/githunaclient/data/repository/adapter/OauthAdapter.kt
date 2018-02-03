@@ -1,8 +1,8 @@
-package com.example.hunachi.githunaclient.presentation.helper
+package com.example.hunachi.githunaclient.data.repository.adapter
 
 import android.content.Intent
 import android.net.Uri
-import com.example.hunachi.githunaclient.domain.Key
+import com.example.hunachi.githunaclient.model.Key
 import com.example.hunachi.githunaclient.util.Scopes
 
 /**

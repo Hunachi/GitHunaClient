@@ -2,10 +2,9 @@ package com.example.hunachi.githunaclient.presentation
 
 import android.app.Application
 import android.content.Context
-import com.example.hunachi.githunaclient.presentation.helper.OauthAdapter
-import com.example.hunachi.githunaclient.domain.User
-import com.example.hunachi.githunaclient.presentation.login.oauthAccessClientModule
-import com.example.hunachi.githunaclient.domain.dialog.LoadingDialog
+import com.example.hunachi.githunaclient.data.repository.adapter.OauthAdapter
+import com.example.hunachi.githunaclient.data.repository.oauthAccessRepositoryModule
+import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialog
 import com.example.hunachi.githunaclient.presentation.event.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.event.userInfoViewModelModule
 import com.example.hunachi.githunaclient.presentation.helper.navigatorModule
@@ -17,12 +16,14 @@ import com.example.hunachi.githunaclient.util.rx.AppSchedulerProvider
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 import com.example.hunachi.githunaclient.util.Scopes
 import com.github.salomonbrys.kodein.*
-import java.io.Serializable
 
 /**
  * Created by hunachi on 2018/01/27.
  */
 class MyApplication : Application(), KodeinAware {
+    
+    var token = ""
+        private set
     
     override val kodein by Kodein.lazy {
         bind<MyApplication>() with singleton { this@MyApplication }
@@ -31,14 +32,12 @@ class MyApplication : Application(), KodeinAware {
         bind<LoadingDialog>() with singleton { LoadingDialog(this@MyApplication) }
         import(mainViewModelModule)
         import(loginViewModels)
-        import(oauthAccessClientModule)
+        import(oauthAccessRepositoryModule)
         import(navigatorModule)
         import(userInfoViewModelModule)
-        bind<User>() with singleton { User() }
         bind<MainActivity>() with singleton { MainActivity() }
         bind<LoginGithubActivity>() with singleton { LoginGithubActivity() }
         bind<OauthAdapter>() with factory { scopes: Scopes -> OauthAdapter(scopes = scopes) }
-        //bind<GithubLoginAdapter>() with singleton { GithubLoginAdapter }
         bind<SchedulerProvider>() with singleton { AppSchedulerProvider() }
         bind<UserInfoFragment>() with singleton { UserInfoFragment() }
     }
@@ -47,30 +46,22 @@ class MyApplication : Application(), KodeinAware {
         const val userToken = "user_token"
     }
     
-    var user: User = kodein.instance()
-        private set
-    
     private val preferences by lazy {
         getSharedPreferences("$packageName.txt", Context.MODE_PRIVATE)
     }
     
     override fun onCreate() {
         super.onCreate()
-        user = User(token = preferences.getString(userToken, ""))
+        token = preferences.getString(userToken, "")
     }
     
     fun setUserToken(token: String) {
-        user.token = token
+        this.token = token
         preferences.edit().putString(userToken, token).commit()
     }
     
     fun deleteUserToken() {
-        user = User()
+        token = ""
         preferences.edit().remove(userToken).commit()
     }
 }
-
-data class User(
-        var token: String = "",
-        var userName: String = ""
-): Serializable

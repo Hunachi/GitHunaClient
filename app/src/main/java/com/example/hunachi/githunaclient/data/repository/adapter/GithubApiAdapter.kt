@@ -1,4 +1,4 @@
-package com.example.hunachi.githunaclient.data.repository
+package com.example.hunachi.githunaclient.data.repository.adapter
 
 import com.example.hunachi.githunaclient.data.api.GithubApi
 import com.example.hunachi.githunaclient.data.api.responce.mapper.ApplicationJsonAdapterFactory
