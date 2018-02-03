@@ -7,7 +7,7 @@ import com.example.hunachi.githunaclient.presentation.helper.Navigator
 /**
  * Created by hunachi on 2018/01/28.
  */
-data class MainViewModule(
+data class MainViewModelModule(
         val navigator: Navigator,
         val application: MyApplication
 )

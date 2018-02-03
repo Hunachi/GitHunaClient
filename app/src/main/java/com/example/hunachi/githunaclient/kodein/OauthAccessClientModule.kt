@@ -9,7 +9,7 @@ import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 /**
  * Created by hunachi on 2018/02/02.
  */
-data class OauthClientModule(
+data class OauthAccessClientModule(
         val appSchedulerProvider: SchedulerProvider,
         val application: MyApplication,
         val callback: OauthAccessCallback,
