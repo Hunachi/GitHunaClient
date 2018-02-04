@@ -1,16 +1,12 @@
 package com.example.hunachi.githunaclient.presentation.main
 
-import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
 import com.example.hunachi.githunaclient.util.BottomNavigationListner
-import com.example.hunachi.githunaclient.presentation.MainApplication
 import com.example.hunachi.githunaclient.presentation.MyApplication
-import com.example.hunachi.githunaclient.presentation.event.UserInfoFragment
+import com.example.hunachi.githunaclient.presentation.fragment.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
-import com.github.salomonbrys.kodein.*
-import com.github.salomonbrys.kodein.android.androidActivityScope
 
 /**
  * Created by hunachi on 2018/01/27.

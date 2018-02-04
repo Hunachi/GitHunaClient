@@ -2,7 +2,7 @@ package com.example.hunachi.githunaclient.presentation
 
 import android.content.Context
 import com.example.hunachi.githunaclient.kodein.*
-import com.example.hunachi.githunaclient.presentation.event.UserInfoFragment
+import com.example.hunachi.githunaclient.presentation.fragment.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.login.LoginGithubActivity
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
 import com.example.hunachi.githunaclient.util.rx.AppSchedulerProvider

@@ -4,14 +4,14 @@
 
         <variable
             name="viewModel"
-            type="com.example.hunachi.githunaclient.presentation.event.UserInfoViewModel" />
+            type="com.example.hunachi.githunaclient.presentation.fragment.UserInfoViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.hunachi.githunaclient.presentation.event.UserInfoFragment">
+        tools:context="com.example.hunachi.githunaclient.presentation.fragment.UserInfoFragment">
 
         <TextView
             android:layout_width="wrap_content"

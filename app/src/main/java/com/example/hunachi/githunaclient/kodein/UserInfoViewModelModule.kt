@@ -2,7 +2,7 @@ package com.example.hunachi.githunaclient.kodein
 
 import android.arch.lifecycle.LifecycleOwner
 import android.support.v7.app.AppCompatActivity
-import com.example.hunachi.githunaclient.presentation.event.UserInfoViewModel
+import com.example.hunachi.githunaclient.presentation.fragment.UserInfoViewModel
 import com.github.salomonbrys.kodein.*
 import com.github.salomonbrys.kodein.android.androidSupportFragmentScope
 

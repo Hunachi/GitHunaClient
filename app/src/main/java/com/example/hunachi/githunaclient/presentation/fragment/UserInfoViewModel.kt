@@ -1,13 +1,9 @@
-package com.example.hunachi.githunaclient.presentation.event
+package com.example.hunachi.githunaclient.presentation.fragment
 
 import android.arch.lifecycle.LifecycleOwner
-import android.support.v7.app.AppCompatActivity
-import com.example.hunachi.githunaclient.presentation.MainApplication
 import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
-import com.github.salomonbrys.kodein.*
-import com.github.salomonbrys.kodein.android.androidSupportFragmentScope
 
 /**
  * Created by hunachi on 2018/02/03.
