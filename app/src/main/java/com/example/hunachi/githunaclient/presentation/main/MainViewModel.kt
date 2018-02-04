@@ -27,6 +27,7 @@ class MainViewModel(
     
     override fun onCreate() {
         super.onCreate()
+        application.deleteUserToken()
     }
     
     override fun onStart() {
@@ -44,15 +45,5 @@ class MainViewModel(
             R.id.action_search -> navigator.replaceFragment(userInfoFragment)
         }
         true
-    }
-}
-
-val mainViewModelModule = Kodein.Module {
-    bind<MainViewModel>() with scopedSingleton(androidActivityScope) {
-        MainViewModel(
-            navigator = with(it as AppCompatActivity).instance(),
-            application = instance(),
-            userInfoFragment = instance()
-        )
     }
 }

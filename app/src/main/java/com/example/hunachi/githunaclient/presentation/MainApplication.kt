@@ -1,15 +1,10 @@
 package com.example.hunachi.githunaclient.presentation
 
 import android.content.Context
-import com.example.hunachi.githunaclient.data.repository.githubTokenModule
-import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter
+import com.example.hunachi.githunaclient.kodein.*
 import com.example.hunachi.githunaclient.presentation.event.UserInfoFragment
-import com.example.hunachi.githunaclient.presentation.event.userInfoViewModelModule
-import com.example.hunachi.githunaclient.presentation.helper.navigatorModule
 import com.example.hunachi.githunaclient.presentation.login.LoginGithubActivity
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
-import com.example.hunachi.githunaclient.presentation.main.mainViewModelModule
-import com.example.hunachi.githunaclient.presentation.login.loginViewModels
 import com.example.hunachi.githunaclient.util.rx.AppSchedulerProvider
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 import com.github.salomonbrys.kodein.*
@@ -22,14 +17,14 @@ class MainApplication : MyApplication(), KodeinAware {
     override val kodein by Kodein.lazy {
         bind<MyApplication>() with singleton { this@MainApplication as MyApplication }
         import(mainViewModelModule)
-        import(loginViewModels)
+        import(loginViewModelModule)
         import(githubTokenModule)
         import(navigatorModule)
         import(userInfoViewModelModule)
         bind<MainActivity>() with singleton { MainActivity() }
         bind<LoginGithubActivity>() with singleton { LoginGithubActivity() }
         bind<SchedulerProvider>() with singleton { AppSchedulerProvider() }
-        bind<UserInfoFragment>() with singleton { UserInfoFragment() }
+        bind<UserInfoFragment>() with singleton { UserInfoFragment.newInstance() }
     }
     
     companion object {

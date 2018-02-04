@@ -42,13 +42,3 @@ class Navigator(
         activity.finish()
     }
 }
-
-val navigatorModule = Kodein.Module {
-    bind<Navigator>() with scopedSingleton(androidActivityScope) {
-        Navigator(
-            activity = it as BaseActivity,
-            mainActivity = instance(),
-            loginGithubActivity = instance()
-        )
-    }
-}

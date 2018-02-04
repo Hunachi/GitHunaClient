@@ -31,13 +31,3 @@ class UserInfoViewModel(
     
     
 }
-
-val userInfoViewModelModule = Kodein.Module {
-    bind<UserInfoViewModel>() with scopedSingleton(androidSupportFragmentScope) {
-        UserInfoViewModel(
-            navigator = with(it.activity as AppCompatActivity).instance(),
-            application = instance(),
-            owner = it as LifecycleOwner /*使う時が来るのか？*/
-        )
-    }
-}

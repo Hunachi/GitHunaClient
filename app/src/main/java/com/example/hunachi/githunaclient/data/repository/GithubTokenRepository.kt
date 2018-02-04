@@ -60,13 +60,3 @@ class GithubTokenRepository(
     }
     
 }
-
-val githubTokenModule = Kodein.Module {
-    bind<GithubTokenRepository>() with factory { callback: GithubTokenRepository.Callback ->
-        GithubTokenRepository(
-            scheduler = instance(),
-            application = instance(),
-            callback = callback
-        )
-    }
-}
