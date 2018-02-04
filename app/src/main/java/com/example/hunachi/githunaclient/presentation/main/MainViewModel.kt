@@ -6,6 +6,7 @@ import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
 import com.example.hunachi.githunaclient.util.BottomNavigationListner
 import com.example.hunachi.githunaclient.presentation.MainApplication
+import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.event.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.github.salomonbrys.kodein.*
@@ -17,7 +18,7 @@ import com.github.salomonbrys.kodein.android.androidActivityScope
 
 class MainViewModel(
         val navigator: Navigator,
-        val application: MainApplication,
+        val application: MyApplication,
         val userInfoFragment: UserInfoFragment
 ) : BaseViewModel(application) {
     
@@ -26,6 +27,11 @@ class MainViewModel(
     
     override fun onCreate() {
         super.onCreate()
+        application.deleteUserToken()
+    }
+    
+    override fun onStart() {
+        super.onStart()
         if (application.token.isBlank()) {
             navigator.navigateToLogin()
             Toast.makeText(context, "Github accountと未連携", Toast.LENGTH_SHORT).show()
@@ -40,7 +46,6 @@ class MainViewModel(
         }
         true
     }
-    
 }
 
 val mainViewModelModule = Kodein.Module {

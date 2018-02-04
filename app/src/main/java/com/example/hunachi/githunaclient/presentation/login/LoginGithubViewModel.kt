@@ -3,6 +3,7 @@ package com.example.hunachi.githunaclient.presentation.login
 import android.support.v7.app.AppCompatActivity
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
 import com.example.hunachi.githunaclient.presentation.MainApplication
+import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.github.salomonbrys.kodein.*
 import com.github.salomonbrys.kodein.android.androidActivityScope
@@ -12,7 +13,7 @@ import com.github.salomonbrys.kodein.android.androidActivityScope
  */
 class LoginGithubViewModel(
         val navigator: Navigator,
-        val application: MainApplication
+        val application: MyApplication
 ) : BaseViewModel(application) {
     
     fun onClickOauth() {

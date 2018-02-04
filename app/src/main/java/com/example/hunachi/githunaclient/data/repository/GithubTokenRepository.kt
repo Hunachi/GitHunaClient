@@ -1,11 +1,13 @@
 package com.example.hunachi.githunaclient.data.repository
 
 import android.content.Intent
+import android.telecom.Call
+import android.util.Log
 import com.example.hunachi.githunaclient.data.repository.adapter.GithubLoginAdapter
 import com.example.hunachi.githunaclient.model.Key
 import com.example.hunachi.githunaclient.model.StatusModule
-import com.example.hunachi.githunaclient.util.*
 import com.example.hunachi.githunaclient.presentation.MainApplication
+import com.example.hunachi.githunaclient.util.*
 import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 import com.github.salomonbrys.kodein.*
@@ -13,10 +15,10 @@ import com.github.salomonbrys.kodein.*
 /**
  * Created by hunachi on 2018/01/29.
  */
-class OauthAccessRepository(
+class GithubTokenRepository(
         val scheduler: SchedulerProvider,
         val application: MyApplication,
-        val callback: OauthAccessCallback
+        val callback: Callback
 ) {
     
     fun callbackToken(intent: Intent) {
@@ -25,31 +27,36 @@ class OauthAccessRepository(
             uri?.apply {
                 val code = getQueryParameter("code")
                 val state = getQueryParameter("state")
-                if (state == Key.state) accessToken(code)
+                if (state == Key.state && code.isNotBlank()) reciveToken(code)
                 else throw Exception("Callbackのstateが異なりました．")
             }
         }
     }
     
-    private fun accessToken(code: String) {
+    private fun reciveToken(code: String){
         //Log.d("コードを受け取ったよ！！", code) //OK
         GithubLoginAdapter.register(code)
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .subscribe({
-                    //Log.d("Tokenを取得した", it.toString())
+                    //Log.d("Tokenを取得した", it.toString()) //OK
                     application.setUserToken(it.token)
-                    callback(StatusModule.SUCCESS)
+                    callback.tokenStatusCallback(StatusModule.SUCCESS)
                 }, {
                     it.printStackTrace()
-                    callback(StatusModule.ERROR)
+                    callback.tokenStatusCallback(StatusModule.ERROR)
                 })
     }
+    
+    interface Callback{
+        fun tokenStatusCallback(statusModule: StatusModule)
+    }
+    
 }
 
-val oauthAccessRepositoryModule = Kodein.Module {
-    bind<OauthAccessRepository>() with factory { callback: OauthAccessCallback ->
-        OauthAccessRepository(
+val githubTokenModule = Kodein.Module {
+    bind<GithubTokenRepository>() with factory { callback: GithubTokenRepository.Callback ->
+        GithubTokenRepository(
             scheduler = instance(),
             application = instance(),
             callback = callback

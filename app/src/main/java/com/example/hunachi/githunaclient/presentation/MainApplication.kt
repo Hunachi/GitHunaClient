@@ -1,8 +1,7 @@
 package com.example.hunachi.githunaclient.presentation
 
-import android.app.Application
 import android.content.Context
-import com.example.hunachi.githunaclient.data.repository.oauthAccessRepositoryModule
+import com.example.hunachi.githunaclient.data.repository.githubTokenModule
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialog
 import com.example.hunachi.githunaclient.presentation.event.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.event.userInfoViewModelModule
@@ -21,11 +20,11 @@ import com.github.salomonbrys.kodein.*
 class MainApplication : MyApplication(), KodeinAware {
     
     override val kodein by Kodein.lazy {
-        bind<MainApplication>() with singleton { this@MainApplication }
+        bind<MyApplication>() with singleton { this@MainApplication as MyApplication }
         bind<LoadingDialog>() with singleton { LoadingDialog(this@MainApplication) }
         import(mainViewModelModule)
         import(loginViewModels)
-        import(oauthAccessRepositoryModule)
+        import(githubTokenModule)
         import(navigatorModule)
         import(userInfoViewModelModule)
         bind<MainActivity>() with singleton { MainActivity() }
@@ -48,10 +47,12 @@ class MainApplication : MyApplication(), KodeinAware {
     }
     
     override fun setUserToken(token: String) {
+        super.setUserToken(token)
         preferences.edit().putString(userToken, token).commit()
     }
     
     override fun deleteUserToken() {
+        super.deleteUserToken()
         preferences.edit().remove(userToken).commit()
     }
 }
