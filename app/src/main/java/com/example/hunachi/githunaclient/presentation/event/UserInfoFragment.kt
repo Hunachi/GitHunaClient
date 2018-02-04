@@ -16,13 +16,13 @@ import com.github.salomonbrys.kodein.android.appKodein
 
 class UserInfoFragment : BaseFragment() {
     
-    
+    /*死んだ時に復帰できる?ようにlazyじゃなくてlateinitに...*/
     private lateinit var binding: FragmentUserInfoBinding
-    /*todo fragmentが死んだ時に一緒に死ぬ可能性がある*/
-    private val viewModel: UserInfoViewModel by with(this).instance()
+    private lateinit var viewModel: UserInfoViewModel
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = with(this).instance<UserInfoViewModel>().value
         setViewModel(viewModel)
     }
     

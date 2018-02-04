@@ -2,7 +2,7 @@ package com.example.hunachi.githunaclient.presentation
 
 import android.content.Context
 import com.example.hunachi.githunaclient.data.repository.githubTokenModule
-import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialog
+import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter
 import com.example.hunachi.githunaclient.presentation.event.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.event.userInfoViewModelModule
 import com.example.hunachi.githunaclient.presentation.helper.navigatorModule
@@ -21,7 +21,6 @@ class MainApplication : MyApplication(), KodeinAware {
     
     override val kodein by Kodein.lazy {
         bind<MyApplication>() with singleton { this@MainApplication as MyApplication }
-        bind<LoadingDialog>() with singleton { LoadingDialog(this@MainApplication) }
         import(mainViewModelModule)
         import(loginViewModels)
         import(githubTokenModule)

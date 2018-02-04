@@ -27,7 +27,10 @@ class GithubTokenRepository(
             uri?.apply {
                 val code = getQueryParameter("code")
                 val state = getQueryParameter("state")
-                if (state == Key.state && code.isNotBlank()) reciveToken(code)
+                if (state == Key.state && code.isNotBlank()){
+                    reciveToken(code)
+                    callback.codeStatusCallback(StatusModule.SUCCESS)
+                }
                 else throw Exception("Callbackのstateが異なりました．")
             }
         }
@@ -49,7 +52,11 @@ class GithubTokenRepository(
     }
     
     interface Callback{
+        
+        fun codeStatusCallback(statusModule: StatusModule)
+        
         fun tokenStatusCallback(statusModule: StatusModule)
+        
     }
     
 }

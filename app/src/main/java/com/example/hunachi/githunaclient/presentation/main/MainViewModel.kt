@@ -27,7 +27,6 @@ class MainViewModel(
     
     override fun onCreate() {
         super.onCreate()
-        application.deleteUserToken()
     }
     
     override fun onStart() {
