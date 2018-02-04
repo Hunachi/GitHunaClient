@@ -1,9 +1,11 @@
 package com.example.hunachi.githunaclient.data.api
 
+import com.example.hunachi.githunaclient.data.api.responce.Event
 import com.example.hunachi.githunaclient.data.api.responce.User
 import io.reactivex.Observable
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 /**
@@ -15,5 +17,13 @@ interface GithubApi {
     fun user(
             @Query("access_token") token: String
     ): Observable<User>
+    
+    
+    @GET("users/{user}/events")
+    fun followerEvents(
+            @Path("user") user: String,
+            @Query("access_token") token: String,
+            @Query("pages") pages: Int
+    ): Observable<List<Event>>
     
 }

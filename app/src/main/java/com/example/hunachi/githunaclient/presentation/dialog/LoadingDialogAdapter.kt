@@ -26,6 +26,6 @@ class LoadingDialogAdapter(private val context: Context) : BaseAlertDialogAdapte
             AlertDialog.Builder(context)
                     .setView(binding.root)
                     .create().apply {
-                window.setBackgroundDrawable(ColorDrawable(Color.GREEN))
+                window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             }
 }
