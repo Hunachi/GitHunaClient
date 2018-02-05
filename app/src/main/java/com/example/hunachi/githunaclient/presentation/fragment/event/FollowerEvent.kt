@@ -7,11 +7,11 @@ import com.example.hunachi.githunaclient.data.api.responce.Repo
  */
 //TODO I have to make converter from Event to FollowerEvent
 data class FollowerEvent(
-        val id: Int,
-        val actor: String,
-        val avatarUrl: String,
-        val action: String,
-        val repository: Repo,
-        val repositoryOwnerName: String,
-        val language: String
+        val id: Int = 0,
+        val actor: String = "hunachi",
+        val avatarUrl: String = "po",
+        val action: String = "swimming",
+        val repository: Repo = Repo(0,"name","fullname",null),
+        val repositoryOwnerName: String = "hunachi",
+        val language: String = "kotlin"
 )

@@ -3,6 +3,7 @@ package com.example.hunachi.githunaclient.presentation
 import android.content.Context
 import com.example.hunachi.githunaclient.kodein.*
 import com.example.hunachi.githunaclient.presentation.fragment.UserInfoFragment
+import com.example.hunachi.githunaclient.presentation.fragment.event.FollowerEventFragment
 import com.example.hunachi.githunaclient.presentation.login.LoginGithubActivity
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
 import com.example.hunachi.githunaclient.util.rx.AppSchedulerProvider
@@ -25,6 +26,7 @@ class MainApplication : MyApplication(), KodeinAware {
         bind<LoginGithubActivity>() with singleton { LoginGithubActivity() }
         bind<SchedulerProvider>() with singleton { AppSchedulerProvider() }
         bind<UserInfoFragment>() with singleton { UserInfoFragment.newInstance() }
+        bind<FollowerEventFragment>() with singleton { FollowerEventFragment.newInstance() }
     }
     
     companion object {
