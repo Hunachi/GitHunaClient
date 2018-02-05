@@ -1,20 +1,25 @@
 package com.example.hunachi.githunaclient.presentation.fragment.event
 
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import com.example.hunachi.githunaclient.data.api.responce.Repo
 import com.example.hunachi.githunaclient.databinding.FragmentFollowerEventBinding
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
 
 /**
  * Created by hunachi on 2018/02/04.
  */
 class FollowerEventFragment : BaseFragment() {
     
-    lateinit var binding: FragmentFollowerEventBinding
+    //todo make add fragment
+    
+    private lateinit var binding: FragmentFollowerEventBinding
+    private val followerEventList = mutableListOf<FollowerEvent>()
+    private lateinit var followerEventAdapter: FollowerEventAdapter
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,10 +38,21 @@ class FollowerEventFragment : BaseFragment() {
     }
     
     private fun setUpRecycler(){
-        val groupAdapter =  GroupAdapter<ViewHolder>()
-                .apply {
-                
-                }
+        followerEventAdapter = FollowerEventAdapter(followerEventList, callback)
+        binding.list.apply {
+            layoutManager = LinearLayoutManager(binding.list.context)
+            adapter = followerEventAdapter
+        }
+    }
+    
+    private val callback: (FollowerEvent) -> Unit = {
+        Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+    }
+    
+    companion object {
+        fun newInstance(): FollowerEventFragment{
+            return FollowerEventFragment()
+        }
     }
     
 }
