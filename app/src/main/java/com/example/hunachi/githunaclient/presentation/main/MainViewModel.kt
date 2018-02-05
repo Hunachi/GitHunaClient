@@ -6,6 +6,7 @@ import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
 import com.example.hunachi.githunaclient.util.BottomNavigationListner
 import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.fragment.UserInfoFragment
+import com.example.hunachi.githunaclient.presentation.fragment.event.FollowerEventFragment
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 
 /**
@@ -15,7 +16,8 @@ import com.example.hunachi.githunaclient.presentation.helper.Navigator
 class MainViewModel(
         val navigator: Navigator,
         val application: MyApplication,
-        val userInfoFragment: UserInfoFragment
+        val userInfoFragment: UserInfoFragment,
+        val followerEventFragment: FollowerEventFragment
 ) : BaseViewModel(application) {
     
     /*private val textProcessor: PublishProcessor<String> = PublishProcessor.create()
@@ -38,6 +40,7 @@ class MainViewModel(
         Toast.makeText(context, "${item.itemId}", Toast.LENGTH_SHORT).show()
         when (item.itemId) {
             R.id.action_search -> navigator.replaceFragment(userInfoFragment)
+            R.id.action_settings -> navigator.replaceFragment(followerEventFragment)
         }
         true
     }
