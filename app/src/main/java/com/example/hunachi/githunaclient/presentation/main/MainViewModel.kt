@@ -9,16 +9,16 @@ import com.example.hunachi.githunaclient.presentation.fragment.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.fragment.event.FollowerEventFragment
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.util.FragmentTag
-import com.example.hunachi.githunaclient.util.extention.show
+import com.example.hunachi.githunaclient.util.extension.show
 
 /**
  * Created by hunachi on 2018/01/27.
  */
 
 class MainViewModel(val navigator: Navigator,
-        val application: MyApplication,
-        val userInfoFragment: UserInfoFragment,
-        val followerEventFragment: FollowerEventFragment
+        private val application: MyApplication,
+        private val userInfoFragment: UserInfoFragment,
+        private val followerEventFragment: FollowerEventFragment
 ) : BaseViewModel(application) {
     
     /*private val textProcessor: PublishProcessor<String> = PublishProcessor.create()

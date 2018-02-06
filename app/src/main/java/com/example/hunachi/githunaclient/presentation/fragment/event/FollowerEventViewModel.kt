@@ -7,7 +7,7 @@ import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel
  * Created by hunachi on 2018/02/05.
  */
 class FollowerEventViewModel(
-        val application: MyApplication
+       private val application: MyApplication
 ): BaseFragmentViewModel(application){
     
     override fun onCreate() {

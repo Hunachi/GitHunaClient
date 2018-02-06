@@ -15,9 +15,9 @@ import com.github.salomonbrys.kodein.*
  * Created by hunachi on 2018/01/30.
  */
 class LoginGithubViewModel(
-        val navigator: Navigator,
-        val application: MyApplication,
-        val loadingDialogAdapter: LoadingDialogAdapter
+        private val navigator: Navigator,
+        private val application: MyApplication,
+        private val loadingDialogAdapter: LoadingDialogAdapter
 ) : BaseViewModel(application), GithubTokenRepository.Callback {
     
     private val kodein = Kodein.lazy {

@@ -26,6 +26,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:background="@android:color/transparent"
                 android:gravity="start"
                 android:text="@{viewModel.actor}"
                 android:textAlignment="textStart"
@@ -49,7 +50,9 @@
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/basic_icon_translation" />
+                app:setIcon="@{viewModel.avatarUrl}"
+                app:srcCompat="@drawable/basic_icon_translation"
+                android:layout_marginLeft="8dp" />
 
             <TextView
                 android:id="@+id/actionTextView"
@@ -65,7 +68,8 @@
                 app:layout_constraintBottom_toTopOf="@+id/repositoryTextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/actorNameTextView"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginRight="16dp" />
 
             <TextView
                 android:id="@+id/repositoryTextView"
@@ -80,7 +84,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/actionTextView"
-                app:layout_constraintTop_toBottomOf="@+id/actorNameTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/actorNameTextView"
+                android:gravity="start"
+                android:layout_marginRight="16dp" />
 
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>

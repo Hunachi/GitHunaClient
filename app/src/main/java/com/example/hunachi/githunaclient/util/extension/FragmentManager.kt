@@ -1,4 +1,4 @@
-package com.example.hunachi.githunaclient.util.extention
+package com.example.hunachi.githunaclient.util.extension
 
 import android.support.v4.app.FragmentManager
 

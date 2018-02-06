@@ -24,10 +24,6 @@ class Navigator(
         val loginGithubActivity: LoginGithubActivity
 ) {
     
-    private val fragmentManager: FragmentManager by lazy {
-        activity.supportFragmentManager
-    }
-    
     fun navigateToLogin() {
         activity.startActivity(Intent(activity, loginGithubActivity::class.java))
     }
@@ -43,13 +39,6 @@ class Navigator(
     fun replaceFragment(fragment: BaseFragment, @IdRes @LayoutRes resourceId: Int = R.id.container) {
         activity.replaceFragment(resourceId, fragment)
     }
-    
-    /*fun addFragment(fragments: MutableList<BaseFragment>, @IdRes @LayoutRes resourceId: Int = R.id.container) {
-        fragmentManager.beginTransaction().apply {
-            fragments.forEach { add(resourceId, it) }
-            commit()
-        }
-    }*/
     
     fun activityFinish() {
         activity.finish()
