@@ -8,14 +8,14 @@ import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.fragment.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.fragment.event.FollowerEventFragment
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
+import com.example.hunachi.githunaclient.util.FragmentTag
 import com.example.hunachi.githunaclient.util.extention.show
 
 /**
  * Created by hunachi on 2018/01/27.
  */
 
-class MainViewModel(
-        val navigator: Navigator,
+class MainViewModel(val navigator: Navigator,
         val application: MyApplication,
         val userInfoFragment: UserInfoFragment,
         val followerEventFragment: FollowerEventFragment
@@ -24,16 +24,13 @@ class MainViewModel(
     /*private val textProcessor: PublishProcessor<String> = PublishProcessor.create()
     var text: LiveData<String> = LiveDataReactiveStreams.fromPublisher(textProcessor)*/
     private val manager = navigator.activity.supportFragmentManager
-    
-    companion object {
-        val fragmentTags = mutableListOf("follow", "user")
-    }
+    private val fragmentTags = FragmentTag.values().map { it.name }
     
     override fun onCreate() {
         super.onCreate()
         manager.beginTransaction().apply {
-            add(R.id.container, followerEventFragment, "follow")
-            add(R.id.container, userInfoFragment, "user")
+            add(R.id.container, followerEventFragment, FragmentTag.FOLLOWER_EVENT.name)
+            add(R.id.container, userInfoFragment, FragmentTag.USER_INFO.name)
         }.commit()
     }
     
@@ -47,9 +44,11 @@ class MainViewModel(
     
     //Listener of BottomNavigation(what I made hard.)
     fun onItemSelected(): BottomNavigationListner = BottomNavigationListner { item ->
-        when (item.itemId) {
-            R.id.action_search   -> manager.show("user", fragmentTags)
-            R.id.action_settings -> manager.show("follow", fragmentTags)
+        manager.run {
+            when (item.itemId) {
+                R.id.action_search   -> show(FragmentTag.USER_INFO.name, fragmentTags)
+                R.id.action_settings -> show(FragmentTag.FOLLOWER_EVENT.name, fragmentTags)
+            }
         }
         true
     }

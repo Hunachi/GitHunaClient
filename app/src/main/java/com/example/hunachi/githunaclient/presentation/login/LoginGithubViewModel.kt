@@ -3,7 +3,7 @@ package com.example.hunachi.githunaclient.presentation.login
 import android.support.v7.app.AlertDialog
 import android.widget.Toast
 import com.example.hunachi.githunaclient.data.repository.GithubTokenRepository
-import com.example.hunachi.githunaclient.model.StatusModule
+import com.example.hunachi.githunaclient.util.StatusModule
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
 import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter
@@ -55,7 +55,7 @@ class LoginGithubViewModel(
     override fun codeStatusCallback(statusModule: StatusModule) {
         when(statusModule){
             StatusModule.SUCCESS -> dialog.show()
-            StatusModule.ERROR -> {
+            StatusModule.ERROR   -> {
                 Toast.makeText(application, "認証に失敗しました．/nもう一度試して見て下さい．", Toast.LENGTH_SHORT)
                         .show()
             }
