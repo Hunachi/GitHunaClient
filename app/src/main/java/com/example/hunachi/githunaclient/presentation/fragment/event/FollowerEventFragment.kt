@@ -2,6 +2,7 @@ package com.example.hunachi.githunaclient.presentation.fragment.event
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,7 @@ class FollowerEventFragment : BaseFragment() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        followerEventList.add(FollowerEvent())
     }
     
     override fun onCreateView(
