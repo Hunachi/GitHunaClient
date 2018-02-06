@@ -15,7 +15,8 @@ import com.example.hunachi.githunaclient.presentation.base.BaseFragment
  */
 class FollowerEventFragment : BaseFragment() {
     
-    //todo make add fragment
+    //TODO make add fragment 何回もセットされてしまって勿体無い．
+    //TODO list itemが崩壊．
     
     private lateinit var binding: FragmentFollowerEventBinding
     private val followerEventList = mutableListOf<FollowerEvent>()

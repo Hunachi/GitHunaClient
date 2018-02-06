@@ -31,13 +31,13 @@ class MainViewModel(
         super.onStart()
         if (application.token.isBlank()) {
             navigator.navigateToLogin()
-            Toast.makeText(context, "Github accountと未連携", Toast.LENGTH_SHORT).show()
-        } else Toast.makeText(context, "今日も一日がんばるぞい!{name}さん!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(application, "Github accountと未連携", Toast.LENGTH_SHORT).show()
+        } else Toast.makeText(application, "今日も一日がんばるぞい!{name}さん!", Toast.LENGTH_SHORT).show()
     }
     
     //Listener of BottomNavigation(what I made hard.)
     fun onItemSelected(): BottomNavigationListner = BottomNavigationListner { item ->
-        Toast.makeText(context, "${item.itemId}", Toast.LENGTH_SHORT).show()
+        Toast.makeText(application, "${item.itemId}", Toast.LENGTH_SHORT).show()
         when (item.itemId) {
             R.id.action_search -> navigator.replaceFragment(userInfoFragment)
             R.id.action_settings -> navigator.replaceFragment(followerEventFragment)

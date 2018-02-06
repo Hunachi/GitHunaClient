@@ -10,7 +10,7 @@ import com.example.hunachi.githunaclient.util.BottomNavigationListner
 /**
  * Created by hunachi on 2018/02/01.
  */
-@BindingAdapter("app:navigationClick")
+@BindingAdapter("mApplication:navigationClick")
 fun BottomNavigationView.selectedListener(listener: BottomNavigationListner)
         = setOnNavigationItemSelectedListener(listener)
 

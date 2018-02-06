@@ -22,6 +22,11 @@ class UserInfoViewModel(
         setUp()
     }
     
+    override fun onStart() {
+        super.onStart()
+        userName = "myan"
+    }
+    
     fun setUp(){
     }
     
