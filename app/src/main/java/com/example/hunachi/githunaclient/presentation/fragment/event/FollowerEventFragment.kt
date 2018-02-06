@@ -26,11 +26,13 @@ class FollowerEventFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         followerEventList.add(FollowerEvent())
+        Log.d("hoge","oncreate")
     }
     
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
+        Log.d("hoge","onCreateView")
         binding = FragmentFollowerEventBinding.inflate(inflater, container!!, false)
         return binding.root
     }
@@ -38,6 +40,7 @@ class FollowerEventFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setUpRecycler()
+        Log.d("hoge","onActivityCreated")
     }
     
     private fun setUpRecycler(){
@@ -50,6 +53,11 @@ class FollowerEventFragment : BaseFragment() {
     
     private val callback: (FollowerEvent) -> Unit = {
         Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+    }
+    
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("hoge","消えた")
     }
     
     companion object {

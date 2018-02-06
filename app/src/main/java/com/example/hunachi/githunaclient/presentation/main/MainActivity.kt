@@ -11,7 +11,6 @@ import com.github.salomonbrys.kodein.with
 class MainActivity : BaseActivity() {
     
     private val viewModel: MainViewModel by with(this).instance()
-    private val container = R.id.container
     private lateinit var binding: ActivityMainBinding
     
     override fun onCreate(savedInstanceState: Bundle?) {
