@@ -25,7 +25,7 @@ class FollowerEventFragment : BaseFragment() {
     private lateinit var binding: FragmentFollowerEventBinding
     private val followerEventList = mutableListOf<FollowerEvent>()
     private lateinit var followerEventAdapter: FollowerEventAdapter
-    private val viewModel: FollowerEventViewModel by /*with(this as BaseFragment).*/instance()
+    private val viewModel: FollowerEventViewModel by instance()
     
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -46,23 +46,16 @@ class FollowerEventFragment : BaseFragment() {
             layoutManager = LinearLayoutManager(binding.list.context)
             adapter = followerEventAdapter
         }
-        viewModel.eventList.observe(this, Observer {
-            it?.let {
-                followerEventList.add(it)
-                followerEventAdapter.notifyItemInserted(0)
+        viewModel.eventList.observe(this, Observer { event ->
+            followerEventList.apply {
+                //O(N^2)になるのでよくなさすぎる．10^4個が限界．
+                if(find { it == event } == null ){
+                    event?.let { add(it) }
+                    followerEventAdapter.notifyItemInserted(0)
+                }
             }
         })
-        /*viewModel.list.observeForever {
-            val events = followerEventList.size
-            *//*(0 .. it.size).forEach {
-                followerEventList
-            }*//*
-            followerEventAdapter.notifyItemRangeInserted(size, it.size)
-        }*/
     }
-    
-    //todo
-    private val callback: EventCallback = { Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show() }
     
     companion object {
         fun newInstance(): FollowerEventFragment {
