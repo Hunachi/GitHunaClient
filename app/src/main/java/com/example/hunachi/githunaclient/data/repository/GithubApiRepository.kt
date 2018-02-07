@@ -22,7 +22,5 @@ class GithubApiRepository(
     
     fun follwerEvent(user: String, pages: Int) = GithubApiAdapter.githubApi
             .followerEvents(token = token, user = user, pages = pages)
-            .subscribeOn(scheduler.io())
-            .observeOn(scheduler.ui())
     
 }

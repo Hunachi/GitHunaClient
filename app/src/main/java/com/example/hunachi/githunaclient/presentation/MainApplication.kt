@@ -2,6 +2,7 @@ package com.example.hunachi.githunaclient.presentation
 
 import android.content.Context
 import androidx.content.edit
+import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.kodein.*
 import com.example.hunachi.githunaclient.presentation.fragment.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.fragment.event.FollowerEventFragment
@@ -29,6 +30,7 @@ class MainApplication : MyApplication(), KodeinAware {
         bind<SchedulerProvider>() with singleton { AppSchedulerProvider() }
         bind<UserInfoFragment>() with singleton { UserInfoFragment.newInstance() }
         bind<FollowerEventFragment>() with singleton { FollowerEventFragment.newInstance() }
+        bind<GithubApiRepository>() with factory { token: String -> GithubApiRepository(instance(), token) }
     }
     
     companion object {
