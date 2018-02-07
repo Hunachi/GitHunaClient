@@ -1,9 +1,10 @@
 package com.example.hunachi.githunaclient.presentation.main
 
+import android.app.Application
 import android.widget.Toast
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
-import com.example.hunachi.githunaclient.util.BottomNavigationListner
+import com.example.hunachi.githunaclient.util.BottomNavigationListener
 import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.fragment.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.fragment.event.FollowerEventFragment
@@ -21,8 +22,6 @@ class MainViewModel(val navigator: Navigator,
         private val followerEventFragment: FollowerEventFragment
 ) : BaseViewModel(application) {
     
-    /*private val textProcessor: PublishProcessor<String> = PublishProcessor.create()
-    var text: LiveData<String> = LiveDataReactiveStreams.fromPublisher(textProcessor)*/
     private val manager = navigator.activity.supportFragmentManager
     private val fragmentTags = FragmentTag.values().map { it.name }
     
@@ -43,7 +42,7 @@ class MainViewModel(val navigator: Navigator,
     }
     
     //Listener of BottomNavigation(what I made hard.)
-    fun onItemSelected(): BottomNavigationListner = BottomNavigationListner { item ->
+    fun onItemSelected(): BottomNavigationListener = BottomNavigationListener { item ->
         manager.run {
             when (item.itemId) {
                 R.id.action_search   -> show(FragmentTag.USER_INFO.name, fragmentTags)

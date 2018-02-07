@@ -10,7 +10,6 @@ import com.example.hunachi.githunaclient.presentation.main.MainActivity
 import com.example.hunachi.githunaclient.util.rx.AppSchedulerProvider
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 import com.github.salomonbrys.kodein.*
-import kotlin.math.sin
 
 /**
  * Created by hunachi on 2018/01/27.
@@ -24,6 +23,7 @@ class MainApplication : MyApplication(), KodeinAware {
         import(githubTokenModule)
         import(navigatorModule)
         import(userInfoViewModelModule)
+        import(followerEventViewModelModule)
         bind<MainActivity>() with singleton { MainActivity() }
         bind<LoginGithubActivity>() with singleton { LoginGithubActivity() }
         bind<SchedulerProvider>() with singleton { AppSchedulerProvider() }

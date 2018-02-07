@@ -1,6 +1,7 @@
 package com.example.hunachi.githunaclient.util
 
 import android.support.design.widget.BottomNavigationView
+import com.example.hunachi.githunaclient.presentation.fragment.event.FollowerEvent
         
         /**
  * Created by hunachi on 2018/01/30.
@@ -9,4 +10,6 @@ typealias Scopes = MutableList<String>
 
 typealias OauthAccessCallback = (StatusModule) -> Unit
 
-typealias BottomNavigationListner = BottomNavigationView.OnNavigationItemSelectedListener
+typealias EventCallback = (FollowerEvent) -> Unit
+
+typealias BottomNavigationListener = BottomNavigationView.OnNavigationItemSelectedListener
