@@ -9,6 +9,7 @@ import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel
 import com.example.hunachi.githunaclient.util.EventCallback
+import com.example.hunachi.githunaclient.util.extension.convertToFollowerEvent
 import com.github.salomonbrys.kodein.*
 import com.github.salomonbrys.kodein.android.androidSupportFragmentScope
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -22,11 +23,10 @@ class FollowerEventViewModel(
         private val application: MyApplication,
         private val githubApiRepository: GithubApiRepository
 ) : BaseFragmentViewModel(application) {
-    
+    //todo itemの文字とアイコンがバグってる．
     //val eventsProcessor: PublishProcessor<MutableList<FollowerEvent>> = PublishProcessor.create()
     //var list: LiveData<MutableList<FollowerEvent>> = LiveDataReactiveStreams.fromPublisher(eventsProcessor)
     var eventList: MutableLiveData<FollowerEvent> = MutableLiveData()
-    //fun events(): LiveData<MutableSet<FollowerEvent>> = eventList
     
     override fun onCreate() {
         super.onCreate()
@@ -34,19 +34,11 @@ class FollowerEventViewModel(
     }
     
     private fun initEvents(){
-        githubApiRepository.follwerEvent(user = "hunachi", pages = 1)
+        githubApiRepository.follwerEvent(user = "hunachi", pages = 2)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    it.forEach {
-                        eventList.value = FollowerEvent(
-                            id = it.id.toLong(),
-                            actor = it.actor.userName,
-                            avatarUrl = it.actor.avatarUrl!!,
-                            action = it.type//,
-                            //repositoryName = it.repo?.fullName!!
-                        )
-                    }
+                    it.forEach { eventList.value = it.convertToFollowerEvent() }
                 },{
                     it.printStackTrace()
                 })

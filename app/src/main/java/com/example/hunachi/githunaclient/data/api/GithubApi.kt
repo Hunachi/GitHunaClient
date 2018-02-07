@@ -22,8 +22,8 @@ interface GithubApi {
     @GET("users/{user}/received_events")
     fun followerEvents(
             @Path("user") user: String,
-            @Query("access_token") token: String,
-            @Query("pages") pages: Int
+            @Query("pages") pages: Int,
+            @Query("access_token") token: String
     ): Observable<List<Event>>
     
 }

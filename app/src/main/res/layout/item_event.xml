@@ -38,8 +38,8 @@
 
             <ImageButton
                 android:id="@+id/actorImageButton"
-                android:layout_width="70dp"
-                android:layout_height="0dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
@@ -77,16 +77,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginStart="8dp"
+                android:gravity="start"
                 android:text="@{viewModel.repositoryName}"
                 android:textAlignment="textStart"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/actionTextView"
-                app:layout_constraintTop_toBottomOf="@+id/actorNameTextView"
-                android:gravity="start"
-                android:layout_marginRight="16dp" />
+                app:layout_constraintStart_toEndOf="@+id/actorImageButton"
+                app:layout_constraintTop_toBottomOf="@+id/actorNameTextView" />
 
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>
