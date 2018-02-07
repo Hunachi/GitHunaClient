@@ -8,5 +8,5 @@ import android.widget.ImageView
  * Created by hunachi on 2018/02/06.
  */
 fun ImageView.setBackgroundTranspot(){
-    this.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    this.setBackgroundDrawable(null)
 }

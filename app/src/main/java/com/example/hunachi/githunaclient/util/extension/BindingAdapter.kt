@@ -1,6 +1,8 @@
 package com.example.hunachi.githunaclient.util.extension
 
 import android.databinding.BindingAdapter
+import android.os.Build
+import android.support.annotation.RequiresApi
 import android.support.design.widget.BottomNavigationView
 import android.widget.ImageButton
 import com.bumptech.glide.Glide
@@ -14,6 +16,7 @@ import com.example.hunachi.githunaclient.util.BottomNavigationListener
 fun BottomNavigationView.selectedListener(listener: BottomNavigationListener)
         = setOnNavigationItemSelectedListener(listener)
 
+@RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
 @BindingAdapter("app:setIcon")
 fun ImageButton.setIcon(url: String) {
     this.setBackgroundTranspot()
