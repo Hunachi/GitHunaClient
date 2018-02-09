@@ -9,12 +9,12 @@ import com.example.hunachi.githunaclient.presentation.fragment.event.FollowerEve
 fun Event.convertToFollowerEvent() =
         FollowerEvent().apply {
             id = this@convertToFollowerEvent.id.toLong()
-            actor = this@convertToFollowerEvent.actor.userName + "  made "
+            actor = this@convertToFollowerEvent.actor.userName
             avatarUrl = this@convertToFollowerEvent.actor.avatarUrl
             action = type.convertToActionText(payload.action)?: type.convertToLowerText()
-            repositoryName = "at " + when {
+            repositoryName = when {
                 repo?.fullName != null -> repo.fullName
                 repo?.name != null     -> repo.name
-                else                   -> "NULL"
+                else                   -> "unKnown"
             }
         }
