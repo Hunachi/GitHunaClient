@@ -10,7 +10,7 @@ class StringKtTest{
     
     @Test
     fun convertor(){
-        assertEquals("HogeHogeHogeHogeHoge".convertNiceText(),"hoge hoge hoge hoge hoge")
+        assertEquals("HogeHogeHogeHogeHogeEvent".convertToLowerText(),"hoge hoge hoge hoge hoge")
     }
     
 }

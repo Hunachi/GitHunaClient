@@ -1,22 +1,55 @@
 package com.example.hunachi.githunaclient.util.extension
 
-import android.util.Log
-
 /**
  * Created by hunachi on 2018/02/08.
  */
-/*Let's study competition programming!!*/
-fun String.convertNiceText(): String {
+
+const val created = "Created "
+
+fun String.convertToLowerText(): String {
     var index = 0
-    var string = this.substring(0, this.length - 5)
-    while (true) {
-        if (string[index].isUpperCase()) {
-            string = (if (index > 0) string.substring(0, index) + " " else "") +
-                    string[index].toLowerCase() +
-                    (if (index + 1 < string.length) string.substring(index + 1, string.length) else "")
+    var string = ""
+    this.forEachIndexed { i: Int, c: Char ->
+        if (c.isUpperCase()) {
+            if (i != 0)
+                string += this[index].toLowerCase() + this.substring(index + 1, i) + " "
+            index = i
         }
-        index++
-        if (string.all { it.isLowerCase() || it == ' '} || index >= string.length) break
     }
+    // remove "Event"
+    // s += this[index].toLowerCase() + this.substring(index + 1, this.length)
     return string
 }
+
+//todo if you have time, add detail info for these actions.
+fun String.convertToActionText(actions: String?) =
+        when (this) {
+            "CommitCommentEvent"                         -> "committed"
+            "CreateEvent"                                -> "created"
+            "DeleteEvent"                                -> "deleted"
+            "DeploymentEvent"                            -> "deployed"
+            "ForkEvent"                                  -> "forked"
+            "ForkApplyEvent"                             -> "applied fork"
+            "GistEvent"                                  -> "created gits"
+            "GollumEvent"                                -> "$actions Wiki page"
+            "InstallationRepositoriesEvent"              -> actions
+            "IssueCommentEvent", "IssuesEvent"           -> "$actions issue"
+            "LabelEvent"                                 -> "$actions label"
+            "MemberEvent"                                -> "added $actions for"
+            "ProjectCardEvent"                           -> "$actions card"
+            "ProjectColumnEvent"                         -> "$actions column"
+            "ProjectEvent"                               -> "$actions project"
+            "PublicEvent"                                -> "made public"
+            "PullRequestEvent", "PullRequestReviewEvent" -> "$actions pull request"
+            "PullRequestReviewCommentEvent"              -> "$actions pull request comment"
+            //"PushEvent"                                   -> { }
+            "ReleaseEvent"                               -> "published release"
+            //"RepositoryEvent"                            -> { }
+            //"StatusEvent"                                -> { }
+            //"TeamEvent"                                  -> { }
+            //"TeamAddEvent"                               -> { }
+            //"WatchEvent"                                 -> { }
+            else                                         -> this.convertToLowerText()
+        }
+
+
