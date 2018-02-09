@@ -31,7 +31,7 @@ fun String.convertToActionText(actions: String?) =
             "ForkEvent"                                  -> "forked"
             "ForkApplyEvent"                             -> "applied fork"
             "GistEvent"                                  -> "created gits"
-            "GollumEvent"                                -> "$actions Wiki page"
+            "GollumEvent"                                -> "action on Wiki page" //todo "action on" -> "pages.action"
             "InstallationRepositoriesEvent"              -> actions
             "IssueCommentEvent", "IssuesEvent"           -> "$actions issue"
             "LabelEvent"                                 -> "$actions label"
@@ -48,7 +48,7 @@ fun String.convertToActionText(actions: String?) =
             //"StatusEvent"                                -> { }
             //"TeamEvent"                                  -> { }
             //"TeamAddEvent"                               -> { }
-            //"WatchEvent"                                 -> { }
+            "WatchEvent"                                 -> "starring"
             else                                         -> this.convertToLowerText()
         }
 
