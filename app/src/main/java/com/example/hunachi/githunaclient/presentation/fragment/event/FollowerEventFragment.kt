@@ -14,13 +14,12 @@ import com.example.hunachi.githunaclient.presentation.base.BaseFragment
 import com.example.hunachi.githunaclient.util.EventCallback
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
+import kotlinx.android.synthetic.main.fragment_follower_event.*
 
 /**
  * Created by hunachi on 2018/02/04.
  */
 class FollowerEventFragment : BaseFragment() {
-    
-    //TODO list itemが崩壊．
     
     private lateinit var binding: FragmentFollowerEventBinding
     private val followerEventList = mutableListOf<FollowerEvent>()
@@ -41,20 +40,27 @@ class FollowerEventFragment : BaseFragment() {
     
     private fun setUpRecycler() {
         setViewModel(viewModel)
+        binding.viewModel = viewModel
+        binding.setLifecycleOwner(this)
         followerEventAdapter = FollowerEventAdapter(followerEventList, viewModel.callback)
         binding.list.apply {
             layoutManager = LinearLayoutManager(binding.list.context)
             adapter = followerEventAdapter
         }
-        viewModel.eventList.observe(this, Observer { event ->
-            followerEventList.apply {
-                //O(N^2)になるのでよくなさすぎる．10^4個が限界．
-                if(find { it == event } == null ){
-                    event?.let { add(it) }
-                    followerEventAdapter.notifyItemInserted(0)
+        viewModel.apply {
+            eventList.observe(this@FollowerEventFragment, Observer { event ->
+                followerEventList.apply {
+                    //O(N^2)になるのでよくなさすぎる．10^4個が限界．
+                    if (find { it == event } == null) {
+                        event?.let { add(it) }
+                        followerEventAdapter.notifyItemInserted(0)
+                    }
                 }
-            }
-        })
+            })
+            refreshing.observe(this@FollowerEventFragment, Observer {
+                swiperefresh.isRefreshing = it?: false
+            })
+        }
     }
     
     companion object {
