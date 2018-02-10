@@ -25,6 +25,7 @@ class MainApplication : MyApplication(), KodeinAware {
         import(navigatorModule)
         import(userInfoViewModelModule)
         import(followerEventViewModelModule)
+        import(profilePagerAdapterModule)
         bind<MainActivity>() with singleton { MainActivity() }
         bind<LoginGithubActivity>() with singleton { LoginGithubActivity() }
         bind<SchedulerProvider>() with singleton { AppSchedulerProvider() }

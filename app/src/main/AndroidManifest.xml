@@ -12,11 +12,8 @@
         android:roundIcon="@drawable/basic_icon_translation"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.hunachi.githunaclient.presentation.main.MainActivity" >
-            <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+        <activity android:name=".presentation.main.MainActivity">
+
         </activity>
         <activity
             android:name=".presentation.login.LoginGithubActivity"
@@ -31,6 +28,13 @@
                 <data
                     android:host="callback"
                     android:scheme="githuna" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".presentation.MainProfileActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>

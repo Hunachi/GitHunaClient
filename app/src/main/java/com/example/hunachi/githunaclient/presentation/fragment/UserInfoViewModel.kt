@@ -1,6 +1,7 @@
 package com.example.hunachi.githunaclient.presentation.fragment
 
 import android.arch.lifecycle.LifecycleOwner
+import android.databinding.Bindable
 import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
@@ -14,17 +15,15 @@ class UserInfoViewModel(
         val owner: LifecycleOwner
 ) : BaseFragmentViewModel(application) {
     
-    var userName = ""
+    
     
     override fun onCreateView() {
         super.onCreateView()
-        userName = "hoge"
         setUp()
     }
     
     override fun onStart() {
         super.onStart()
-        userName = "myan"
     }
     
     fun setUp(){
