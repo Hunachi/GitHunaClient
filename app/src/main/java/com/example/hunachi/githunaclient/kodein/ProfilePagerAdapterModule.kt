@@ -1,7 +1,7 @@
 package com.example.hunachi.githunaclient.kodein
 
 import android.support.v4.app.FragmentManager
-import com.example.hunachi.githunaclient.presentation.ProfilePagerAdapter
+import com.example.hunachi.githunaclient.presentation.main.profile.ProfilePagerAdapter
 import com.github.salomonbrys.kodein.*
 
 /**

@@ -30,7 +30,7 @@
                     android:scheme="githuna" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.MainProfileActivity">
+        <activity android:name=".presentation.main.profile.MainProfileActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

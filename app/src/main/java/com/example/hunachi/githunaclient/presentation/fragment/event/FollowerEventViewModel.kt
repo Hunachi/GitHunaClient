@@ -37,6 +37,7 @@ class FollowerEventViewModel(
     }
     
     private fun initEvents() {
+        refreshing.value = true
         githubApiRepository.follwerEvent(user = "hunachi", pages = 2)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -44,6 +45,8 @@ class FollowerEventViewModel(
                     it.forEach { eventList.value = it.convertToFollowerEvent() }
                 }, {
                     it.printStackTrace()
+                },{
+                    refreshing.value = false
                 })
     }
     
