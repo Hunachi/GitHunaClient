@@ -15,7 +15,9 @@ import com.example.hunachi.githunaclient.util.extension.show
 /**
  * Created by hunachi on 2018/01/27.
  */
-class MainViewModel(val navigator: Navigator,
+
+class MainViewModel(
+        private val navigator: Navigator,
         private val application: MyApplication,
         private val userInfoFragment: UserInfoFragment,
         private val followerEventFragment: FollowerEventFragment

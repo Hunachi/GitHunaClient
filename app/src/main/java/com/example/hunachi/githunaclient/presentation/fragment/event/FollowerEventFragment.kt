@@ -3,13 +3,21 @@ package com.example.hunachi.githunaclient.presentation.fragment.event
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import com.example.hunachi.githunaclient.data.api.responce.Repo
 import com.example.hunachi.githunaclient.databinding.FragmentFollowerEventBinding
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
+import com.example.hunachi.githunaclient.util.EventCallback
+import com.github.salomonbrys.kodein.instance
+import com.github.salomonbrys.kodein.with
+import kotlinx.android.synthetic.main.fragment_follower_event.*
 import com.github.salomonbrys.kodein.instance
 import kotlinx.android.synthetic.main.fragment_follower_event.*
+import java.nio.file.Files.find
 
 /**
  * Created by hunachi on 2018/02/04.
