@@ -66,7 +66,7 @@ abstract class BaseActivity : KodeinAppCompatActivity() {
         Log.d("destroy" ,"寿司")
     }
     
-    fun replaceFragment(fragment: BaseFragment, @LayoutRes @IdRes resourceId: Int) {
+    fun replaceFragment(@LayoutRes @IdRes resourceId: Int, fragment: BaseFragment) {
         supportFragmentManager
                 .beginTransaction()
                 .replace(resourceId, fragment)

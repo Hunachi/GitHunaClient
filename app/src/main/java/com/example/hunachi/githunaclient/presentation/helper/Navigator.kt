@@ -3,6 +3,8 @@ package com.example.hunachi.githunaclient.presentation.helper
 import android.content.Intent
 import android.support.annotation.IdRes
 import android.support.annotation.LayoutRes
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentTransaction
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.data.repository.adapter.OauthAdapter
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
@@ -34,8 +36,8 @@ class Navigator(
         activity.startActivity(OauthAdapter.intent)
     }
     
-    fun replaceFragment(fragment: BaseFragment,@IdRes @LayoutRes resourceId: Int = R.id.container){
-        activity.replaceFragment(fragment, resourceId)
+    fun replaceFragment(fragment: BaseFragment, @IdRes @LayoutRes resourceId: Int = R.id.container) {
+        activity.replaceFragment(resourceId, fragment)
     }
     
     fun activityFinish() {

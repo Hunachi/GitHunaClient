@@ -1,6 +1,8 @@
 package com.example.hunachi.githunaclient.presentation
 
 import android.content.Context
+import androidx.content.edit
+import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.kodein.*
 import com.example.hunachi.githunaclient.presentation.fragment.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.fragment.event.FollowerEventFragment
@@ -22,11 +24,13 @@ class MainApplication : MyApplication(), KodeinAware {
         import(githubTokenModule)
         import(navigatorModule)
         import(userInfoViewModelModule)
+        import(followerEventViewModelModule)
         bind<MainActivity>() with singleton { MainActivity() }
         bind<LoginGithubActivity>() with singleton { LoginGithubActivity() }
         bind<SchedulerProvider>() with singleton { AppSchedulerProvider() }
         bind<UserInfoFragment>() with singleton { UserInfoFragment.newInstance() }
         bind<FollowerEventFragment>() with singleton { FollowerEventFragment.newInstance() }
+        bind<GithubApiRepository>() with factory { token: String -> GithubApiRepository(instance(), token) }
     }
     
     companion object {
@@ -44,11 +48,15 @@ class MainApplication : MyApplication(), KodeinAware {
     
     override fun setUserToken(token: String) {
         super.setUserToken(token)
-        preferences.edit().putString(userToken, token).commit()
+        preferences.edit {
+            putString(userToken, token)
+        }
     }
     
     override fun deleteUserToken() {
         super.deleteUserToken()
-        preferences.edit().remove(userToken).commit()
+        preferences.edit {
+            remove(userToken)
+        }
     }
 }

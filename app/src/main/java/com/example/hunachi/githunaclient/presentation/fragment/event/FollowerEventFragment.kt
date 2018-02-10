@@ -1,29 +1,25 @@
 package com.example.hunachi.githunaclient.presentation.fragment.event
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.example.hunachi.githunaclient.databinding.FragmentFollowerEventBinding
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
-import com.xwray.groupie.Group
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.Section
-import com.xwray.groupie.ViewHolder
+import com.github.salomonbrys.kodein.instance
+import kotlinx.android.synthetic.main.fragment_follower_event.*
 
 /**
  * Created by hunachi on 2018/02/04.
  */
 class FollowerEventFragment : BaseFragment() {
     
-    lateinit var binding: FragmentFollowerEventBinding
-    
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var binding: FragmentFollowerEventBinding
+    private val followerEventList = mutableListOf<FollowerEvent>()
+    private lateinit var followerEventAdapter: FollowerEventAdapter
+    private val viewModel: FollowerEventViewModel by instance()
     
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -38,21 +34,32 @@ class FollowerEventFragment : BaseFragment() {
     }
     
     private fun setUpRecycler() {
-        val groupAdapter = GroupAdapter<ViewHolder>().apply {
-            setOnItemClickListener { item, view ->
-                Toast.makeText(activity, (item as FollowerEventItem).toString(), Toast.LENGTH_SHORT).show()
-            }
+        setViewModel(viewModel)
+        binding.viewModel = viewModel
+        binding.setLifecycleOwner(this)
+        followerEventAdapter = FollowerEventAdapter(followerEventList, viewModel.callback)
+        binding.list.apply {
+            layoutManager = LinearLayoutManager(binding.list.context)
+            adapter = followerEventAdapter
         }
-        binding.recycler.apply {
-            adapter = groupAdapter
-            layoutManager = LinearLayoutManager(binding.recycler.context) as RecyclerView.LayoutManager?
+        viewModel.apply {
+            eventList.observe(this@FollowerEventFragment, Observer { event ->
+                followerEventList.apply {
+                    //O(N^2)になるのでよくなさすぎる．10^4個が限界．
+                    if (find { it == event } == null) {
+                        event?.let { add(it) }
+                        followerEventAdapter.notifyItemInserted(0)
+                    }
+                }
+            })
+            refreshing.observe(this@FollowerEventFragment, Observer {
+                swiperefresh.isRefreshing = it ?: false
+            })
         }
-        groupAdapter.add(FollowerEventItem(FollowerEvent()))
-        groupAdapter.notifyItemInserted(0)
     }
     
     companion object {
-        fun newInstance(): FollowerEventFragment{
+        fun newInstance(): FollowerEventFragment {
             val fragment = FollowerEventFragment()
             //todo user
             return fragment

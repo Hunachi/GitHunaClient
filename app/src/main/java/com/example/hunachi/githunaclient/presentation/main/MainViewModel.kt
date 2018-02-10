@@ -1,46 +1,52 @@
 package com.example.hunachi.githunaclient.presentation.main
 
+import android.app.Application
 import android.widget.Toast
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
-import com.example.hunachi.githunaclient.util.BottomNavigationListner
+import com.example.hunachi.githunaclient.util.BottomNavigationListener
 import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.fragment.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.fragment.event.FollowerEventFragment
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
+import com.example.hunachi.githunaclient.util.FragmentTag
+import com.example.hunachi.githunaclient.util.extension.show
 
 /**
  * Created by hunachi on 2018/01/27.
  */
-
-class MainViewModel(
-        val navigator: Navigator,
-        val application: MyApplication,
-        val userInfoFragment: UserInfoFragment,
-        val followerEventFragment: FollowerEventFragment
+class MainViewModel(val navigator: Navigator,
+        private val application: MyApplication,
+        private val userInfoFragment: UserInfoFragment,
+        private val followerEventFragment: FollowerEventFragment
 ) : BaseViewModel(application) {
     
-    /*private val textProcessor: PublishProcessor<String> = PublishProcessor.create()
-    var text: LiveData<String> = LiveDataReactiveStreams.fromPublisher(textProcessor)*/
+    private val manager = navigator.activity.supportFragmentManager
+    private val fragmentTags = FragmentTag.values().map { it.name }
     
     override fun onCreate() {
         super.onCreate()
+        manager.beginTransaction().apply {
+            add(R.id.container, followerEventFragment, FragmentTag.FOLLOWER_EVENT.name)
+            add(R.id.container, userInfoFragment, FragmentTag.USER_INFO.name)
+        }.commit()
     }
     
     override fun onStart() {
         super.onStart()
         if (application.token.isBlank()) {
             navigator.navigateToLogin()
-            Toast.makeText(context, "Github accountと未連携", Toast.LENGTH_SHORT).show()
-        } else Toast.makeText(context, "今日も一日がんばるぞい!{name}さん!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(application, "Github accountと未連携", Toast.LENGTH_SHORT).show()
+        } else Toast.makeText(application, "今日も一日がんばるぞい!{name}さん!", Toast.LENGTH_SHORT).show()
     }
     
     //Listener of BottomNavigation(what I made hard.)
-    fun onItemSelected(): BottomNavigationListner = BottomNavigationListner { item ->
-        Toast.makeText(context, "${item.itemId}", Toast.LENGTH_SHORT).show()
-        when (item.itemId) {
-            R.id.action_search -> navigator.replaceFragment(userInfoFragment)
-            R.id.action_settings -> navigator.replaceFragment(followerEventFragment)
+    fun onItemSelected(): BottomNavigationListener = BottomNavigationListener { item ->
+        manager.run {
+            when (item.itemId) {
+                R.id.action_search   -> show(FragmentTag.USER_INFO.name, fragmentTags)
+                R.id.action_settings -> show(FragmentTag.FOLLOWER_EVENT.name, fragmentTags)
+            }
         }
         true
     }

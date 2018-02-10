@@ -1,25 +1,23 @@
 package com.example.hunachi.githunaclient.presentation.login
 
 import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.example.hunachi.githunaclient.data.repository.GithubTokenRepository
-import com.example.hunachi.githunaclient.model.StatusModule
+import com.example.hunachi.githunaclient.util.StatusModule
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
 import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.util.rx.AppSchedulerProvider
 import com.github.salomonbrys.kodein.*
-import com.github.salomonbrys.kodein.android.androidActivityScope
 
 /**
  * Created by hunachi on 2018/01/30.
  */
 class LoginGithubViewModel(
-        val navigator: Navigator,
-        val application: MyApplication,
-        val loadingDialogAdapter: LoadingDialogAdapter
+        private val navigator: Navigator,
+        private val application: MyApplication,
+        private val loadingDialogAdapter: LoadingDialogAdapter
 ) : BaseViewModel(application), GithubTokenRepository.Callback {
     
     private val kodein = Kodein.lazy {
@@ -57,8 +55,8 @@ class LoginGithubViewModel(
     override fun codeStatusCallback(statusModule: StatusModule) {
         when(statusModule){
             StatusModule.SUCCESS -> dialog.show()
-            StatusModule.ERROR -> {
-                Toast.makeText(context, "認証に失敗しました．/nもう一度試して見て下さい．", Toast.LENGTH_SHORT)
+            StatusModule.ERROR   -> {
+                Toast.makeText(application, "認証に失敗しました．/nもう一度試して見て下さい．", Toast.LENGTH_SHORT)
                         .show()
             }
         }
