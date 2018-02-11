@@ -3,6 +3,7 @@ package com.example.hunachi.githunaclient.presentation.main.profile
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import com.example.hunachi.githunaclient.R
+import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.databinding.ActivityMainProfileBinding
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
 import com.github.salomonbrys.kodein.instance
@@ -15,6 +16,7 @@ class MainProfileActivity : BaseActivity() {
         DataBindingUtil.setContentView<ActivityMainProfileBinding>(this, R.layout.activity_main_profile)
     }
     val adapter: ProfilePagerAdapter by with(supportFragmentManager).instance()
+    val viewModel: MainProfileViewModel by with(User()).instance()
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,4 +26,9 @@ class MainProfileActivity : BaseActivity() {
             tabLayout.setupWithViewPager(pager)
         }
     }
+    
+    fun setupView(){
+        setViewModel(viewModel)
+    }
+    
 }
