@@ -4,7 +4,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.hunachi.githunaclient.presentation.main.profile.MainProfileViewModel" />
+            type="com.example.hunachi.githunaclient.presentation.fragment.UserInfoViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -25,7 +25,6 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:scaleType="fitXY"
-            app:setIcon="@{viewModel.avatar}"
             app:layout_constraintBottom_toTopOf="@+id/textView"
             app:layout_constraintDimensionRatio="w,1:1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +40,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="@{viewModel.nameExist ? viewModel.name: viewModel.userName}"
+            android:text="Hunachi"
             android:textAlignment="center"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/textView2"
@@ -55,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:text="@{viewModel.bio}"
+            android:text="detailText"
             android:textAlignment="center"
             app:layout_constraintBottom_toTopOf="@+id/space2"
             app:layout_constraintEnd_toEndOf="parent"
