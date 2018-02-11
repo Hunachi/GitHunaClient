@@ -1,48 +1,41 @@
 package com.example.hunachi.githunaclient.presentation.fragment.event
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.LiveDataReactiveStreams
+import android.annotation.SuppressLint
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModelProviders
-import android.databinding.Bindable
 import android.support.v4.widget.SwipeRefreshLayout
-import android.util.Log
-import com.example.hunachi.githunaclient.BR
+import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel
 import com.example.hunachi.githunaclient.util.EventCallback
 import com.example.hunachi.githunaclient.util.extension.convertToFollowerEvent
-import com.github.salomonbrys.kodein.*
-import com.github.salomonbrys.kodein.android.androidSupportFragmentScope
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.processors.PublishProcessor
 import io.reactivex.schedulers.Schedulers
-import java.util.logging.Handler
 
 /**
  * Created by hunachi on 2018/02/05.
  */
 class FollowerEventViewModel(
-        private val application: MyApplication,
-        private val githubApiRepository: GithubApiRepository
+        application: MyApplication,
+        private val githubApiRepository: GithubApiRepository,
+        private val user: User
 ) : BaseFragmentViewModel(application) {
     
-    var eventList: MutableLiveData<FollowerEvent> = MutableLiveData()
+    var event: MutableLiveData<FollowerEvent> = MutableLiveData()
     var refreshing: MutableLiveData<Boolean> = MutableLiveData()
     
     override fun onCreate() {
         super.onCreate()
-        initEvents()
+        updateEvents()
     }
     
-    private fun initEvents() {
+    private fun updateEvent() {
         refreshing.value = true
-        githubApiRepository.follwerEvent(user = "hunachi", pages = 2)
+        githubApiRepository.follwerEvent(user = "hunachi", pages = 0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    it.forEach { eventList.value = it.convertToFollowerEvent() }
+                    it.reversed().forEach { event.value = it.convertToFollowerEvent() }
                 }, {
                     it.printStackTrace()
                 },{
@@ -51,7 +44,7 @@ class FollowerEventViewModel(
     }
     
     fun updateEvents(): SwipeRefreshLayout.OnRefreshListener = SwipeRefreshLayout.OnRefreshListener {
-        Log.d("hoge", "refresh")
+        updateEvent()
     }
     
     val callback: EventCallback = {

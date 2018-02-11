@@ -5,7 +5,6 @@ import com.example.hunachi.githunaclient.data.api.responce.Repo
 /**
  * Created by hunachi on 2018/02/05.
  */
-//TODO I have to make converter from Event to FollowerEvent
 data class FollowerEvent(
         var id: Long = 0,
         var actor: String = "",
