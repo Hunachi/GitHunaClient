@@ -1,6 +1,5 @@
 package com.example.hunachi.githunaclient.presentation.fragment.event
 
-import android.annotation.SuppressLint
 import android.arch.lifecycle.MutableLiveData
 import android.support.v4.widget.SwipeRefreshLayout
 import com.example.hunachi.githunaclient.data.api.responce.User
@@ -31,7 +30,7 @@ class FollowerEventViewModel(
     
     private fun updateEvent() {
         refreshing.value = true
-        githubApiRepository.follwerEvent(user = "hunachi", pages = 0)
+        githubApiRepository.followerEvent(user = "hunachi", pages = 0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
