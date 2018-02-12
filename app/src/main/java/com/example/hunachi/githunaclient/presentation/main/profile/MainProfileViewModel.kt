@@ -18,27 +18,8 @@ class MainProfileViewModel(
         private var user: User
 ) : BaseViewModel(application) {
     
-    @Bindable
-    var nameExist = true
-    
-    @Bindable
-    var name = user.name ?: "hoge"
-    
-    @Bindable
-    var userName = user.userName
-    
-    @Bindable
-    var bio = user.bio ?: "hogehoge"
-    
-    @Bindable
-    var avatar: String = user.avatarUrl?: FollowerEvent().avatarUrl!!
-    
     override fun onCreate() {
         super.onCreate()
-        if (user == User()) setUpUser()
-        if (name.isBlank()) {
-            nameExist = false
-        }
     }
     
     fun setUpUser() {

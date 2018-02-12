@@ -16,7 +16,7 @@ class MainProfileActivity : BaseActivity() {
         DataBindingUtil.setContentView<ActivityMainProfileBinding>(this, R.layout.activity_main_profile)
     }
     val adapter: ProfilePagerAdapter by with(supportFragmentManager).instance()
-    val viewModel: MainProfileViewModel by with(User()).instance()
+    //val viewModel: MainProfileViewModel by with(User()).instance()
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +28,7 @@ class MainProfileActivity : BaseActivity() {
     }
     
     fun setupView(){
-        setViewModel(viewModel)
+        //setViewModel(viewModel)
     }
     
 }

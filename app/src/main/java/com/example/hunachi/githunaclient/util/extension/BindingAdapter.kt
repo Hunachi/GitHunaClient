@@ -16,7 +16,7 @@ import com.example.hunachi.githunaclient.util.BottomNavigationListener
 fun BottomNavigationView.selectedListener(listener: BottomNavigationListener) = setOnNavigationItemSelectedListener(listener)
 
 @BindingAdapter("app:setIcon")
-fun ImageButton.setIcon(url: String) {
+fun ImageButton.setIcon(url: String?) {
     this.setBackgroundTranspot()
     Glide.with(this).load(url).apply(RequestOptions.circleCropTransform()).into(this)
 }
