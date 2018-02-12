@@ -25,10 +25,10 @@ class FollowerEventViewModel(
     
     override fun onCreate() {
         super.onCreate()
-        updateEvents()
+        updateList()
     }
     
-    private fun updateEvent() {
+    private fun updateList() {
         refreshing.value = true
         githubApiRepository.followerEvent(user = "hunachi", pages = 0)
                 .subscribeOn(Schedulers.io())
@@ -43,7 +43,7 @@ class FollowerEventViewModel(
     }
     
     fun updateEvents(): SwipeRefreshLayout.OnRefreshListener = SwipeRefreshLayout.OnRefreshListener {
-        updateEvent()
+        updateList()
     }
     
     val callback: EventCallback = {
