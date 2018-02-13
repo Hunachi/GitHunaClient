@@ -9,9 +9,11 @@ import com.example.hunachi.githunaclient.presentation.fragment.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.fragment.event.FollowerEventFragment
 import com.example.hunachi.githunaclient.presentation.login.LoginGithubActivity
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
+import com.example.hunachi.githunaclient.presentation.main.profile.MainProfileActivity
 import com.example.hunachi.githunaclient.util.rx.AppSchedulerProvider
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 import com.github.salomonbrys.kodein.*
+import kotlin.math.sin
 
 /**
  * Created by hunachi on 2018/01/27.
@@ -29,6 +31,7 @@ class MainApplication : MyApplication(), KodeinAware {
         import(profilePagerAdapterModule)
         import(mainProfileViewModelModule)
         bind<MainActivity>() with singleton { MainActivity() }
+        bind<MainProfileActivity>() with singleton{ MainProfileActivity() } //TODO make to multiton.
         bind<LoginGithubActivity>() with singleton { LoginGithubActivity() }
         bind<SchedulerProvider>() with singleton { AppSchedulerProvider() }
         bind<UserInfoFragment>() with multiton {user: User -> UserInfoFragment.newInstance(user) }

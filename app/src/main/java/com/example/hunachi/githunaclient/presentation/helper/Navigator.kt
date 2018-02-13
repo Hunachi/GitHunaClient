@@ -11,6 +11,7 @@ import com.example.hunachi.githunaclient.presentation.base.BaseActivity
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
 import com.example.hunachi.githunaclient.presentation.login.LoginGithubActivity
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
+import com.example.hunachi.githunaclient.presentation.main.profile.MainProfileActivity
 import com.example.hunachi.githunaclient.util.Scopes
 import com.github.salomonbrys.kodein.*
 import com.github.salomonbrys.kodein.android.androidActivityScope
@@ -20,8 +21,9 @@ import com.github.salomonbrys.kodein.android.androidActivityScope
  */
 class Navigator(
         val activity: BaseActivity,
-        val mainActivity: MainActivity,
-        val loginGithubActivity: LoginGithubActivity
+        private val mainActivity: MainActivity,
+        private val loginGithubActivity: LoginGithubActivity,
+        private val mainProfileActivity: MainProfileActivity
 ) {
     
     fun navigateToLogin() {
@@ -34,6 +36,10 @@ class Navigator(
     
     fun navigateToOauth() {
         activity.startActivity(OauthAdapter.intent)
+    }
+    
+    fun navigateToMainProfile(){
+        activity.startActivity(Intent(activity, mainProfileActivity::class.java))
     }
     
     fun replaceFragment(fragment: BaseFragment, @IdRes @LayoutRes resourceId: Int = R.id.container) {
