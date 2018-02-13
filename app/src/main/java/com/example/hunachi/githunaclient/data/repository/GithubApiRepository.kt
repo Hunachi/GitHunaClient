@@ -13,7 +13,7 @@ import retrofit2.http.Url
  */
 class GithubApiRepository(
         private val scheduler: SchedulerProvider,
-        private val token: String
+        private val token: String //TODO
 ) {
     
     fun user(): Observable<User> = GithubApiAdapter.githubApi

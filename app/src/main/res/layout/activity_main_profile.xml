@@ -19,7 +19,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <include
+                <LinearLayout
+                    android:id="@+id/user_info_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:layout_constraintBottom_toTopOf="@+id/tab_layout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_scrollFlags="enterAlways|scroll"
+                    android:orientation="horizontal" />
+
+                <!--<include
                     layout="@layout/fragment_user_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -27,7 +38,7 @@
                     app:layout_constraintBottom_toTopOf="@+id/tab_layout"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_scrollFlags="enterAlways|scroll" />
+                    app:layout_scrollFlags="enterAlways|scroll" />-->
 
                 <android.support.design.widget.TabLayout
                     android:id="@+id/tab_layout"

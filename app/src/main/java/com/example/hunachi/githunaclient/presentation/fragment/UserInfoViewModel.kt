@@ -1,12 +1,17 @@
 package com.example.hunachi.githunaclient.presentation.fragment
 
-import android.arch.lifecycle.LifecycleOwner
-import android.databinding.Bindable
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.LiveDataReactiveStreams
 import android.databinding.ObservableField
+import android.util.Log
 import com.example.hunachi.githunaclient.data.api.responce.User
+import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.processors.PublishProcessor
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by hunachi on 2018/02/03.
@@ -14,24 +19,29 @@ import com.example.hunachi.githunaclient.presentation.helper.Navigator
 class UserInfoViewModel(
         val navigator: Navigator,
         val application: MyApplication,
-        val owner: LifecycleOwner,
-        val user: User
+        val githubApiRepository: GithubApiRepository,
+        var user: User
 ) : BaseFragmentViewModel(application) {
     
-    var name = ObservableField<String>(user.name)
+    private val processor: PublishProcessor<User> = PublishProcessor.create()
+    var mUser: LiveData<User> = LiveDataReactiveStreams.fromPublisher(processor)
     var nameExist = ObservableField<Boolean>(true)
-    var userName = ObservableField<String>(user.userName)
-    var avatar = ObservableField<String>(user.avatarUrl)
-    var bio = ObservableField<String>(user.bio)
     
     override fun onCreateView() {
         super.onCreateView()
-        if(user == User())setUp()
+        setUp()
     }
     
-    fun setUp(){
-        //TODO
+    private fun setUp() {
+        githubApiRepository.user()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    if (it.name == null) nameExist.set(false)
+                    processor.onNext(it)
+                }, {
+                    it.printStackTrace()
+                })
     }
-    
     
 }

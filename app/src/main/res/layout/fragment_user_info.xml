@@ -16,6 +16,7 @@
             android:id="@+id/space"
             android:layout_width="0dp"
             android:layout_height="30dp"
+            app:layout_constraintBottom_toTopOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -24,28 +25,30 @@
             android:id="@+id/imageView"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_marginTop="8dp"
             android:scaleType="fitXY"
-            app:setIcon="@{viewModel.avatar}"
-            app:layout_constraintBottom_toTopOf="@+id/textView"
             app:layout_constraintDimensionRatio="w,1:1"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/space"
-            app:layout_constraintVertical_bias="0.0"
+            app:setIcon="@{viewModel.mUser.avatarUrl}"
             app:srcCompat="@drawable/basic_icon_translation" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@{viewModel.nameExist ? viewModel.name: viewModel.userName}"
+            android:text="@{viewModel.nameExist ? viewModel.mUser.name: viewModel.mUser.userName}"
             android:textAlignment="center"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/textView2"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
@@ -55,23 +58,12 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:text="@{viewModel.bio}"
+            android:text="@{viewModel.mUser.bio}"
             android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@+id/space2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-        <Space
-            android:id="@+id/space2"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

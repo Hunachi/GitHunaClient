@@ -3,6 +3,7 @@ package com.example.hunachi.githunaclient.kodein
 import android.arch.lifecycle.LifecycleOwner
 import android.support.v7.app.AppCompatActivity
 import com.example.hunachi.githunaclient.data.api.responce.User
+import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.fragment.UserInfoViewModel
 import com.github.salomonbrys.kodein.*
 import com.github.salomonbrys.kodein.android.androidSupportFragmentScope
@@ -15,7 +16,7 @@ val userInfoViewModelModule = Kodein.Module {
         UserInfoViewModel(
             navigator = with(it.activity as AppCompatActivity).instance(),
             application = instance(),
-            owner = it as LifecycleOwner /*使う時が来るのか？*/,
+            githubApiRepository = with((instance() as MyApplication).token).instance(),
             user = User()
         )
     }

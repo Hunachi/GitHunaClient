@@ -10,7 +10,7 @@ import se.ansman.kotshi.JsonSerializable
 @JsonSerializable
 data class User(
         @Json(name = "login")
-        var userName: String = "huna",
+        var userName: String = "",
         @Json(name = "avatar_url")
         var avatarUrl: String? = null,
         @Json(name = "html_url")
