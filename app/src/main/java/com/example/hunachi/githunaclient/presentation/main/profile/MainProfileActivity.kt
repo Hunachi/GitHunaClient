@@ -14,28 +14,46 @@ import com.github.salomonbrys.kodein.with
 
 class MainProfileActivity : BaseActivity() {
     
-    //TODO merge ProfileLayout
     private val binding: ActivityMainProfileBinding by lazy {
         DataBindingUtil.setContentView<ActivityMainProfileBinding>(this, R.layout.activity_main_profile)
     }
+    private lateinit var user: User
     private val adapter: ProfilePagerAdapter by with(supportFragmentManager).instance()
-    private val userInfoFragment: UserInfoFragment by instance()
-    private val navigator: Navigator by with(this as AppCompatActivity).instance()
-    //val viewModel: MainProfileViewModel by with(User()).instance()
+    private val navigator: Navigator by with(this).instance()
+    val viewModel: MainProfileViewModel by with(this).instance()
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupView()
+        setupViewModel()
+    }
+    
+    private fun setupViewModel(){
+        setViewModel(viewModel)
+        binding.viewModel = viewModel
+        binding.setLifecycleOwner(this)
+        setupProcessor()
+    }
+    
+    private fun setupProcessor(){
+        viewModel.processor.subscribe({
+            user = it
+        },{
+            it.printStackTrace()
+        },{
+            setupView()
+        })
     }
     
     private fun setupView(){
-        //setViewModel(viewModel)
         binding.apply {
             val pager = pager
             pager.adapter = adapter
             tabLayout.setupWithViewPager(pager)
         }
+        val userInfoFragment: UserInfoFragment by with(user).instance()
         navigator.replaceFragment(userInfoFragment, binding.userInfoContainer.id)
     }
+    
+    
     
 }

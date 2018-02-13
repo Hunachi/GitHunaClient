@@ -3,6 +3,7 @@ package com.example.hunachi.githunaclient.data.api.responce
 import com.squareup.moshi.Json
 import io.reactivex.annotations.Nullable
 import se.ansman.kotshi.JsonSerializable
+import java.io.Serializable
 
 /**
  * Created by hunachi on 2018/02/03.
@@ -26,4 +27,4 @@ data class User(
         var gistCount: Int = 0,
         var followers: Int = 0,
         var following: Int = 0
-)
+): Serializable

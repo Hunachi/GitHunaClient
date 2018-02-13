@@ -1,22 +1,21 @@
 package com.example.hunachi.githunaclient.kodein
 
-import com.example.hunachi.githunaclient.data.api.responce.User
+import android.support.v7.app.AppCompatActivity
+import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.main.profile.MainProfileViewModel
-import com.github.salomonbrys.kodein.Kodein
-import com.github.salomonbrys.kodein.bind
-import com.github.salomonbrys.kodein.factory
-import com.github.salomonbrys.kodein.instance
+import com.github.salomonbrys.kodein.*
+import com.github.salomonbrys.kodein.android.androidActivityScope
 
 /**
  * Created by hunachi on 2018/02/11.
  */
 val mainProfileViewModelModule = Kodein.Module{
-    bind<MainProfileViewModel>() with factory { user: User ->
+    bind<MainProfileViewModel>() with scopedSingleton(androidActivityScope) {
         MainProfileViewModel(
-            navigator = instance(),
+            navigator = with(it as AppCompatActivity).instance(),
             application = instance(),
-            githubApiRepository = instance(),
-            user = user
+            scheduler = instance(),
+            githubApiRepository = with((instance() as MyApplication).token).instance()
         )
     }
 }

@@ -32,7 +32,7 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/space"
-            app:setIcon="@{viewModel.mUser.avatarUrl}"
+            app:setIcon="@{viewModel.user.avatarUrl}"
             app:srcCompat="@drawable/basic_icon_translation" />
 
         <TextView
@@ -42,7 +42,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:text="@{viewModel.nameExist ? viewModel.mUser.name: viewModel.mUser.userName}"
+            android:text="@{viewModel.nameExist ? viewModel.user.name: viewModel.user.userName}"
             android:textAlignment="center"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:text="@{viewModel.mUser.bio}"
+            android:text="@{viewModel.user.bio}"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

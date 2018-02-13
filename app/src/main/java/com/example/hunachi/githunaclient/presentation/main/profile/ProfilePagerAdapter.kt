@@ -13,22 +13,20 @@ import com.example.hunachi.githunaclient.util.extension.convertToLowerText
  */
 class ProfilePagerAdapter(
         private val fragmentManager: FragmentManager,
-        private val followerEventFragment: FollowerEventFragment,
-        private val userInfoFragment: UserInfoFragment
+        private val followerEventFragment: FollowerEventFragment
 ) : FragmentPagerAdapter(fragmentManager) {
     
     override fun getItem(position: Int) =
         when (position) {
             0 -> followerEventFragment
-            else -> userInfoFragment
+            else -> null
         }
-    
     
     override fun getCount() = 1
     
     override fun getPageTitle(position: Int) =
             when (position) {
                 0    -> followerEventFragment.toString().convertToLowerText()
-                else -> userInfoFragment.toString().convertToLowerText()
+                else -> null
             }
 }

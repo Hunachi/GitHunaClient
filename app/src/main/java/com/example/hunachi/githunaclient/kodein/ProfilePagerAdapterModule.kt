@@ -12,8 +12,7 @@ val profilePagerAdapterModule = Kodein.Module{
         fragmentManager: FragmentManager ->
         ProfilePagerAdapter(
             fragmentManager = fragmentManager,
-            followerEventFragment = instance(),
-            userInfoFragment = instance()
+            followerEventFragment = instance()
         )
     }
 }
