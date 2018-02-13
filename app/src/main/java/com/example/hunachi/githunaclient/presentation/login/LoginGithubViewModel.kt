@@ -43,10 +43,6 @@ class LoginGithubViewModel(
         navigator.navigateToOauth()
     }
     
-    fun onClickBasic() {
-        //todo 消す運命っぽい．
-    }
-    
     override fun onResume() {
         super.onResume()
         githubTokenRepository.callbackToken(navigator.activity.intent)
