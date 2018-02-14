@@ -10,8 +10,9 @@ import retrofit2.http.*
  */
 interface GithubApi {
     
-    @GET("user")
+    @GET("users/{user_name}")
     fun user(
+            @Path("user_name")userName: String,
             @Query("access_token") token: String
     ): Observable<User>
     

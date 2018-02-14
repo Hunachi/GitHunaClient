@@ -25,47 +25,49 @@ class GithubApiRepositoryTest {
     @Before
     fun init() {
         scheduler = TestSchedulerProvider()
-        githubApiRepository = GithubApiRepository(scheduler, Key_.token)
+        githubApiRepository = GithubApiRepository(Key_.token)
     }
     
     /*生まれて初めて書いたテストが通って嬉しい(((o(*ﾟ▽ﾟ*)o)))！！*/
-    private fun user() {
-        githubApiRepository.user()
+    @Test
+    fun user() {
+        githubApiRepository.user("hunachi")
+                .subscribeOn(scheduler.io())
+                .observeOn(scheduler.ui())
                 .subscribe({
                     assert(it.userName == "Hunachi")
                     user = it
-                    followerEvent()
+                    //followerEvent()
                 }, {
                     it.printStackTrace()
                     assert(false)
                 })
     }
     
-    private fun followerEvent() {
-            githubApiRepository.followerEvent(user?.userName!!, 1)
+    @Test
+    fun followerEvent() {
+            githubApiRepository.followerEvent("hunachi", 1)
+                    .subscribeOn(scheduler.io())
+                    .observeOn(scheduler.ui())
                     .subscribe({
-                        assert(it.size > 10)
+                        assert(it.isNotEmpty())
                     }, {
                         it.printStackTrace()
                         assert(false)
                     })
     }
     
-    private fun contribution(){
+    @Test
+    fun contribution(){
         val url = "https://github.com/users/hunachi/contributions"
         githubApiRepository.contribution(url)
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .subscribe({
-                    assertEquals(it.toString(), "hoge!") //ha???? nannde toorunnen.
+                    assertEquals(it.toString(), "hoge!")
                 },{
                     it.printStackTrace()
                 })
     }
     
-    @Test
-    fun testAll(){
-        user()
-        contribution()
-    }
 }

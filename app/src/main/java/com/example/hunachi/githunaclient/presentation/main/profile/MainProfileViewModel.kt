@@ -5,6 +5,7 @@ import android.arch.lifecycle.LiveDataReactiveStreams
 import android.databinding.Bindable
 import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
+import com.example.hunachi.githunaclient.data.repository.adapter.OauthAdapter.intent
 import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
 import com.example.hunachi.githunaclient.presentation.fragment.event.FollowerEvent
@@ -13,6 +14,7 @@ import com.example.hunachi.githunaclient.util.rx.AppSchedulerProvider
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 import io.reactivex.Scheduler
 import io.reactivex.processors.PublishProcessor
+import org.joda.time.IllegalInstantException
 
 /**
  * Created by hunachi on 2018/02/11.
@@ -21,6 +23,7 @@ class MainProfileViewModel(
         private val navigator: Navigator,
         private val githubApiRepository: GithubApiRepository,
         private val scheduler: SchedulerProvider,
+        private val userName: String,
         application: MyApplication
 ) : BaseViewModel(application) {
     
@@ -32,7 +35,7 @@ class MainProfileViewModel(
     }
     
     private fun setUpUser() {
-        githubApiRepository.user()
+        githubApiRepository.user(userName)
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .subscribe({

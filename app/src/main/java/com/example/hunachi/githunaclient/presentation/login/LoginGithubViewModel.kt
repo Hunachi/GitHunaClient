@@ -30,7 +30,7 @@ class LoginGithubViewModel(
         }
     }
     
-    private lateinit var dialog: AlertDialog
+    private lateinit var dialog: AlertDialog //TODO move to view
     lateinit var githubTokenRepository: GithubTokenRepository
     
     override fun onCreate() {

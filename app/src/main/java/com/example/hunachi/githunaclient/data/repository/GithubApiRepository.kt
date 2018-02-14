@@ -12,12 +12,11 @@ import retrofit2.http.Url
  * Created by hunachi on 2018/02/03.
  */
 class GithubApiRepository(
-        private val scheduler: SchedulerProvider,
         private val token: String //TODO
 ) {
     
-    fun user(): Observable<User> = GithubApiAdapter.githubApi
-            .user(token)
+    fun user(userName: String): Observable<User> = GithubApiAdapter.githubApi
+            .user(userName, token)
     
     fun followerEvent(user: String, pages: Int) = GithubApiAdapter.githubApi
             .followerEvents(token = token, user = user, pages = pages)
