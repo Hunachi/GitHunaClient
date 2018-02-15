@@ -36,8 +36,8 @@ class FeedsFragment : BaseFragment() {
         return binding.root
     }
     
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onStart() {
+        super.onStart()
         setUpRecycler()
     }
     
