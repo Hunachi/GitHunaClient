@@ -7,9 +7,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.databinding.FragmentFollowerEventBinding
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
 import com.github.salomonbrys.kodein.instance
+import com.github.salomonbrys.kodein.with
 import kotlinx.android.synthetic.main.fragment_follower_event.*
 
 /**
@@ -20,7 +22,13 @@ class FollowerEventFragment : BaseFragment() {
     private lateinit var binding: FragmentFollowerEventBinding
     private val followerEventList = mutableListOf<FollowerEvent>()
     private lateinit var followerEventAdapter: FollowerEventAdapter
-    private val viewModel: FollowerEventViewModel by instance()
+    private lateinit var viewModel: FollowerEventViewModel
+    private lateinit var user: User
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        user = arguments?.getSerializable("user") as User
+    }
     
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -35,6 +43,7 @@ class FollowerEventFragment : BaseFragment() {
     }
     
     private fun setUpRecycler() {
+        viewModel = with(user).instance<FollowerEventViewModel>().value
         setViewModel(viewModel)
         followerEventAdapter = FollowerEventAdapter(followerEventList, viewModel.callback)
         binding.apply {
@@ -62,11 +71,12 @@ class FollowerEventFragment : BaseFragment() {
     }
     
     companion object {
-        fun newInstance(): FollowerEventFragment {
-            val fragment = FollowerEventFragment()
-            //todo user
-            return fragment
-        }
+        fun newInstance(user: User): FollowerEventFragment =
+                FollowerEventFragment().apply {
+                    arguments = Bundle().apply {
+                        putSerializable("user", user)
+                    }
+                }
     }
     
 }

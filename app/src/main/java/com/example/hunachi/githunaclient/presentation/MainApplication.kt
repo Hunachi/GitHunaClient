@@ -35,7 +35,7 @@ class MainApplication : MyApplication(), KodeinAware {
         bind<LoginGithubActivity>() with singleton { LoginGithubActivity() }
         bind<SchedulerProvider>() with singleton { AppSchedulerProvider() }
         bind<UserInfoFragment>() with multiton {user: User -> UserInfoFragment.newInstance(user) }
-        bind<FollowerEventFragment>() with singleton { FollowerEventFragment.newInstance() }
+        bind<FollowerEventFragment>() with multiton {user: User -> FollowerEventFragment.newInstance(user) }
         bind<GithubApiRepository>() with factory { token: String -> GithubApiRepository(token) }
     }
     

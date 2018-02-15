@@ -22,7 +22,7 @@ class MainProfileActivity : BaseActivity() {
     
     private lateinit var userName: String
     private lateinit var user: User
-    private val adapter: ProfilePagerAdapter by with(supportFragmentManager).instance()
+    private lateinit var adapter: ProfilePagerAdapter
     private lateinit var dialog: AlertDialog
     private val navigator: Navigator by with(this).instance()
     private lateinit var viewModel: MainProfileViewModel
@@ -30,12 +30,12 @@ class MainProfileActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //TODO
-        userName = intent.getStringExtra("userName")?: "hunachi"/*?:
+        userName = intent.getStringExtra("userName") ?: "gedorinku"/*?:
                 throw IllegalAccessException("userName is null")*/
         setupViewModel()
     }
     
-    private fun setupViewModel(){
+    private fun setupViewModel() {
         dialog = LoadingDialogAdapter(this).onCreateDialog()
         dialog.show()
         viewModel = with(Pair(this as BaseActivity, userName)).instance<MainProfileViewModel>().value
@@ -45,27 +45,26 @@ class MainProfileActivity : BaseActivity() {
         setupProcessor()
     }
     
-    private fun setupProcessor(){
+    private fun setupProcessor() {
         viewModel.processor.subscribe({
             user = it
-        },{
+        }, {
             it.printStackTrace()
-        },{
+        }, {
             setupView()
             dialog.dismiss()
         })
     }
     
-    private fun setupView(){
+    private fun setupView() {
+        adapter = with(Pair(supportFragmentManager, user)).instance<ProfilePagerAdapter>().value
         binding.apply {
             val pager = pager
             pager.adapter = adapter
             tabLayout.setupWithViewPager(pager)
         }
         val userInfoFragment: UserInfoFragment by with(user).instance()
-        navigator.replaceFragment(userInfoFragment, binding.userInfoContainer.id)
+        replaceFragment(R.id.user_info_container, userInfoFragment)
     }
-    
-    
     
 }

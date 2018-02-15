@@ -22,6 +22,7 @@ class FollowerEventViewModel(
     
     var event: MutableLiveData<FollowerEvent> = MutableLiveData()
     var refreshing: MutableLiveData<Boolean> = MutableLiveData()
+    private var pages = 0
     
     override fun onCreate() {
         super.onCreate()
@@ -30,7 +31,7 @@ class FollowerEventViewModel(
     
     private fun updateList() {
         refreshing.value = true
-        githubApiRepository.followerEvent(user = "hunachi", pages = 0)
+        githubApiRepository.followerEvent(user = user.userName, pages = pages)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

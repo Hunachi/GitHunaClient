@@ -35,19 +35,17 @@ class UserInfoFragment : BaseFragment() {
         return binding.root
     }
     
-    private fun setupViewModel(){
+    private fun setupViewModel() {
         viewModel = with(Pair(this as BaseFragment, user)).instance<UserInfoViewModel>().value
         setViewModel(viewModel)
     }
     
     companion object {
-        fun newInstance(user: User): UserInfoFragment {
-            val fragment = UserInfoFragment()
-            val args = Bundle().apply {
-                putSerializable("user", user)
-            }
-            fragment.arguments = args
-            return fragment
-        }
+        fun newInstance(user: User): UserInfoFragment =
+                UserInfoFragment().apply {
+                    arguments = Bundle().apply {
+                        putSerializable("user", user)
+                    }
+                }
     }
 }

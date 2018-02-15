@@ -9,11 +9,11 @@ import com.github.salomonbrys.kodein.*
  * Created by hunachi on 2018/02/07.
  */
 val followerEventViewModelModule = Kodein.Module {
-    bind<FollowerEventViewModel>() with singleton {
+    bind<FollowerEventViewModel>() with factory { user: User ->
         FollowerEventViewModel(
             application = instance(),
             githubApiRepository = with((instance() as MyApplication).token).instance(),
-            user = User()
+            user = user
         )
     }
 }
