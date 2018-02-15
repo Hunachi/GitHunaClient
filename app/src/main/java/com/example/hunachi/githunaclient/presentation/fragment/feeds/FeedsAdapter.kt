@@ -1,4 +1,4 @@
-package com.example.hunachi.githunaclient.presentation.fragment.event
+package com.example.hunachi.githunaclient.presentation.fragment.feeds
 
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
@@ -12,10 +12,10 @@ import com.example.hunachi.githunaclient.R
 /**
  * Created by hunachi on 2018/02/05.
  */
-class FollowerEventAdapter(
-        private val list: MutableList<FollowerEvent>,
-        private val callback: (FollowerEvent) -> Unit
-) : RecyclerView.Adapter<FollowerEventAdapter.ViewHolder>() {
+class FeedsAdapter(
+        private val list: MutableList<Feeds>,
+        private val callback: (Feeds) -> Unit
+) : RecyclerView.Adapter<FeedsAdapter.ViewHolder>() {
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)

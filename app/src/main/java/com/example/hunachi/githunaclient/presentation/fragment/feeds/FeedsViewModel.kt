@@ -1,4 +1,4 @@
-package com.example.hunachi.githunaclient.presentation.fragment.event
+package com.example.hunachi.githunaclient.presentation.fragment.feeds
 
 import android.arch.lifecycle.MutableLiveData
 import android.support.v4.widget.SwipeRefreshLayout
@@ -14,13 +14,13 @@ import io.reactivex.schedulers.Schedulers
 /**
  * Created by hunachi on 2018/02/05.
  */
-class FollowerEventViewModel(
+class FeedsViewModel(
         application: MyApplication,
         private val githubApiRepository: GithubApiRepository,
         private val user: User
 ) : BaseFragmentViewModel(application) {
     
-    var event: MutableLiveData<FollowerEvent> = MutableLiveData()
+    var event: MutableLiveData<Feeds> = MutableLiveData()
     var refreshing: MutableLiveData<Boolean> = MutableLiveData()
     private var pages = 0
     

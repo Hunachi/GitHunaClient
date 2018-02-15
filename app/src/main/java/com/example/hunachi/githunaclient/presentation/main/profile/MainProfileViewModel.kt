@@ -1,20 +1,12 @@
 package com.example.hunachi.githunaclient.presentation.main.profile
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.LiveDataReactiveStreams
-import android.databinding.Bindable
 import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
-import com.example.hunachi.githunaclient.data.repository.adapter.OauthAdapter.intent
 import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
-import com.example.hunachi.githunaclient.presentation.fragment.event.FollowerEvent
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
-import com.example.hunachi.githunaclient.util.rx.AppSchedulerProvider
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
-import io.reactivex.Scheduler
 import io.reactivex.processors.PublishProcessor
-import org.joda.time.IllegalInstantException
 
 /**
  * Created by hunachi on 2018/02/11.

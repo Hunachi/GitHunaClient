@@ -14,7 +14,7 @@ val mainViewModelModule = Kodein.Module {
             navigator = with(it as AppCompatActivity).instance(),
             application = instance(),
             userInfoFragment = instance(),
-            followerEventFragment = instance()
+            feedsFragment = instance()
         )
     }
 }

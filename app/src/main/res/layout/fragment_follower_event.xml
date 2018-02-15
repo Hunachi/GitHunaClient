@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.hunachi.githunaclient.presentation.fragment.event.FollowerEventViewModel"/>
+            type="com.example.hunachi.githunaclient.presentation.fragment.feeds.FeedsViewModel"/>
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,9 +13,9 @@
         android:background="@android:color/holo_green_dark">
 
         <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/swiperefresh"
             app:listRefresh="@{viewModel.updateEvents()}"
             app:setRefreshing="@{viewModel.refreshing}">
 

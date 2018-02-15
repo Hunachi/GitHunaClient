@@ -13,7 +13,7 @@ val profilePagerAdapterModule = Kodein.Module{
         it: Pair<FragmentManager, User> ->
         ProfilePagerAdapter(
             fragmentManager = it.first,
-            followerEventFragment = with(it.second).instance()
+            feedsFragment = with(it.second).instance()
         )
     }
 }
