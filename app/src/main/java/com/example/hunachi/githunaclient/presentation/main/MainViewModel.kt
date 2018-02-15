@@ -1,7 +1,9 @@
 package com.example.hunachi.githunaclient.presentation.main
 
+import android.util.Log
 import android.widget.Toast
 import com.example.hunachi.githunaclient.R
+import com.example.hunachi.githunaclient.presentation.MainApplication
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
 import com.example.hunachi.githunaclient.util.BottomNavigationListener
 import com.example.hunachi.githunaclient.presentation.MyApplication
@@ -37,8 +39,7 @@ class MainViewModel(
         super.onStart()
         if (application.token.isBlank()) {
             navigator.navigateToLogin()
-            Toast.makeText(application, "Github accountと未連携", Toast.LENGTH_SHORT).show()
-        } else Toast.makeText(application, "今日も一日がんばるぞい!{name}さん!", Toast.LENGTH_SHORT).show()
+         }
     }
     
     //Listener of BottomNavigation(what I made hard.)
