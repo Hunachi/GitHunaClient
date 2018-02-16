@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.databinding.ActivityMainProfileBinding
@@ -29,9 +30,8 @@ class MainProfileActivity : BaseActivity() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //TODO
-        userName = intent.getStringExtra("userName") ?: "gedorinku"/*?:
-                throw IllegalAccessException("userName is null")*/
+        userName = intent.getStringExtra("userName")
+        if(userName.isBlank()){}
         setupViewModel()
     }
     
@@ -62,6 +62,14 @@ class MainProfileActivity : BaseActivity() {
             val pager = pager
             pager.adapter = adapter
             tabLayout.setupWithViewPager(pager)
+            
+            mainProfileToolbar.let {
+                supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                mainProfileToolbar?.setOnMenuItemClickListener { item ->
+                    if (item.itemId == it?.id) navigator.activityFinish()
+                    true
+                }
+            }
         }
         val userInfoFragment: UserInfoFragment by with(user).instance()
         replaceFragment(R.id.user_info_container, userInfoFragment)

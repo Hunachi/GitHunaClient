@@ -18,8 +18,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_custom_for_list">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/actor_name_text_view"
@@ -46,7 +45,6 @@
                 android:layout_marginStart="8dp"
                 android:contentDescription="@string/app_name"
                 android:scaleType="fitXY"
-                app:setIcon="@{viewModel.avatarUrl}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="h,1:1"
                 app:layout_constraintEnd_toStartOf="@+id/actor_name_text_view"
@@ -54,6 +52,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
+                app:setIcon="@{viewModel.avatarUrl}"
                 app:srcCompat="@drawable/basic_icon_translation" />
 
             <TextView
@@ -61,7 +60,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
                 android:gravity="start"
                 android:text="@{viewModel.action}"
@@ -76,9 +75,8 @@
                 android:id="@+id/repository_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
                 android:layout_marginTop="4dp"
                 android:gravity="start"
                 android:singleLine="false"

@@ -10,7 +10,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/holo_green_dark">
+        android:background="@color/droidLightColor">
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh"

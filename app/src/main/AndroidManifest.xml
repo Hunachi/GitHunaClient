@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.hunachi.githunaclient">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -34,8 +35,13 @@
                     android:scheme="githuna" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.main.profile.MainProfileActivity">
-
+        <activity
+            android:name=".presentation.main.profile.MainProfileActivity"
+            android:parentActivityName=".presentation.main.MainActivity"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".presentation.main.MainActivity" />
         </activity>
     </application>
 
