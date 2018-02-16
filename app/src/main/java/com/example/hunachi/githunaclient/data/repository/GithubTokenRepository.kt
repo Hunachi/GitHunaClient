@@ -2,9 +2,9 @@ package com.example.hunachi.githunaclient.data.repository
 
 import android.content.Intent
 import com.example.hunachi.githunaclient.data.repository.adapter.GithubLoginAdapter
-import com.example.hunachi.githunaclient.model.Key
 import com.example.hunachi.githunaclient.util.StatusModule
 import com.example.hunachi.githunaclient.presentation.MyApplication
+import com.example.hunachi.githunaclient.util.Key
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 
 /**

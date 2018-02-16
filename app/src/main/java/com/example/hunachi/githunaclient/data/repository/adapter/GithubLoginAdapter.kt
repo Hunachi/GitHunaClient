@@ -2,7 +2,7 @@ package com.example.hunachi.githunaclient.data.repository.adapter
 
 import com.example.hunachi.githunaclient.data.api.GithubOauth
 import com.example.hunachi.githunaclient.data.api.responce.mapper.ApplicationJsonAdapterFactory
-import com.example.hunachi.githunaclient.model.Key
+import com.example.hunachi.githunaclient.util.Key
 import com.squareup.moshi.Moshi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

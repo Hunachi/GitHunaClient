@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.hunachi.githunaclient.R.id.swipe_refresh
 import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.databinding.FragmentFollowerEventBinding
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
@@ -47,7 +48,6 @@ class FeedsFragment : BaseFragment() {
     
     override fun onStart() {
         super.onStart()
-        
     }
     
     private fun setUpRecycler() {

@@ -2,6 +2,7 @@ package com.example.hunachi.githunaclient.kodein
 
 import android.support.v7.app.AppCompatActivity
 import com.example.hunachi.githunaclient.data.api.responce.User
+import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.main.MainViewModel
 import com.github.salomonbrys.kodein.*
 import com.github.salomonbrys.kodein.android.androidActivityScope
@@ -11,12 +12,11 @@ import com.github.salomonbrys.kodein.android.androidActivityScope
  */
 val mainViewModelModule = Kodein.Module {
     bind<MainViewModel>() with scopedSingleton(androidActivityScope) {
-        val user = User().apply { userName = "hunachi" }
         MainViewModel(
             navigator = with(it as AppCompatActivity).instance(),
             application = instance(),
-            userInfoFragment = with(user).instance(),
-            feedsFragment = with(user).instance()
+            scheduler = instance(),
+            githubApiRepository = with((instance() as MyApplication).token).instance()
         )
     }
 }
