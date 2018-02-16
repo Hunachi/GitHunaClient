@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.databinding.FragmentFollowerEventBinding
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
+import com.example.hunachi.githunaclient.presentation.helper.Navigator
+import com.example.hunachi.githunaclient.util.FeedItemCallback
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
 import kotlinx.android.synthetic.main.fragment_follower_event.*
@@ -19,10 +21,11 @@ import kotlinx.android.synthetic.main.fragment_follower_event.*
 class FeedsFragment : BaseFragment() {
     
     private lateinit var binding: FragmentFollowerEventBinding
-    private val followerEventList = mutableListOf<Feeds>()
+    private val followerEventList = mutableListOf<Feed>()
     private lateinit var feedsAdapter: FeedsAdapter
     private lateinit var viewModel: FeedsViewModel
     private lateinit var user: User
+    private lateinit var navigator: Navigator
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,15 +39,21 @@ class FeedsFragment : BaseFragment() {
         return binding.root
     }
     
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        navigator = with(this.activity).instance<Navigator>().value
+        setUpRecycler()
+    }
+    
     override fun onStart() {
         super.onStart()
-        setUpRecycler()
+        
     }
     
     private fun setUpRecycler() {
         viewModel = with(user).instance<FeedsViewModel>().value
         setViewModel(viewModel)
-        feedsAdapter = FeedsAdapter(followerEventList, viewModel.callback)
+        feedsAdapter = FeedsAdapter(followerEventList, itemCallback)
         binding.apply {
             viewModel = this@FeedsFragment.viewModel
             setLifecycleOwner(this@FeedsFragment)
@@ -67,6 +76,10 @@ class FeedsFragment : BaseFragment() {
                 swipe_refresh.isRefreshing = it ?: false
             })
         }
+    }
+    
+    private val itemCallback: FeedItemCallback = {
+        navigator.navigateToMainProfile(it.actor)
     }
     
     companion object {

@@ -3,18 +3,14 @@ package com.example.hunachi.githunaclient.presentation.helper
 import android.content.Intent
 import android.support.annotation.IdRes
 import android.support.annotation.LayoutRes
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentTransaction
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.data.repository.adapter.OauthAdapter
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
+import com.example.hunachi.githunaclient.presentation.fragment.feeds.Feed
 import com.example.hunachi.githunaclient.presentation.login.LoginGithubActivity
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
 import com.example.hunachi.githunaclient.presentation.main.profile.MainProfileActivity
-import com.example.hunachi.githunaclient.util.Scopes
-import com.github.salomonbrys.kodein.*
-import com.github.salomonbrys.kodein.android.androidActivityScope
 
 /**
  * Created by hunachi on 2018/02/01.
@@ -38,8 +34,11 @@ class Navigator(
         activity.startActivity(OauthAdapter.intent)
     }
     
-    fun navigateToMainProfile(){
-        activity.startActivity(Intent(activity, mainProfileActivity::class.java))
+    fun navigateToMainProfile(userName: String){
+        activity.startActivity(
+            Intent(activity, mainProfileActivity::class.java)
+                    .apply { putExtra("userName", userName) }
+        )
     }
     
     fun replaceFragment(fragment: BaseFragment, @IdRes @LayoutRes resourceId: Int = R.id.container) {

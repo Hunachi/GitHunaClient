@@ -7,7 +7,11 @@
 
         <variable
             name="viewModel"
-            type="com.example.hunachi.githunaclient.presentation.fragment.feeds.Feeds" />
+            type="com.example.hunachi.githunaclient.presentation.fragment.feeds.Feed" />
+
+        <variable
+            name="viewAdapter"
+            type="com.example.hunachi.githunaclient.presentation.fragment.feeds.FeedsAdapter"/>
     </data>
 
     <LinearLayout
@@ -45,6 +49,7 @@
                 android:layout_marginStart="8dp"
                 android:contentDescription="@string/app_name"
                 android:scaleType="fitXY"
+                app:setIcon="@{viewModel.avatarUrl}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="h,1:1"
                 app:layout_constraintEnd_toStartOf="@+id/actor_name_text_view"
@@ -52,7 +57,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
-                app:setIcon="@{viewModel.avatarUrl}"
                 app:srcCompat="@drawable/basic_icon_translation" />
 
             <TextView

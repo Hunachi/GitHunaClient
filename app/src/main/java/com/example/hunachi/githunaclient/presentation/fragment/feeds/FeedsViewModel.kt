@@ -6,7 +6,6 @@ import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel
-import com.example.hunachi.githunaclient.util.EventCallback
 import com.example.hunachi.githunaclient.util.extension.convertToFollowerEvent
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -20,7 +19,7 @@ class FeedsViewModel(
         private val user: User
 ) : BaseFragmentViewModel(application) {
     
-    var event: MutableLiveData<Feeds> = MutableLiveData()
+    var event: MutableLiveData<Feed> = MutableLiveData()
     var refreshing: MutableLiveData<Boolean> = MutableLiveData()
     private var pages = 0
     
@@ -47,7 +46,4 @@ class FeedsViewModel(
         updateList()
     }
     
-    val callback: EventCallback = {
-        refreshing.value = false
-    }
 }
