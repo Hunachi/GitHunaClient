@@ -1,5 +1,6 @@
 package com.example.hunachi.githunaclient.presentation.helper
 
+import android.app.ActivityManager
 import android.content.Intent
 import android.support.annotation.IdRes
 import android.support.annotation.LayoutRes
@@ -34,11 +35,12 @@ class Navigator(
         activity.startActivity(OauthAdapter.intent)
     }
     
-    fun navigateToMainProfile(userName: String){
+    fun navigateToMainProfile(userName: String) {
         activity.startActivity(
             Intent(activity, mainProfileActivity::class.java)
                     .apply { putExtra("userName", userName) }
         )
+        if (activity is MainProfileActivity) activityFinish()
     }
     
     fun replaceFragment(fragment: BaseFragment, @IdRes @LayoutRes resourceId: Int = R.id.container) {
