@@ -3,12 +3,18 @@ package com.example.hunachi.githunaclient.data.api
 import com.example.hunachi.githunaclient.data.api.responce.Event
 import com.example.hunachi.githunaclient.data.api.responce.User
 import io.reactivex.Observable
+import io.reactivex.Single
 import retrofit2.http.*
 
 /**
  * Created by hunachi on 2018/01/30.
  */
 interface GithubApi {
+    
+    @GET("user")
+    fun ownerUser(
+            @Query("access_token") token: String
+    ): Single<User>
     
     @GET("users/{user_name}")
     fun user(

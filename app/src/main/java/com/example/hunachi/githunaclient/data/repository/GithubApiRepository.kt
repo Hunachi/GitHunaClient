@@ -6,6 +6,7 @@ import com.example.hunachi.githunaclient.data.repository.adapter.GithubApiAdapte
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 import io.reactivex.Observable
 import io.reactivex.Scheduler
+import io.reactivex.Single
 import retrofit2.http.Url
 
 /**
@@ -14,6 +15,9 @@ import retrofit2.http.Url
 class GithubApiRepository(
         private val token: String //TODO
 ) {
+    
+    fun ownerUser(): Single<User> = GithubApiAdapter.githubApi
+            .ownerUser(token)
     
     fun user(userName: String): Observable<User> = GithubApiAdapter.githubApi
             .user(userName, token)
