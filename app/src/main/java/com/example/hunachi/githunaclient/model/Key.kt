@@ -5,7 +5,7 @@ package com.example.hunachi.githunaclient.model
  */
 class Key {
     companion object {
-        const val clientId: String = ""
+        const val clientId: String = "ho"
         const val state: String = ""
         const val clientSecret: String = ""
     }

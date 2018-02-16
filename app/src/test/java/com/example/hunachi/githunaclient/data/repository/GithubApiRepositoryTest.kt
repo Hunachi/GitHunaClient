@@ -1,13 +1,16 @@
 package com.example.hunachi.githunaclient.data.repository
 
-import android.util.Log
+import androidx.net.toUri
 import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.model.Key_
 import com.example.hunachi.githunaclient.util.TestSchedulerProvider
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
-import org.junit.After
+import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import retrofit2.http.Url
+import java.net.URL
 
 /**
  * Created by hunachi on 2018/02/03.
@@ -22,26 +25,32 @@ class GithubApiRepositoryTest {
     @Before
     fun init() {
         scheduler = TestSchedulerProvider()
-        githubApiRepository = GithubApiRepository(scheduler, Key_.token)
+        githubApiRepository = GithubApiRepository(Key_.token)
     }
     
     /*生まれて初めて書いたテストが通って嬉しい(((o(*ﾟ▽ﾟ*)o)))！！*/
-    private fun user() {
-        githubApiRepository.user()
+    @Test
+    fun user() {
+        githubApiRepository.user("hunachi")
+                .subscribeOn(scheduler.io())
+                .observeOn(scheduler.ui())
                 .subscribe({
                     assert(it.userName == "Hunachi")
                     user = it
-                    followerEvent()
+                    //followerEvent()
                 }, {
                     it.printStackTrace()
                     assert(false)
                 })
     }
     
-    private fun followerEvent() {
-            githubApiRepository.follwerEvent(user?.userName!!, 1)
+    @Test
+    fun followerEvent() {
+            githubApiRepository.followerEvent("hunachi", 1)
+                    .subscribeOn(scheduler.io())
+                    .observeOn(scheduler.ui())
                     .subscribe({
-                        assert(it.size > 10)
+                        assert(it.isNotEmpty())
                     }, {
                         it.printStackTrace()
                         assert(false)
@@ -49,7 +58,16 @@ class GithubApiRepositoryTest {
     }
     
     @Test
-    fun testAll(){
-        user()
+    fun contribution(){
+        val url = "https://github.com/users/hunachi/contributions"
+        githubApiRepository.contribution(url)
+                .subscribeOn(scheduler.io())
+                .observeOn(scheduler.ui())
+                .subscribe({
+                    assertEquals(it.toString(), "hoge!")
+                },{
+                    it.printStackTrace()
+                })
     }
+    
 }

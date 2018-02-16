@@ -3,6 +3,7 @@ package com.example.hunachi.githunaclient.data.api.responce
 import com.squareup.moshi.Json
 import io.reactivex.annotations.Nullable
 import se.ansman.kotshi.JsonSerializable
+import java.io.Serializable
 
 /**
  * Created by hunachi on 2018/02/03.
@@ -10,20 +11,20 @@ import se.ansman.kotshi.JsonSerializable
 @JsonSerializable
 data class User(
         @Json(name = "login")
-        var userName: String,
+        var userName: String = "",
         @Json(name = "avatar_url")
-        var avatarUrl: String?,
+        var avatarUrl: String? = null,
         @Json(name = "html_url")
-        var url: String,
+        var url: String = "",
         @Nullable
-        var name: String?,
+        var name: String? = null,
         @Nullable
-        var company: String?,
-        var bio: String?,
+        var company: String? = null,
+        var bio: String? = null,
         @Json(name = "public_repos")
-        var publicRepoCount: Int,
+        var publicRepoCount: Int = 0,
         @Json(name = "public_gists")
-        var gistCount: Int,
-        var followers: Int,
-        var following: Int
-)
+        var gistCount: Int = 0,
+        var followers: Int = 0,
+        var following: Int = 0
+): Serializable

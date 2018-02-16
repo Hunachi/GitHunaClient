@@ -11,11 +11,12 @@ import com.github.salomonbrys.kodein.with
 class MainActivity : BaseActivity() {
     
     private val viewModel: MainViewModel by with(this).instance()
-    private lateinit var binding: ActivityMainBinding
+    private val binding: ActivityMainBinding by lazy {
+        DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+    }
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
         setViewModel(viewModel)

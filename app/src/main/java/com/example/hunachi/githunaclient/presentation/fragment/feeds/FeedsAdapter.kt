@@ -1,4 +1,4 @@
-package com.example.hunachi.githunaclient.presentation.fragment.event
+package com.example.hunachi.githunaclient.presentation.fragment.feeds
 
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
@@ -8,14 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.hunachi.githunaclient.BR
 import com.example.hunachi.githunaclient.R
+import com.example.hunachi.githunaclient.databinding.ItemEventBinding
 
 /**
  * Created by hunachi on 2018/02/05.
  */
-class FollowerEventAdapter(
-        private val list: MutableList<FollowerEvent>,
-        private val callback: (FollowerEvent) -> Unit
-) : RecyclerView.Adapter<FollowerEventAdapter.ViewHolder>() {
+class FeedsAdapter(
+        private val list: MutableList<Feed>,
+        private val callback: (Feed) -> Unit
+) : RecyclerView.Adapter<FeedsAdapter.ViewHolder>() {
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -24,9 +25,9 @@ class FollowerEventAdapter(
     }
     
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.apply {
-            binding?.setVariable(BR.viewModel, list[position])
-            itemView.setOnClickListener {
+        holder.binding?.apply {
+            setVariable(BR.viewModel, list[position])
+            actorImageButton.setOnClickListener {
                 callback(list[position])
             }
         }
@@ -35,7 +36,7 @@ class FollowerEventAdapter(
     override fun getItemCount() = list.size
     
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val binding: ViewDataBinding? = DataBindingUtil.bind(view)
+        val binding: ItemEventBinding? = DataBindingUtil.bind(view)
     }
     
 }

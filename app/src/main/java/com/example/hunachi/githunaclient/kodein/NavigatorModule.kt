@@ -16,7 +16,8 @@ val navigatorModule = Kodein.Module {
         Navigator(
             activity = it as BaseActivity,
             mainActivity = instance(),
-            loginGithubActivity = instance()
+            loginGithubActivity = instance(),
+            mainProfileActivity = instance()
         )
     }
 }

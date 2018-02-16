@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -7,7 +7,8 @@
 
         <variable
             name="viewModel"
-            type="com.example.hunachi.githunaclient.presentation.fragment.event.FollowerEvent" />
+            type="com.example.hunachi.githunaclient.presentation.fragment.feeds.Feed" />
+
     </data>
 
     <LinearLayout
@@ -15,13 +16,12 @@
         android:layout_height="wrap_content"
         android:background="@android:drawable/screen_background_light_transparent">
 
-        <android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_custom_for_list">
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/actorNameTextView"
+                android:id="@+id/actor_name_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
@@ -31,14 +31,14 @@
                 android:gravity="start"
                 android:text="@{viewModel.actor}"
                 android:textAlignment="textStart"
-                app:layout_constraintBottom_toTopOf="@+id/repositoryTextView"
-                app:layout_constraintEnd_toStartOf="@+id/actionTextView"
-                app:layout_constraintStart_toEndOf="@+id/actorImageButton"
+                app:layout_constraintBottom_toTopOf="@+id/repository_text_view"
+                app:layout_constraintEnd_toStartOf="@+id/action_text_view"
+                app:layout_constraintStart_toEndOf="@+id/actor_image_button"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
 
             <ImageButton
-                android:id="@+id/actorImageButton"
+                android:id="@+id/actor_image_button"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginEnd="8dp"
@@ -47,7 +47,7 @@
                 android:scaleType="fitXY"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="h,1:1"
-                app:layout_constraintEnd_toStartOf="@+id/actorNameTextView"
+                app:layout_constraintEnd_toStartOf="@+id/actor_name_text_view"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -56,10 +56,11 @@
                 app:srcCompat="@drawable/basic_icon_translation" />
 
             <TextView
-                android:id="@+id/actionTextView"
+                android:id="@+id/action_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
                 android:gravity="start"
                 android:text="@{viewModel.action}"
@@ -67,14 +68,14 @@
                 android:textAllCaps="false"
                 android:textStyle="bold|italic"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/actorNameTextView"
+                app:layout_constraintStart_toEndOf="@+id/actor_name_text_view"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/repositoryTextView"
+                android:id="@+id/repository_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginTop="4dp"
                 android:gravity="start"
@@ -85,8 +86,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/actorNameTextView"
-                app:layout_constraintTop_toBottomOf="@+id/actionTextView"
+                app:layout_constraintStart_toStartOf="@+id/actor_name_text_view"
+                app:layout_constraintTop_toBottomOf="@+id/action_text_view"
                 app:layout_constraintVertical_bias="0.0" />
 
         </android.support.constraint.ConstraintLayout>
