@@ -46,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:background="@color/droidColor"
+                android:background="@color/bugDroid"
                 app:tabIndicatorColor="@color/colorAccent">
 
             </android.support.design.widget.TabLayout>

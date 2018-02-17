@@ -22,7 +22,7 @@ class MainActivity : BaseActivity() {
     private val binding: ActivityMainBinding by lazy {
         DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
     }
-    private var user: User? = null
+    private lateinit var user: User
     private val manager = supportFragmentManager
     private lateinit var feedsFragment: FeedsFragment
     private lateinit var userInfoFragment: UserInfoFragment
@@ -45,11 +45,12 @@ class MainActivity : BaseActivity() {
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
         setViewModel(viewModel)
+        binding.navigation.selectedItemId = R.id.action_lists
         viewModel.apply {
             navigateProcessor.subscribe { item ->
                 when (item.itemId) {
-                    R.id.action_search   -> manager.show(FragmentTag.USER_INFO.name, fragmentTags)
-                    R.id.action_settings -> manager.show(FragmentTag.FEED.name, fragmentTags)
+                    R.id.action_profile -> manager.show(FragmentTag.USER_INFO.name, fragmentTags)
+                    R.id.action_lists   -> manager.show(FragmentTag.FEED.name, fragmentTags)
                 }
             }
             userProcessor.subscribe ({
@@ -65,9 +66,10 @@ class MainActivity : BaseActivity() {
         feedsFragment = with(user).instance<FeedsFragment>().value
         userInfoFragment = with(user).instance<UserInfoFragment>().value
         manager.beginTransaction().apply {
-            add(R.id.container, feedsFragment, FragmentTag.FEED.name)
             add(R.id.container, userInfoFragment, FragmentTag.USER_INFO.name)
+            add(R.id.container, feedsFragment, FragmentTag.FEED.name)
         }.commit()
     }
+    
     
 }

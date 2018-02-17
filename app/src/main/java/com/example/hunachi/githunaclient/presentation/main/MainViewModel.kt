@@ -23,13 +23,20 @@ class MainViewModel(
     
     val navigateProcessor: PublishProcessor<MenuItem> = PublishProcessor.create()
     val userProcessor: PublishProcessor<User> = PublishProcessor.create()
+    private var user: User? = null
     
     override fun onCreate() {
         super.onCreate()
+    }
+    
+    override fun onStart() {
+        super.onStart()
+        if(user == null)
         githubApiRepository.ownerUser()
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .subscribe({
+                    user = it
                     userProcessor.onNext(it)
                 },{
                     userProcessor.onError(it)
