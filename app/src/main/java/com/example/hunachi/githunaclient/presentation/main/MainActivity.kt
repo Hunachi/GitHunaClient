@@ -7,7 +7,7 @@ import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.databinding.ActivityMainBinding
 import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
-import com.example.hunachi.githunaclient.presentation.fragment.UserInfoFragment
+import com.example.hunachi.githunaclient.presentation.fragment.profile.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.fragment.feeds.FeedsFragment
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.util.FragmentTag

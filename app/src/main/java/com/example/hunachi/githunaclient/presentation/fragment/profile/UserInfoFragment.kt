@@ -1,4 +1,4 @@
-package com.example.hunachi.githunaclient.presentation.fragment
+package com.example.hunachi.githunaclient.presentation.fragment.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,21 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.databinding.FragmentUserInfoBinding
+import com.example.hunachi.githunaclient.kodein.userInfoViewModelModule
 
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
 import com.github.salomonbrys.kodein.*
+import com.github.salomonbrys.kodein.android.appKodein
 
 
 class UserInfoFragment : BaseFragment() {
     
-    /*死んだ時に復帰できる?ようにlazyじゃなくてlateinitに...*/
     private lateinit var binding: FragmentUserInfoBinding
     private lateinit var viewModel: UserInfoViewModel
     private lateinit var user: User
     
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        
+    private val kodein = Kodein.lazy {
+        extend(appKodein.invoke())
+        import(userInfoViewModelModule)
     }
     
     override fun onCreateView(
@@ -36,7 +37,7 @@ class UserInfoFragment : BaseFragment() {
     }
     
     private fun setupViewModel() {
-        viewModel = with(Pair(this as BaseFragment, user)).instance<UserInfoViewModel>().value
+        viewModel = kodein.with(Pair(this as BaseFragment, user)).instance<UserInfoViewModel>().value
         setViewModel(viewModel)
     }
     
