@@ -5,6 +5,7 @@ import androidx.content.edit
 import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.kodein.*
+import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter
 import com.example.hunachi.githunaclient.presentation.fragment.ViewPagerFragment
 import com.example.hunachi.githunaclient.presentation.fragment.profile.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.fragment.feeds.FeedsFragment
@@ -33,6 +34,7 @@ class MainApplication : MyApplication(), KodeinAware {
         bind<FeedsFragment>() with multiton { userName: String -> FeedsFragment.newInstance(userName) }
         bind<GithubApiRepository>() with multiton { token: String -> GithubApiRepository(token) }
         bind<ViewPagerFragment>() with multiton { userName: String -> ViewPagerFragment.newInstance(userName) }
+        bind<LoadingDialogAdapter>() with multiton { context: Context -> LoadingDialogAdapter(context) }
     }
     
     companion object {

@@ -25,10 +25,12 @@ class Navigator(
     
     fun navigateToLogin() {
         activity.startActivity(Intent(activity, loginGithubActivity::class.java))
+        activity.finish()
     }
     
     fun navigateToMain() {
         activity.startActivity(Intent(activity, mainActivity::class.java))
+        activityFinish()
     }
     
     fun navigateToOauth() {

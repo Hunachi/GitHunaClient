@@ -27,22 +27,20 @@ class MainActivity : BaseActivity() {
         extend(appKodein.invoke())
         import(mainViewModelModule)
     }
-    private val viewModel: MainViewModel by kodein.with(this).instance()
+    private var viewModel: MainViewModel? = null
     private val navigator: Navigator by with(this).instance()
     private val binding: ActivityMainBinding by lazy {
         DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
     }
     private lateinit var user: User
     private val manager = supportFragmentManager
-    private lateinit var feedsFragment: FeedsFragment
     private lateinit var userInfoFragment: UserInfoFragment
     private lateinit var viewPagerFragment: ViewPagerFragment
     private val fragmentTags = FragmentTag.values().map { it.name }
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        checkToken()
-        setupViewModel()
+        if(checkToken() && viewModel == null) setupViewModel()
     }
     
     private fun checkToken(): Boolean =
@@ -51,12 +49,14 @@ class MainActivity : BaseActivity() {
                 false
             } else true
     
+    /*in here, viewModel is not null.*/
     private fun setupViewModel() {
+        viewModel = kodein.with(this).instance<MainViewModel>().value
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
-        setViewModel(viewModel)
+        setViewModel(viewModel!!)
         binding.navigation.selectedItemId = R.id.action_lists
-        viewModel.apply {
+        viewModel?.apply {
             navigateProcessor.subscribe { item ->
                 when (item.itemId) {
                     R.id.action_profile -> manager.show(FragmentTag.USER_INFO.name, fragmentTags)

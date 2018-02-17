@@ -13,8 +13,7 @@ val loginViewModelModule = Kodein.Module {
     bind<LoginGithubViewModel>() with scopedSingleton(androidActivityScope) {
         LoginGithubViewModel(
             navigator = with(it as AppCompatActivity).instance(),
-            application = instance(),
-            loadingDialogAdapter = LoadingDialogAdapter(it)
+            application = instance()
         )
     }
 }

@@ -10,15 +10,18 @@ import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapte
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.util.rx.AppSchedulerProvider
 import com.github.salomonbrys.kodein.*
+import io.reactivex.processors.PublishProcessor
 
 /**
  * Created by hunachi on 2018/01/30.
  */
 class LoginGithubViewModel(
         private val navigator: Navigator,
-        private val application: MyApplication,
-        private val loadingDialogAdapter: LoadingDialogAdapter
+        private val application: MyApplication
 ) : BaseViewModel(), GithubTokenRepository.Callback {
+    
+    val tokenProcessor: PublishProcessor<StatusModule> = PublishProcessor.create()
+    val codeProcessor: PublishProcessor<StatusModule> = PublishProcessor.create()
     
     private val kodein = Kodein.lazy {
         bind<GithubTokenRepository>() with singleton {
@@ -30,13 +33,11 @@ class LoginGithubViewModel(
         }
     }
     
-    private lateinit var dialog: AlertDialog //TODO move to view
     lateinit var githubTokenRepository: GithubTokenRepository
     
     override fun onCreate() {
         super.onCreate()
         githubTokenRepository = kodein.instance<GithubTokenRepository>().value
-        dialog = loadingDialogAdapter.onCreateDialog()
     }
     
     fun onClickOauth() {
@@ -49,23 +50,11 @@ class LoginGithubViewModel(
     }
     
     override fun codeStatusCallback(statusModule: StatusModule) {
-        when(statusModule){
-            StatusModule.SUCCESS -> dialog.show()
-            StatusModule.ERROR   -> {
-                Toast.makeText(application, "認証に失敗しました．/nもう一度試して見て下さい．", Toast.LENGTH_SHORT)
-                        .show()
-            }
-        }
+        codeProcessor.onNext(statusModule)
     }
     
     override fun tokenStatusCallback(statusModule: StatusModule) {
-        when (statusModule) {
-            StatusModule.SUCCESS -> {
-                if(dialog.isShowing) dialog.dismiss()
-                navigator.activityFinish()
-            }
-            StatusModule.ERROR   -> {/*todo show ...errorDialog????*/ }
-        }
+        tokenProcessor.onNext(statusModule)
     }
 }
 

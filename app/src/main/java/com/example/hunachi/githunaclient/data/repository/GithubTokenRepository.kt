@@ -37,7 +37,6 @@ class GithubTokenRepository(
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .subscribe({
-                    //Log.d("Tokenを取得した", it.toString()) //OK
                     application.setUserToken(it.token)
                     callback.tokenStatusCallback(StatusModule.SUCCESS)
                 }, {
