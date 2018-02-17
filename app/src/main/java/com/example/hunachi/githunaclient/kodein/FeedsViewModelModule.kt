@@ -9,10 +9,10 @@ import com.github.salomonbrys.kodein.*
  * Created by hunachi on 2018/02/07.
  */
 val eventViewModelModule = Kodein.Module {
-    bind<FeedsViewModel>() with factory { user: User ->
+    bind<FeedsViewModel>() with factory { userName: String ->
         FeedsViewModel(
             githubApiRepository = with((instance() as MyApplication).token).instance(),
-            user = user
+            userName = userName
         )
     }
 }

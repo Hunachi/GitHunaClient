@@ -29,7 +29,6 @@ class MainProfileActivity : BaseActivity() {
     private lateinit var dialog: AlertDialog
     private val navigator: Navigator by with(this).instance()
     private lateinit var viewModel: MainProfileViewModel
-    
     private val kodein = Kodein.lazy{
         extend(appKodein.invoke())
         import(mainProfileViewModelModule)
@@ -64,16 +63,15 @@ class MainProfileActivity : BaseActivity() {
     }
     
     private fun setupView() {
-        adapter = with(Pair(supportFragmentManager, user)).instance<ProfilePagerAdapter>().value
+        adapter = with(Pair(supportFragmentManager, user.userName)).instance<ProfilePagerAdapter>().value
         binding.apply {
-            val pager = pager
             pager.adapter = adapter
             tabLayout.setupWithViewPager(pager)
             
             mainProfileToolbar.let {
                 supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                mainProfileToolbar?.setOnMenuItemClickListener { item ->
-                    if (item.itemId == it?.id) navigator.activityFinish()
+                mainProfileToolbar.setOnMenuItemClickListener { item ->
+                    if (item.itemId == it.id) navigator.activityFinish()
                     true
                 }
             }

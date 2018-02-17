@@ -8,6 +8,7 @@ import com.example.hunachi.githunaclient.databinding.ActivityMainBinding
 import com.example.hunachi.githunaclient.kodein.mainViewModelModule
 import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
+import com.example.hunachi.githunaclient.presentation.fragment.ViewPagerFragment
 import com.example.hunachi.githunaclient.presentation.fragment.profile.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.fragment.feeds.FeedsFragment
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
@@ -35,8 +36,8 @@ class MainActivity : BaseActivity() {
     private val manager = supportFragmentManager
     private lateinit var feedsFragment: FeedsFragment
     private lateinit var userInfoFragment: UserInfoFragment
+    private lateinit var viewPagerFragment: ViewPagerFragment
     private val fragmentTags = FragmentTag.values().map { it.name }
-    
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,13 +73,11 @@ class MainActivity : BaseActivity() {
     }
     
     private fun setupFragmentManager() {
-        feedsFragment = with(user).instance<FeedsFragment>().value
+        viewPagerFragment = with(user.userName).instance<ViewPagerFragment>().value
         userInfoFragment = with(user).instance<UserInfoFragment>().value
         manager.beginTransaction().apply {
             add(R.id.container, userInfoFragment, FragmentTag.USER_INFO.name)
-            add(R.id.container, feedsFragment, FragmentTag.FEED.name)
+            add(R.id.container, viewPagerFragment, FragmentTag.FEED.name)
         }.commit()
     }
-    
-    
 }

@@ -10,7 +10,7 @@ import com.github.salomonbrys.kodein.*
  */
 val profilePagerAdapterModule = Kodein.Module{
     bind<ProfilePagerAdapter>() with factory {
-        it: Pair<FragmentManager, User> ->
+        it: Pair<FragmentManager, String> ->
         ProfilePagerAdapter(
             fragmentManager = it.first,
             feedsFragment = with(it.second).instance()

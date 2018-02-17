@@ -1,6 +1,7 @@
 package com.example.hunachi.githunaclient.presentation.fragment
 
 import android.content.Context
+import android.databinding.BindingAdapter
 import android.databinding.DataBindingUtil
 import android.net.Uri
 import android.os.Bundle
@@ -12,17 +13,19 @@ import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.databinding.FragmentViewPagerBinding
 import com.example.hunachi.githunaclient.kodein.viewPagerViewModelModule
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
+import com.example.hunachi.githunaclient.presentation.main.profile.ProfilePagerAdapter
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.android.appKodein
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.lazy
+import com.github.salomonbrys.kodein.with
 
 class ViewPagerFragment : BaseFragment() {
     
     private lateinit var binding: FragmentViewPagerBinding
     private lateinit var viewModel: ViewpagerViewModel
-    private lateinit var user: User
-    
+    private lateinit var adapter: ProfilePagerAdapter
+    private lateinit var userName: String
     private val kodein = Kodein.lazy{
         extend(appKodein.invoke())
         import(viewPagerViewModelModule)
@@ -30,7 +33,7 @@ class ViewPagerFragment : BaseFragment() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        user = arguments?.getSerializable(ARG_PARAM) as User
+        userName = arguments?.getString(ARG_PARAM) ?: throw IllegalAccessException("userName is null")
     }
     
     override fun onCreateView(
@@ -38,21 +41,26 @@ class ViewPagerFragment : BaseFragment() {
             savedInstanceState: Bundle?
     ): View? {
         binding = FragmentViewPagerBinding.inflate(inflater, container, false)
-        setupViewModel()
+        setupView()
         setViewModel(viewModel)
         return binding.root
     }
     
-    private fun setupViewModel(){
+    private fun setupView(){
         viewModel = kodein.instance<ViewpagerViewModel>().value
+        adapter = with(Pair(childFragmentManager, userName)).instance<ProfilePagerAdapter>().value
+        binding.apply {
+            pager.adapter = adapter
+            tabLayout.setupWithViewPager(pager)
+        }
     }
     
     companion object {
-        private const val ARG_PARAM = "user"
-        fun newInstance(user: User): ViewPagerFragment =
+        private const val ARG_PARAM = "userName"
+        fun newInstance(userName: String): ViewPagerFragment =
                 ViewPagerFragment().apply {
                     arguments = Bundle().apply {
-                        putSerializable(ARG_PARAM, user)
+                        putString(ARG_PARAM, userName)
                     }
                 }
     }

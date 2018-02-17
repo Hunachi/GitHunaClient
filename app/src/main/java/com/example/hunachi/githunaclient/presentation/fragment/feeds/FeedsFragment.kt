@@ -28,7 +28,7 @@ class FeedsFragment : BaseFragment() {
     private val followerEventList = mutableListOf<Feed>()
     private lateinit var feedsAdapter: FeedsAdapter
     private lateinit var viewModel: FeedsViewModel
-    private lateinit var user: User
+    private lateinit var userName: String
     private lateinit var navigator: Navigator
     private val kodein = Kodein.lazy{
         extend(appKodein.invoke())
@@ -37,7 +37,7 @@ class FeedsFragment : BaseFragment() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        user = arguments?.getSerializable("user") as User
+        userName = arguments?.getString(ARG_PARAME) ?: throw IllegalAccessException("hoge")
     }
     
     override fun onCreateView(
@@ -58,7 +58,7 @@ class FeedsFragment : BaseFragment() {
     }
     
     private fun setUpRecycler() {
-        viewModel = kodein.with(user).instance<FeedsViewModel>().value
+        viewModel = kodein.with(userName).instance<FeedsViewModel>().value
         setViewModel(viewModel)
         feedsAdapter = FeedsAdapter(followerEventList, itemCallback)
         binding.apply {
@@ -90,10 +90,11 @@ class FeedsFragment : BaseFragment() {
     }
     
     companion object {
-        fun newInstance(user: User): FeedsFragment =
+        private const val ARG_PARAME = "userName"
+        fun newInstance(userName: String): FeedsFragment =
                 FeedsFragment().apply {
                     arguments = Bundle().apply {
-                        putSerializable("user", user)
+                        putString(ARG_PARAME, userName)
                     }
                 }
     }

@@ -15,7 +15,7 @@ import io.reactivex.schedulers.Schedulers
  */
 class FeedsViewModel(
         private val githubApiRepository: GithubApiRepository,
-        private val user: User
+        private val userName: String
 ) : BaseFragmentViewModel() {
     
     var event: MutableLiveData<Feed> = MutableLiveData()
@@ -29,7 +29,7 @@ class FeedsViewModel(
     
     private fun updateList() {
         refreshing.value = true
-        githubApiRepository.followerEvent(user = user.userName, pages = pages)
+        githubApiRepository.followerEvent(user = userName, pages = pages)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
