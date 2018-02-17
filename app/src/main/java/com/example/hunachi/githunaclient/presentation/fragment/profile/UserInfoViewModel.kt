@@ -11,10 +11,9 @@ import com.example.hunachi.githunaclient.presentation.helper.Navigator
  */
 class UserInfoViewModel(
         val navigator: Navigator,
-        val application: MyApplication,
         val githubApiRepository: GithubApiRepository,
         val user: User
-) : BaseFragmentViewModel(application) {
+) : BaseFragmentViewModel() {
     
     val nameExist = ObservableField<Boolean>(true)
     

@@ -18,7 +18,7 @@ class LoginGithubViewModel(
         private val navigator: Navigator,
         private val application: MyApplication,
         private val loadingDialogAdapter: LoadingDialogAdapter
-) : BaseViewModel(application), GithubTokenRepository.Callback {
+) : BaseViewModel(), GithubTokenRepository.Callback {
     
     private val kodein = Kodein.lazy {
         bind<GithubTokenRepository>() with singleton {

@@ -21,17 +21,11 @@ class MainApplication : MyApplication(), KodeinAware {
     
     override val kodein by Kodein.lazy {
         bind<MyApplication>() with singleton { this@MainApplication as MyApplication }
-        import(mainViewModelModule)
-        import(loginViewModelModule)
         import(githubTokenModule)
         import(navigatorModule)
-        //import(userInfoViewModelModule)
-        import(followerEventViewModelModule)
         import(profilePagerAdapterModule)
-        import(mainProfileViewModelModule)
-        import(viewPagerViewModelModule)
         bind<MainActivity>() with singleton { MainActivity() }
-        bind<MainProfileActivity>() with singleton{ MainProfileActivity() } //TODO make to multiton.
+        bind<MainProfileActivity>() with singleton{ MainProfileActivity() }
         bind<LoginGithubActivity>() with singleton { LoginGithubActivity() }
         bind<SchedulerProvider>() with singleton { AppSchedulerProvider() }
         bind<UserInfoFragment>() with multiton { user: User -> UserInfoFragment.newInstance(user) }

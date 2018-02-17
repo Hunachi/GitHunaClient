@@ -14,10 +14,9 @@ import io.reactivex.schedulers.Schedulers
  * Created by hunachi on 2018/02/05.
  */
 class FeedsViewModel(
-        application: MyApplication,
         private val githubApiRepository: GithubApiRepository,
         private val user: User
-) : BaseFragmentViewModel(application) {
+) : BaseFragmentViewModel() {
     
     var event: MutableLiveData<Feed> = MutableLiveData()
     var refreshing: MutableLiveData<Boolean> = MutableLiveData()

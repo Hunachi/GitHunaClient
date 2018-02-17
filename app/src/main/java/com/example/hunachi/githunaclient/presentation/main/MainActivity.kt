@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.databinding.ActivityMainBinding
+import com.example.hunachi.githunaclient.kodein.mainViewModelModule
 import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
 import com.example.hunachi.githunaclient.presentation.fragment.profile.UserInfoFragment
@@ -12,12 +13,20 @@ import com.example.hunachi.githunaclient.presentation.fragment.feeds.FeedsFragme
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.util.FragmentTag
 import com.example.hunachi.githunaclient.util.extension.show
+import com.github.salomonbrys.kodein.Kodein
+import com.github.salomonbrys.kodein.android.appKodein
 import com.github.salomonbrys.kodein.instance
+import com.github.salomonbrys.kodein.lazy
 import com.github.salomonbrys.kodein.with
 
 class MainActivity : BaseActivity() {
     
-    private val viewModel: MainViewModel by with(this).instance()
+    
+    private val kodein = Kodein.lazy{
+        extend(appKodein.invoke())
+        import(mainViewModelModule)
+    }
+    private val viewModel: MainViewModel by kodein.with(this).instance()
     private val navigator: Navigator by with(this).instance()
     private val binding: ActivityMainBinding by lazy {
         DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)

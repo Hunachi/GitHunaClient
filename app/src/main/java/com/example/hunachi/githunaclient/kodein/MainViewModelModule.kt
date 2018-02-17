@@ -14,7 +14,6 @@ val mainViewModelModule = Kodein.Module {
     bind<MainViewModel>() with scopedSingleton(androidActivityScope) {
         MainViewModel(
             navigator = with(it as AppCompatActivity).instance(),
-            application = instance(),
             scheduler = instance(),
             githubApiRepository = with((instance() as MyApplication).token).instance()
         )

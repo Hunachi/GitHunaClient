@@ -14,7 +14,6 @@ val userInfoViewModelModule = Kodein.Module {
     bind<UserInfoViewModel>() with multiton { it: Pair<BaseFragment, User> ->
         UserInfoViewModel(
             navigator = with(it.first.activity as AppCompatActivity).instance(),
-            application = instance(),
             githubApiRepository = with((instance() as MyApplication).token).instance(),
             user = it.second
         )

@@ -14,7 +14,6 @@ val mainProfileViewModelModule = Kodein.Module {
     bind<MainProfileViewModel>() with multiton { it: Pair<BaseActivity, String> ->
         MainProfileViewModel(
             navigator = with(it.first as AppCompatActivity).instance(),
-            application = instance(),
             scheduler = instance(),
             githubApiRepository = with((instance() as MyApplication).token).instance(),
             userName = it.second

@@ -8,10 +8,9 @@ import com.github.salomonbrys.kodein.*
 /**
  * Created by hunachi on 2018/02/07.
  */
-val followerEventViewModelModule = Kodein.Module {
+val eventViewModelModule = Kodein.Module {
     bind<FeedsViewModel>() with factory { user: User ->
         FeedsViewModel(
-            application = instance(),
             githubApiRepository = with((instance() as MyApplication).token).instance(),
             user = user
         )

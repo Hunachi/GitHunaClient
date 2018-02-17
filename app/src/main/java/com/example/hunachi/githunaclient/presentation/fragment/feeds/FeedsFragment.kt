@@ -6,13 +6,16 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.hunachi.githunaclient.R.id.swipe_refresh
 import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.databinding.FragmentFollowerEventBinding
+import com.example.hunachi.githunaclient.kodein.eventViewModelModule
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.util.FeedItemCallback
+import com.github.salomonbrys.kodein.Kodein
+import com.github.salomonbrys.kodein.android.appKodein
 import com.github.salomonbrys.kodein.instance
+import com.github.salomonbrys.kodein.lazy
 import com.github.salomonbrys.kodein.with
 import kotlinx.android.synthetic.main.fragment_follower_event.*
 
@@ -27,6 +30,10 @@ class FeedsFragment : BaseFragment() {
     private lateinit var viewModel: FeedsViewModel
     private lateinit var user: User
     private lateinit var navigator: Navigator
+    private val kodein = Kodein.lazy{
+        extend(appKodein.invoke())
+        import(eventViewModelModule)
+    }
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +58,7 @@ class FeedsFragment : BaseFragment() {
     }
     
     private fun setUpRecycler() {
-        viewModel = with(user).instance<FeedsViewModel>().value
+        viewModel = kodein.with(user).instance<FeedsViewModel>().value
         setViewModel(viewModel)
         feedsAdapter = FeedsAdapter(followerEventList, itemCallback)
         binding.apply {

@@ -16,10 +16,9 @@ import io.reactivex.processors.PublishProcessor
 
 class MainViewModel(
         private val navigator: Navigator,
-        private val application: MyApplication,
         private val scheduler: SchedulerProvider,
         private val githubApiRepository: GithubApiRepository
-) : BaseViewModel(application) {
+) : BaseViewModel() {
     
     val navigateProcessor: PublishProcessor<MenuItem> = PublishProcessor.create()
     val userProcessor: PublishProcessor<User> = PublishProcessor.create()

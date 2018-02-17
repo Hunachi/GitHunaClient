@@ -12,7 +12,7 @@ import com.github.salomonbrys.kodein.singleton
 val viewPagerViewModelModule = Kodein.Module{
     bind<ViewpagerViewModel>() with singleton {
         ViewpagerViewModel(
-            application = instance()
+        
         )
     }
 }

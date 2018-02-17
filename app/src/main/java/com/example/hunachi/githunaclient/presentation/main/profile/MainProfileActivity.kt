@@ -6,11 +6,15 @@ import android.support.v7.app.AlertDialog
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.databinding.ActivityMainProfileBinding
+import com.example.hunachi.githunaclient.kodein.mainProfileViewModelModule
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter
 import com.example.hunachi.githunaclient.presentation.fragment.profile.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
+import com.github.salomonbrys.kodein.Kodein
+import com.github.salomonbrys.kodein.android.appKodein
 import com.github.salomonbrys.kodein.instance
+import com.github.salomonbrys.kodein.lazy
 import com.github.salomonbrys.kodein.with
 
 class MainProfileActivity : BaseActivity() {
@@ -26,6 +30,11 @@ class MainProfileActivity : BaseActivity() {
     private val navigator: Navigator by with(this).instance()
     private lateinit var viewModel: MainProfileViewModel
     
+    private val kodein = Kodein.lazy{
+        extend(appKodein.invoke())
+        import(mainProfileViewModelModule)
+    }
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         userName = intent.getStringExtra("userName")
@@ -36,7 +45,7 @@ class MainProfileActivity : BaseActivity() {
     private fun setupViewModel() {
         dialog = LoadingDialogAdapter(this).onCreateDialog()
         dialog.show()
-        viewModel = with(Pair(this as BaseActivity, userName)).instance<MainProfileViewModel>().value
+        viewModel = kodein.with(Pair(this as BaseActivity, userName)).instance<MainProfileViewModel>().value
         setViewModel(viewModel)
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)

@@ -4,8 +4,12 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.databinding.ActivityLoginGitHubBinding
+import com.example.hunachi.githunaclient.kodein.loginViewModelModule
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
+import com.github.salomonbrys.kodein.Kodein
+import com.github.salomonbrys.kodein.android.appKodein
 import com.github.salomonbrys.kodein.instance
+import com.github.salomonbrys.kodein.lazy
 import com.github.salomonbrys.kodein.with
 
 /**
@@ -13,8 +17,11 @@ import com.github.salomonbrys.kodein.with
  */
 class LoginGithubActivity : BaseActivity() {
     
-    private val viewModel: LoginGithubViewModel by with(this).instance()
-    
+    private val kodein = Kodein.lazy{
+        extend(appKodein.invoke())
+        import(loginViewModelModule)
+    }
+    private val viewModel: LoginGithubViewModel by kodein.with(this).instance()
     private val binding: ActivityLoginGitHubBinding by lazy {
         DataBindingUtil.setContentView<ActivityLoginGitHubBinding>(
             this,

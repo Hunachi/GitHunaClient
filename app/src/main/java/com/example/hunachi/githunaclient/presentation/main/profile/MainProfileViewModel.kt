@@ -15,9 +15,8 @@ class MainProfileViewModel(
         private val navigator: Navigator,
         private val githubApiRepository: GithubApiRepository,
         private val scheduler: SchedulerProvider,
-        private val userName: String,
-        application: MyApplication
-) : BaseViewModel(application) {
+        private val userName: String
+) : BaseViewModel() {
     
     val processor: PublishProcessor<User> = PublishProcessor.create()
     
