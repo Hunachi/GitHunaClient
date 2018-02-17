@@ -20,7 +20,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:visibility="visible"
-            app:indicatorColor="@color/droidColor"
+            app:indicatorColor="@color/bugDroid"
             app:indicatorName="PacmanIndicator"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="droidColor">#A4C639</color>
-    <color name="droidLightColor">#dff2a2</color>
+    <color name="colorPrimary">@color/bugDroid</color>
+    <color name="colorPrimaryDark">@color/droidDark</color>
+    <color name="colorAccent">@color/kotlinOrange</color>
+    <color name="bugDroid">#A4C639</color>
+    <color name="droidLight">#dff2a2</color>
+    <color name="droidDark">#2a701f</color>
+    <color name="kotlinOrange">#fc850f</color>
+    <color name="kotlinPink">#d05fa1</color>
+    <color name="kotlinBlue">#6b74ff</color>
+    <color name="kotlinLightBlue">#01b0ff</color>
+    <color name="kotlinPurple">#945dff</color>
 </resources>
