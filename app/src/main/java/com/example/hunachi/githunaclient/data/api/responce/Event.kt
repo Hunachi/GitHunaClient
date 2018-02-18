@@ -12,8 +12,7 @@ data class Event(
         val id: String,
         val type: String,
         val actor: Actor,
-        @Nullable
-        val repo: Repo?,
+        val repo: Repo,
         val payload: Payload,
         @Json(name = "created_at")
         val createdAt: String

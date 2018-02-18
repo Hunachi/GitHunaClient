@@ -14,6 +14,5 @@ data class Repo (
         @Nullable
         @Json(name = "full_name")
         val fullName: String?,
-        @Nullable
-        val url: String?
+        val url: String
 )

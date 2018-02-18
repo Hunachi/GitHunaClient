@@ -1,7 +1,6 @@
 package com.example.hunachi.githunaclient.presentation.fragment.feeds
 
 import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -9,13 +8,15 @@ import android.view.ViewGroup
 import com.example.hunachi.githunaclient.BR
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.databinding.ItemEventBinding
+import com.example.hunachi.githunaclient.util.FeedItemCallback
 
 /**
  * Created by hunachi on 2018/02/05.
  */
 class FeedsAdapter(
         private val list: MutableList<Feed>,
-        private val callback: (Feed) -> Unit
+        private val iconCallback: FeedItemCallback,
+        private val callback: FeedItemCallback
 ) : RecyclerView.Adapter<FeedsAdapter.ViewHolder>() {
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,6 +29,9 @@ class FeedsAdapter(
         holder.binding?.apply {
             setVariable(BR.viewModel, list[position])
             actorImageButton.setOnClickListener {
+                iconCallback(list[position])
+            }
+            itemBodyLayout.setOnClickListener {
                 callback(list[position])
             }
         }

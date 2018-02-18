@@ -83,6 +83,8 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
     compile 'com.xwray:groupie-databinding:2.0.3'
 
+    //chrome custom tabs
+    compile 'com.android.support:customtabs:27.0.2'
 }
 kapt {
     generateStubs = true

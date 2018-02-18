@@ -11,6 +11,7 @@ fun Event.convertToFollowerEvent() =
             id = this@convertToFollowerEvent.id.toLong()
             actor = this@convertToFollowerEvent.actor.userName
             avatarUrl = this@convertToFollowerEvent.actor.avatarUrl
+            repositoryUrl = this@convertToFollowerEvent.repo.url
             action = type.convertToActionText(payload.action)?: type.convertToLowerText()
             repositoryName = when {
                 repo?.fullName != null -> repo.fullName

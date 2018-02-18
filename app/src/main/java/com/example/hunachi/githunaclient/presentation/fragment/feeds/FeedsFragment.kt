@@ -1,17 +1,20 @@
 package com.example.hunachi.githunaclient.presentation.fragment.feeds
 
 import android.arch.lifecycle.Observer
+import android.net.Uri
 import android.os.Bundle
+import android.support.customtabs.CustomTabsIntent
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.hunachi.githunaclient.data.api.responce.User
+import android.widget.Toast
 import com.example.hunachi.githunaclient.databinding.FragmentFollowerEventBinding
 import com.example.hunachi.githunaclient.kodein.eventViewModelModule
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.util.FeedItemCallback
+import com.example.hunachi.githunaclient.util.extension.customTabsIntent
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.android.appKodein
 import com.github.salomonbrys.kodein.instance
@@ -19,6 +22,7 @@ import com.github.salomonbrys.kodein.lazy
 import com.github.salomonbrys.kodein.with
 import kotlinx.android.synthetic.main.fragment_follower_event.*
 
+@Suppress("DEPRECATION")
 /**
  * Created by hunachi on 2018/02/04.
  */
@@ -29,6 +33,7 @@ class FeedsFragment : BaseFragment() {
     private lateinit var feedsAdapter: FeedsAdapter
     private lateinit var viewModel: FeedsViewModel
     private lateinit var userName: String
+    private lateinit var tabsIntent: CustomTabsIntent
     private lateinit var navigator: Navigator
     private val kodein = Kodein.lazy{
         extend(appKodein.invoke())
@@ -49,7 +54,8 @@ class FeedsFragment : BaseFragment() {
     
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        navigator = with(this.activity).instance<Navigator>().value
+        navigator = with(activity).instance<Navigator>().value
+        tabsIntent = activity.customTabsIntent()
         setUpRecycler()
     }
     
@@ -60,7 +66,7 @@ class FeedsFragment : BaseFragment() {
     private fun setUpRecycler() {
         viewModel = kodein.with(userName).instance<FeedsViewModel>().value
         setViewModel(viewModel)
-        feedsAdapter = FeedsAdapter(followerEventList, itemCallback)
+        feedsAdapter = FeedsAdapter(followerEventList, itemIconCallback, itemCallback)
         binding.apply {
             viewModel = this@FeedsFragment.viewModel
             setLifecycleOwner(this@FeedsFragment)
@@ -85,8 +91,14 @@ class FeedsFragment : BaseFragment() {
         }
     }
     
-    private val itemCallback: FeedItemCallback = {
+    private val itemIconCallback: FeedItemCallback = {
         navigator.navigateToMainProfile(it.actor)
+    }
+    
+    private val itemCallback: FeedItemCallback = {
+        //todo dialog & get repository info.
+        //tabsIntent.launchUrl(activity, Uri.parse(it.repositoryUrl))
+        Toast.makeText(activity, "hogekyo-", Toast.LENGTH_SHORT).show()
     }
     
     companion object {
