@@ -15,6 +15,7 @@ import com.example.hunachi.githunaclient.presentation.base.BaseFragment
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.util.FeedItemCallback
 import com.example.hunachi.githunaclient.util.extension.customTabsIntent
+import com.example.hunachi.githunaclient.util.extension.sepatateOwnerRepo
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.android.appKodein
 import com.github.salomonbrys.kodein.instance
@@ -35,7 +36,7 @@ class FeedsFragment : BaseFragment() {
     private lateinit var userName: String
     private lateinit var tabsIntent: CustomTabsIntent
     private lateinit var navigator: Navigator
-    private val kodein = Kodein.lazy{
+    private val kodein = Kodein.lazy {
         extend(appKodein.invoke())
         import(eventViewModelModule)
     }
@@ -49,6 +50,7 @@ class FeedsFragment : BaseFragment() {
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = FragmentFollowerEventBinding.inflate(inflater, container!!, false)
+        setUpRecycler()
         return binding.root
     }
     
@@ -56,11 +58,6 @@ class FeedsFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         navigator = with(activity).instance<Navigator>().value
         tabsIntent = activity.customTabsIntent()
-        setUpRecycler()
-    }
-    
-    override fun onStart() {
-        super.onStart()
     }
     
     private fun setUpRecycler() {
@@ -88,6 +85,11 @@ class FeedsFragment : BaseFragment() {
             refreshing.observe(this@FeedsFragment, Observer {
                 swipe_refresh.isRefreshing = it ?: false
             })
+            repositoryProcessor.subscribe({
+                tabsIntent.launchUrl(activity, Uri.parse(it.htmlUrl))
+            }, {
+                it.printStackTrace()
+            })
         }
     }
     
@@ -96,8 +98,8 @@ class FeedsFragment : BaseFragment() {
     }
     
     private val itemCallback: FeedItemCallback = {
-        //todo dialog & get repository info.
-        //tabsIntent.launchUrl(activity, Uri.parse(it.repositoryUrl))
+        viewModel.repository(it.repositoryName.sepatateOwnerRepo())
+        //todo show dialog.
         Toast.makeText(activity, "hogekyo-", Toast.LENGTH_SHORT).show()
     }
     

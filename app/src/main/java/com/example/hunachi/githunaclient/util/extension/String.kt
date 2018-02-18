@@ -4,8 +4,6 @@ package com.example.hunachi.githunaclient.util.extension
  * Created by hunachi on 2018/02/08.
  */
 
-const val created = "Created "
-
 fun String.convertToLowerText(): String {
     var index = 0
     var string = ""
@@ -42,14 +40,15 @@ fun String.convertToActionText(actions: String?) =
             "PublicEvent"                                -> "made public"
             "PullRequestEvent", "PullRequestReviewEvent" -> "$actions pull request"
             "PullRequestReviewCommentEvent"              -> "$actions pull request comment"
-            //"PushEvent"                                   -> { }
+        //"PushEvent"                                   -> { }
             "ReleaseEvent"                               -> "published release"
-            //"RepositoryEvent"                            -> { }
-            //"StatusEvent"                                -> { }
-            //"TeamEvent"                                  -> { }
-            //"TeamAddEvent"                               -> { }
+        //"RepositoryEvent"                            -> { }
+        //"StatusEvent"                                -> { }
+        //"TeamEvent"                                  -> { }
+        //"TeamAddEvent"                               -> { }
             "WatchEvent"                                 -> "starring"
             else                                         -> this.convertToLowerText()
         }
 
-
+fun String.sepatateOwnerRepo() =
+        Pair(substring(0, indexOfFirst { it == '/' }), substring(indexOfFirst { it == '/' } + 1, length))

@@ -5,6 +5,6 @@ package com.example.hunachi.githunaclient.model
  */
 class Key_{
     companion object {
-        const val token: String = ""
+        const val token: String = "466f3365b66b81f9e7135277222b2b4ffd63c811"
     }
 }

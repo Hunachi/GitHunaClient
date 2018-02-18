@@ -25,6 +25,9 @@ class GithubApiRepository(
     fun followerEvent(user: String, pages: Int) = GithubApiAdapter.githubApi
             .followerEvents(token = token, user = user, pages = pages)
     
+    fun repository(owner: String, repo: String) = GithubApiAdapter.githubApi
+            .repository(owner = owner, repo = repo, token = token)
+    
     fun contribution(@Url url: String) = GithubApiAdapter.githubApi
             .contribute(url)
     

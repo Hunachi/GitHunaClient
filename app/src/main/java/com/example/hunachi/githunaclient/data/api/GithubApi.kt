@@ -1,6 +1,8 @@
 package com.example.hunachi.githunaclient.data.api
 
+import android.arch.lifecycle.LifecycleOwner
 import com.example.hunachi.githunaclient.data.api.responce.Event
+import com.example.hunachi.githunaclient.data.api.responce.Repository
 import com.example.hunachi.githunaclient.data.api.responce.User
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -29,6 +31,13 @@ interface GithubApi {
             @Query("pages") pages: Int,
             @Query("access_token") token: String
     ): Observable<List<Event>>
+    
+    @GET("/repos/{owner}/{repo}")
+    fun repository(
+            @Path("owner") owner: String,
+            @Path("repo") repo: String,
+            @Query("access_token") token: String
+    ): Observable<Repository>
     
     @GET
     fun contribute(@Url url: String): Observable<String>

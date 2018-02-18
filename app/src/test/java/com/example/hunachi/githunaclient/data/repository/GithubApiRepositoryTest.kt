@@ -1,16 +1,12 @@
 package com.example.hunachi.githunaclient.data.repository
 
-import androidx.net.toUri
 import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.model.Key_
 import com.example.hunachi.githunaclient.util.TestSchedulerProvider
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import retrofit2.http.Url
-import java.net.URL
 
 /**
  * Created by hunachi on 2018/02/03.
@@ -55,6 +51,18 @@ class GithubApiRepositoryTest {
                         it.printStackTrace()
                         assert(false)
                     })
+    }
+    
+    @Test
+    fun repository(){
+        githubApiRepository.repository("gedorinku", "circlearning")
+                .subscribeOn(scheduler.io())
+                .observeOn(scheduler.ui())
+                .subscribe({
+                    assert(it.name == "gitHunaClient")
+                },{
+                    it.printStackTrace()
+                })
     }
     
     @Test

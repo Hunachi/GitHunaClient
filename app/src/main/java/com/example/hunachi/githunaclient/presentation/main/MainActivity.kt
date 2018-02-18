@@ -2,6 +2,7 @@ package com.example.hunachi.githunaclient.presentation.main
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.util.Log
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.databinding.ActivityMainBinding
@@ -41,6 +42,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if(checkToken() && viewModel == null) setupViewModel()
+        Log.d("tokenはここだよおおおおおお！", (application as MyApplication).token)
     }
     
     private fun checkToken(): Boolean =
