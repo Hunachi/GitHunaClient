@@ -13,7 +13,7 @@ import com.example.hunachi.githunaclient.presentation.dialog.base.BaseAlertDialo
 /**
  * Created by hunachi on 2018/01/31.
  */
-class LoadingDialogAdapter(private val context: Context) : BaseAlertDialogAdapter {
+class LoadingDialogAdapter(override val context: Context) : BaseAlertDialogAdapter {
     
     private val binding: DialogLoadingBinding = DataBindingUtil.inflate(
         LayoutInflater.from(context),

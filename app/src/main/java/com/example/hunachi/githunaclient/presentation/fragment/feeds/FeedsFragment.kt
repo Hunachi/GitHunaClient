@@ -1,9 +1,11 @@
 package com.example.hunachi.githunaclient.presentation.fragment.feeds
 
 import android.arch.lifecycle.Observer
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.customtabs.CustomTabsIntent
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +14,11 @@ import android.widget.Toast
 import com.example.hunachi.githunaclient.databinding.FragmentFollowerEventBinding
 import com.example.hunachi.githunaclient.kodein.eventViewModelModule
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
+import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter
+import com.example.hunachi.githunaclient.presentation.dialog.WarningDialogAdapter
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.util.FeedItemCallback
+import com.example.hunachi.githunaclient.util.StatusDialog
 import com.example.hunachi.githunaclient.util.extension.customTabsIntent
 import com.example.hunachi.githunaclient.util.extension.sepatateOwnerRepo
 import com.github.salomonbrys.kodein.Kodein
@@ -36,6 +41,8 @@ class FeedsFragment : BaseFragment() {
     private lateinit var userName: String
     private lateinit var tabsIntent: CustomTabsIntent
     private lateinit var navigator: Navigator
+    private lateinit var loadingDialog: AlertDialog
+    //private lateinit var warningDialog: AlertDialog
     private val kodein = Kodein.lazy {
         extend(appKodein.invoke())
         import(eventViewModelModule)
@@ -56,8 +63,10 @@ class FeedsFragment : BaseFragment() {
     
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        setupDialog()
         navigator = with(activity).instance<Navigator>().value
         tabsIntent = activity.customTabsIntent()
+        //warningDialog = with(activity as Context).instance<WarningDialogAdapter>().value.onCreateDialog()
     }
     
     private fun setUpRecycler() {
@@ -86,11 +95,18 @@ class FeedsFragment : BaseFragment() {
                 swipe_refresh.isRefreshing = it ?: false
             })
             repositoryProcessor.subscribe({
+                loadingDialog.dismiss()
                 tabsIntent.launchUrl(activity, Uri.parse(it.htmlUrl))
             }, {
+                loadingDialog.dismiss()
                 it.printStackTrace()
             })
         }
+    }
+    
+    private fun setupDialog(){
+        loadingDialog = with(activity as Context).instance<LoadingDialogAdapter>().value
+                .onCreateDialog()
     }
     
     private val itemIconCallback: FeedItemCallback = {
@@ -98,10 +114,14 @@ class FeedsFragment : BaseFragment() {
     }
     
     private val itemCallback: FeedItemCallback = {
+        loadingDialog.show()
         viewModel.repository(it.repositoryName.sepatateOwnerRepo())
-        //todo show dialog.
-        Toast.makeText(activity, "hogekyo-", Toast.LENGTH_SHORT).show()
     }
+    
+    /*private val warningDailogCallback: (StatusDialog) -> Unit = {
+        status ->
+        if (status == StatusDialog.OK)
+    }*/
     
     companion object {
         private const val ARG_PARAME = "userName"

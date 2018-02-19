@@ -8,7 +8,7 @@ import com.example.hunachi.githunaclient.presentation.fragment.feeds.Feed
  */
 typealias Scopes = MutableList<String>
 
-typealias OauthAccessCallback = (StatusModule) -> Unit
+typealias OauthAccessCallback = (StatusSignal) -> Unit
 
 typealias FeedItemCallback = (Feed) -> Unit
 
