@@ -12,7 +12,7 @@ import io.reactivex.processors.PublishProcessor
 /**
  * Created by hunachi on 2018/01/27.
  */
-
+/*TODO login時にuserの名前情報を取っておけばこれはいらなくない?*/
 class MainViewModel(
         private val navigator: Navigator,
         private val scheduler: SchedulerProvider,

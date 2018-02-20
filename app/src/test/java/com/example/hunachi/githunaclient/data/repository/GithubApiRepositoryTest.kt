@@ -1,7 +1,7 @@
 package com.example.hunachi.githunaclient.data.repository
 
 import com.example.hunachi.githunaclient.data.api.responce.User
-import com.example.hunachi.githunaclient.model.Key_
+import com.example.hunachi.githunaclient.model.Key
 import com.example.hunachi.githunaclient.util.TestSchedulerProvider
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 import org.junit.Assert.assertEquals
@@ -21,7 +21,7 @@ class GithubApiRepositoryTest {
     @Before
     fun init() {
         scheduler = TestSchedulerProvider()
-        githubApiRepository = GithubApiRepository(Key_.token)
+        githubApiRepository = GithubApiRepository(Key.token)
     }
     
     /*生まれて初めて書いたテストが通って嬉しい(((o(*ﾟ▽ﾟ*)o)))！！*/

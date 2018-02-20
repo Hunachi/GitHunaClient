@@ -10,6 +10,7 @@ import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 /**
  * Created by hunachi on 2018/01/29.
  */
+/*TODO これuseCaseでは？*/
 class GithubTokenRepository(
         val scheduler: SchedulerProvider,
         val application: MyApplication,

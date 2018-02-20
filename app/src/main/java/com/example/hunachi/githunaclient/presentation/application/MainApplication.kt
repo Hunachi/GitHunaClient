@@ -2,6 +2,7 @@ package com.example.hunachi.githunaclient.presentation.application
 
 import android.content.Context
 import androidx.content.edit
+import com.example.hunachi.githunaclient.BuildConfig
 import com.github.salomonbrys.kodein.*
 
 /**
