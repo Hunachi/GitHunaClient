@@ -1,4 +1,4 @@
-package com.example.hunachi.githunaclient.presentation
+package com.example.hunachi.githunaclient.presentation.application
 
 import android.app.Application
 

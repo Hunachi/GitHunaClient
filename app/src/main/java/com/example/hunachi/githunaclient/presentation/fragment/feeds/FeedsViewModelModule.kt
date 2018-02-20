@@ -1,7 +1,6 @@
-package com.example.hunachi.githunaclient.kodein
+package com.example.hunachi.githunaclient.presentation.fragment.feeds
 
-import com.example.hunachi.githunaclient.data.api.responce.User
-import com.example.hunachi.githunaclient.presentation.MyApplication
+import com.example.hunachi.githunaclient.presentation.application.MyApplication
 import com.example.hunachi.githunaclient.presentation.fragment.feeds.FeedsViewModel
 import com.github.salomonbrys.kodein.*
 

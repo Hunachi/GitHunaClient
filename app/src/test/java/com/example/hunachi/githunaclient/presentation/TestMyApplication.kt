@@ -1,6 +1,6 @@
 package com.example.hunachi.githunaclient.presentation
 
-import android.app.Application
+import com.example.hunachi.githunaclient.presentation.application.MyApplication
 
 /**
  * Created by hunachi on 2018/02/03.

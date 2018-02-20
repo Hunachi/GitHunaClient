@@ -10,21 +10,14 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.example.hunachi.githunaclient.databinding.FragmentFollowerEventBinding
-import com.example.hunachi.githunaclient.kodein.eventViewModelModule
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter
-import com.example.hunachi.githunaclient.presentation.dialog.WarningDialogAdapter
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.util.FeedItemCallback
-import com.example.hunachi.githunaclient.util.StatusDialog
 import com.example.hunachi.githunaclient.util.extension.customTabsIntent
 import com.example.hunachi.githunaclient.util.extension.sepatateOwnerRepo
-import com.github.salomonbrys.kodein.Kodein
-import com.github.salomonbrys.kodein.android.appKodein
 import com.github.salomonbrys.kodein.instance
-import com.github.salomonbrys.kodein.lazy
 import com.github.salomonbrys.kodein.with
 import kotlinx.android.synthetic.main.fragment_follower_event.*
 

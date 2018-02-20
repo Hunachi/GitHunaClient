@@ -3,7 +3,7 @@ package com.example.hunachi.githunaclient.presentation.login
 import com.example.hunachi.githunaclient.data.repository.GithubTokenRepository
 import com.example.hunachi.githunaclient.util.StatusSignal
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
-import com.example.hunachi.githunaclient.presentation.MyApplication
+import com.example.hunachi.githunaclient.presentation.application.MyApplication
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.util.rx.AppSchedulerProvider
 import com.github.salomonbrys.kodein.*

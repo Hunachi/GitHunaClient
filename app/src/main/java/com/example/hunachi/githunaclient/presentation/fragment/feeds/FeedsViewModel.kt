@@ -2,17 +2,12 @@ package com.example.hunachi.githunaclient.presentation.fragment.feeds
 
 import android.arch.lifecycle.MutableLiveData
 import android.support.v4.widget.SwipeRefreshLayout
-import com.example.hunachi.githunaclient.data.api.responce.Repo
 import com.example.hunachi.githunaclient.data.api.responce.Repository
-import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
-import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel
 import com.example.hunachi.githunaclient.util.extension.convertToFollowerEvent
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.processors.PublishProcessor
-import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by hunachi on 2018/02/05.

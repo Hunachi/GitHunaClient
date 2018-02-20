@@ -1,4 +1,4 @@
-package com.example.hunachi.githunaclient.kodein
+package com.example.hunachi.githunaclient.presentation.login
 
 import android.support.v7.app.AppCompatActivity
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter

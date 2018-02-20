@@ -2,7 +2,6 @@ package com.example.hunachi.githunaclient.presentation.main.profile
 
 import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
-import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider

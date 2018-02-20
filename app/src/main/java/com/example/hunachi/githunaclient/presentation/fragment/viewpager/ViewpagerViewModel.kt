@@ -1,4 +1,4 @@
-package com.example.hunachi.githunaclient.presentation.fragment
+package com.example.hunachi.githunaclient.presentation.fragment.viewpager
 
 import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel
 

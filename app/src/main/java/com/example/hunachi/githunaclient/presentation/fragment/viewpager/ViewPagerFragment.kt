@@ -1,23 +1,14 @@
-package com.example.hunachi.githunaclient.presentation.fragment
+package com.example.hunachi.githunaclient.presentation.fragment.viewpager
 
-import android.content.Context
-import android.databinding.BindingAdapter
-import android.databinding.DataBindingUtil
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.databinding.FragmentViewPagerBinding
-import com.example.hunachi.githunaclient.kodein.viewPagerViewModelModule
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
-import com.example.hunachi.githunaclient.presentation.main.profile.ProfilePagerAdapter
-import com.github.salomonbrys.kodein.Kodein
-import com.github.salomonbrys.kodein.android.appKodein
+import com.example.hunachi.githunaclient.presentation.fragment.viewpager.adapter.ProfilePagerAdapter
 import com.github.salomonbrys.kodein.instance
-import com.github.salomonbrys.kodein.lazy
 import com.github.salomonbrys.kodein.with
 
 class ViewPagerFragment : BaseFragment() {

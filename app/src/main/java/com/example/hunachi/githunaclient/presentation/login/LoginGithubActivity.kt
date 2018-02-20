@@ -6,15 +6,11 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.databinding.ActivityLoginGitHubBinding
-import com.example.hunachi.githunaclient.kodein.loginViewModelModule
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.util.StatusSignal
-import com.github.salomonbrys.kodein.Kodein
-import com.github.salomonbrys.kodein.android.appKodein
 import com.github.salomonbrys.kodein.instance
-import com.github.salomonbrys.kodein.lazy
 import com.github.salomonbrys.kodein.with
 
 /**

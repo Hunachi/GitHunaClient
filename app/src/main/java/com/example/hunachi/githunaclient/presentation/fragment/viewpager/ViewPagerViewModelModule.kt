@@ -1,6 +1,6 @@
-package com.example.hunachi.githunaclient.kodein
+package com.example.hunachi.githunaclient.presentation.fragment.viewpager
 
-import com.example.hunachi.githunaclient.presentation.fragment.ViewpagerViewModel
+import com.example.hunachi.githunaclient.presentation.fragment.viewpager.ViewpagerViewModel
 import com.github.salomonbrys.kodein.*
 
 /**

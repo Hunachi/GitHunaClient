@@ -1,4 +1,4 @@
-package com.example.hunachi.githunaclient.kodein
+package com.example.hunachi.githunaclient.presentation.helper
 
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
 import com.example.hunachi.githunaclient.presentation.helper.Navigator

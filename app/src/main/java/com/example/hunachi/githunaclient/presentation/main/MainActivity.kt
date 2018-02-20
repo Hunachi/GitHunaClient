@@ -2,23 +2,17 @@ package com.example.hunachi.githunaclient.presentation.main
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.util.Log
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.databinding.ActivityMainBinding
-import com.example.hunachi.githunaclient.kodein.mainViewModelModule
-import com.example.hunachi.githunaclient.presentation.MyApplication
+import com.example.hunachi.githunaclient.presentation.application.MyApplication
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
-import com.example.hunachi.githunaclient.presentation.fragment.ViewPagerFragment
-import com.example.hunachi.githunaclient.presentation.fragment.profile.UserInfoFragment
-import com.example.hunachi.githunaclient.presentation.fragment.feeds.FeedsFragment
+import com.example.hunachi.githunaclient.presentation.fragment.viewpager.ViewPagerFragment
+import com.example.hunachi.githunaclient.presentation.fragment.userinfo.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.util.FragmentTag
 import com.example.hunachi.githunaclient.util.extension.show
-import com.github.salomonbrys.kodein.Kodein
-import com.github.salomonbrys.kodein.android.appKodein
 import com.github.salomonbrys.kodein.instance
-import com.github.salomonbrys.kodein.lazy
 import com.github.salomonbrys.kodein.with
 
 class MainActivity : BaseActivity() {

@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.hunachi.githunaclient.presentation.fragment.profile.UserInfoViewModel" />
+            type="com.example.hunachi.githunaclient.presentation.fragment.userinfo.UserInfoViewModel" />
     </data>
 
     <LinearLayout

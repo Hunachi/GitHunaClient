@@ -1,4 +1,4 @@
-package com.example.hunachi.githunaclient.kodein
+package com.example.hunachi.githunaclient.data.repository
 
 import com.example.hunachi.githunaclient.data.repository.GithubTokenRepository
 import com.github.salomonbrys.kodein.Kodein

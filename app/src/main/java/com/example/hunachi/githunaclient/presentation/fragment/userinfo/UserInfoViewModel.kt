@@ -1,9 +1,8 @@
-package com.example.hunachi.githunaclient.presentation.fragment.profile
+package com.example.hunachi.githunaclient.presentation.fragment.userinfo
 
 import android.databinding.ObservableField
 import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
-import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 /**

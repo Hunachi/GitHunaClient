@@ -1,8 +1,6 @@
 package com.example.hunachi.githunaclient.presentation.base
 
-import android.arch.lifecycle.AndroidViewModel
 import android.databinding.BaseObservable
-import com.example.hunachi.githunaclient.presentation.MyApplication
 
 /**
  * Created by hunachi on 2018/01/27.
