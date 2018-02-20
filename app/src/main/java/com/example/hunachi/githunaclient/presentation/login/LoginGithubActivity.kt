@@ -22,14 +22,10 @@ import com.github.salomonbrys.kodein.with
  */
 class LoginGithubActivity : BaseActivity() {
     
-    private val kodein = Kodein.lazy {
-        extend(appKodein.invoke())
-        import(loginViewModelModule)
-    }
     private val loadingDialogAdapter: LoadingDialogAdapter by with(this as Context).instance()
     private lateinit var dialog: AlertDialog
     private val navigator: Navigator by with(this).instance()
-    private val viewModel: LoginGithubViewModel by kodein.with(this).instance()
+    private val viewModel: LoginGithubViewModel by with(this).instance()
     private val binding: ActivityLoginGitHubBinding by lazy {
         DataBindingUtil.setContentView<ActivityLoginGitHubBinding>(this, R.layout.activity_login_git_hub)
     }

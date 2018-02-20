@@ -43,10 +43,6 @@ class FeedsFragment : BaseFragment() {
     private lateinit var navigator: Navigator
     private lateinit var loadingDialog: AlertDialog
     //private lateinit var warningDialog: AlertDialog
-    private val kodein = Kodein.lazy {
-        extend(appKodein.invoke())
-        import(eventViewModelModule)
-    }
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,7 +66,7 @@ class FeedsFragment : BaseFragment() {
     }
     
     private fun setUpRecycler() {
-        viewModel = kodein.with(userName).instance<FeedsViewModel>().value
+        viewModel = with(userName).instance<FeedsViewModel>().value
         setViewModel(viewModel)
         feedsAdapter = FeedsAdapter(followerEventList, itemIconCallback, itemCallback)
         binding.apply {

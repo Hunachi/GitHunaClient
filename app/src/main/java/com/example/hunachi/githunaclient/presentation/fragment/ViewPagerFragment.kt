@@ -26,10 +26,6 @@ class ViewPagerFragment : BaseFragment() {
     private lateinit var viewModel: ViewpagerViewModel
     private lateinit var adapter: ProfilePagerAdapter
     private lateinit var userName: String
-    private val kodein = Kodein.lazy{
-        extend(appKodein.invoke())
-        import(viewPagerViewModelModule)
-    }
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +43,7 @@ class ViewPagerFragment : BaseFragment() {
     }
     
     private fun setupView(){
-        viewModel = kodein.instance<ViewpagerViewModel>().value
+        viewModel = instance<ViewpagerViewModel>().value
         adapter = with(Pair(childFragmentManager, userName)).instance<ProfilePagerAdapter>().value
         binding.apply {
             pager.adapter = adapter

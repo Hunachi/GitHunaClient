@@ -23,12 +23,7 @@ import com.github.salomonbrys.kodein.with
 
 class MainActivity : BaseActivity() {
     
-    
-    private val kodein = Kodein.lazy{
-        extend(appKodein.invoke())
-        import(mainViewModelModule)
-    }
-    private var viewModel: MainViewModel? = null
+    private val viewModel: MainViewModel by with(this).instance()
     private val navigator: Navigator by with(this).instance()
     private val binding: ActivityMainBinding by lazy {
         DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
@@ -41,8 +36,7 @@ class MainActivity : BaseActivity() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(checkToken() && viewModel == null) setupViewModel()
-        Log.d("tokenはここだよおおおおおお！", (application as MyApplication).token)
+        if(checkToken()) setupViewModel()
     }
     
     private fun checkToken(): Boolean =
@@ -51,14 +45,12 @@ class MainActivity : BaseActivity() {
                 false
             } else true
     
-    /*in here, viewModel is not null.*/
     private fun setupViewModel() {
-        viewModel = kodein.with(this).instance<MainViewModel>().value
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
-        setViewModel(viewModel!!)
+        setViewModel(viewModel)
         binding.navigation.selectedItemId = R.id.action_lists
-        viewModel?.apply {
+        viewModel.apply {
             navigateProcessor.subscribe { item ->
                 when (item.itemId) {
                     R.id.action_profile -> manager.show(FragmentTag.USER_INFO.name, fragmentTags)

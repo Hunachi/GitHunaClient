@@ -29,10 +29,6 @@ class MainProfileActivity : BaseActivity() {
     private lateinit var dialog: AlertDialog
     private val navigator: Navigator by with(this).instance()
     private lateinit var viewModel: MainProfileViewModel
-    private val kodein = Kodein.lazy{
-        extend(appKodein.invoke())
-        import(mainProfileViewModelModule)
-    }
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +40,7 @@ class MainProfileActivity : BaseActivity() {
     private fun setupViewModel() {
         dialog = LoadingDialogAdapter(this).onCreateDialog()
         dialog.show()
-        viewModel = kodein.with(Pair(this as BaseActivity, userName)).instance<MainProfileViewModel>().value
+        viewModel = with(Pair(this as BaseActivity, userName)).instance<MainProfileViewModel>().value
         setViewModel(viewModel)
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)

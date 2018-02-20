@@ -19,11 +19,6 @@ class UserInfoFragment : BaseFragment() {
     private lateinit var viewModel: UserInfoViewModel
     private lateinit var user: User
     
-    private val kodein = Kodein.lazy {
-        extend(appKodein.invoke())
-        import(userInfoViewModelModule)
-    }
-    
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -37,7 +32,7 @@ class UserInfoFragment : BaseFragment() {
     }
     
     private fun setupViewModel() {
-        viewModel = kodein.with(Pair(this as BaseFragment, user)).instance<UserInfoViewModel>().value
+        viewModel = with(Pair(this as BaseFragment, user)).instance<UserInfoViewModel>().value
         setViewModel(viewModel)
     }
     

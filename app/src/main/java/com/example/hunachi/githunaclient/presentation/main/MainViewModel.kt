@@ -26,23 +26,19 @@ class MainViewModel(
     
     override fun onCreate() {
         super.onCreate()
-    }
-    
-    override fun onStart() {
-        super.onStart()
         if(user == null)
-        githubApiRepository.ownerUser()
-                .subscribeOn(scheduler.io())
-                .observeOn(scheduler.ui())
-                .subscribe({
-                    user = it
-                    userProcessor.onNext(it)
-                },{
-                    userProcessor.onError(it)
-                })
+            githubApiRepository.ownerUser()
+                    .subscribeOn(scheduler.io())
+                    .observeOn(scheduler.ui())
+                    .subscribe({
+                        user = it
+                        userProcessor.onNext(it)
+                    },{
+                        userProcessor.onError(it)
+                    })
+        else userProcessor.onNext(user)
     }
     
-    //Listener of BottomNavigation(what I made hard.)
     fun onItemSelected(): BottomNavigationListener = BottomNavigationListener { item ->
         navigateProcessor.onNext(item)
         true

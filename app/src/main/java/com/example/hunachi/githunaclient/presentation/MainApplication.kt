@@ -24,9 +24,18 @@ class MainApplication : MyApplication(), KodeinAware {
     
     override val kodein by Kodein.lazy {
         bind<MyApplication>() with singleton { this@MainApplication as MyApplication }
+        //model
         import(githubTokenModule)
         import(navigatorModule)
         import(profilePagerAdapterModule)
+        //view model
+        import(eventViewModelModule)
+        import(userInfoViewModelModule)
+        import(viewPagerViewModelModule)
+        import(loginViewModelModule)
+        import(mainViewModelModule)
+        import(mainProfileViewModelModule)
+        //view
         bind<MainActivity>() with singleton { MainActivity() }
         bind<MainProfileActivity>() with singleton { MainProfileActivity() }
         bind<LoginGithubActivity>() with singleton { LoginGithubActivity() }
