@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.databinding.FragmentUserInfoBinding
 
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
@@ -14,31 +13,31 @@ import com.github.salomonbrys.kodein.*
 class UserInfoFragment : BaseFragment() {
     
     private lateinit var binding: FragmentUserInfoBinding
-    private lateinit var viewModel: UserInfoViewModel
-    private lateinit var user: User
+    private val viewModel: UserInfoViewModel by with(this).instance()
+    private val userName: String? by lazy { arguments?.getString(ARG_PARAM) }
     
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        user = arguments?.getSerializable("user") as User
-        setupViewModel()
         binding = FragmentUserInfoBinding.inflate(inflater, container, false)
-        binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
+        setupViewModel()
         return binding.root
     }
     
     private fun setupViewModel() {
-        viewModel = with(Pair(this as BaseFragment, user)).instance<UserInfoViewModel>().value
         setViewModel(viewModel)
+        binding.viewModel = viewModel
+        viewModel.setUp(userName?: throw IllegalStateException("userName is null."))
     }
     
     companion object {
-        fun newInstance(user: User): UserInfoFragment =
+        private const val ARG_PARAM = "userName"
+        fun newInstance(userName: String): UserInfoFragment =
                 UserInfoFragment().apply {
                     arguments = Bundle().apply {
-                        putSerializable("user", user)
+                        putString(ARG_PARAM, userName)
                     }
                 }
     }

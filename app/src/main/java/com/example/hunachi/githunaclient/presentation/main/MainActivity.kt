@@ -62,7 +62,7 @@ class MainActivity : BaseActivity() {
     
     private fun setupFragmentManager() {
         viewPagerFragment = with(user.userName).instance<ViewPagerFragment>().value
-        userInfoFragment = with(user).instance<UserInfoFragment>().value
+        userInfoFragment = with(user.userName).instance<UserInfoFragment>().value
         manager.beginTransaction().apply {
             add(R.id.container, userInfoFragment, FragmentTag.USER_INFO.name)
             add(R.id.container, viewPagerFragment, FragmentTag.FEED.name)

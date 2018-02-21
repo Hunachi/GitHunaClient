@@ -19,17 +19,17 @@ class MainProfileActivity : BaseActivity() {
     private val binding: ActivityMainProfileBinding by lazy {
         DataBindingUtil.setContentView<ActivityMainProfileBinding>(this, R.layout.activity_main_profile)
     }
-    
     private lateinit var userName: String
-    private lateinit var user: User
     private lateinit var adapter: ProfilePagerAdapter
+    private lateinit var user: User
     private lateinit var dialog: AlertDialog
     private val navigator: Navigator by with(this).instance()
     private lateinit var viewModel: MainProfileViewModel
+    private lateinit var userInfoFragment: UserInfoFragment
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        userName = intent.getStringExtra("userName")
+        userName = intent?.getStringExtra("userName")?: throw IllegalAccessError("hogehoge")
         if(userName.isBlank()){}
         setupViewModel()
     }
@@ -57,6 +57,7 @@ class MainProfileActivity : BaseActivity() {
     
     private fun setupView() {
         adapter = with(Pair(supportFragmentManager, user.userName)).instance<ProfilePagerAdapter>().value
+        userInfoFragment = with(user.userName).instance<UserInfoFragment>().value
         binding.apply {
             pager.adapter = adapter
             tabLayout.setupWithViewPager(pager)
@@ -69,7 +70,6 @@ class MainProfileActivity : BaseActivity() {
                 }
             }
         }
-        val userInfoFragment: UserInfoFragment by with(user).instance()
         replaceFragment(R.id.user_info_container, userInfoFragment)
     }
     

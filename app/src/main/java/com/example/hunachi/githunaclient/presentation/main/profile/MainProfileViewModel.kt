@@ -21,6 +21,10 @@ class MainProfileViewModel(
     
     override fun onCreate() {
         super.onCreate()
+    }
+    
+    override fun onResume() {
+        super.onResume()
         setUpUser()
     }
     
