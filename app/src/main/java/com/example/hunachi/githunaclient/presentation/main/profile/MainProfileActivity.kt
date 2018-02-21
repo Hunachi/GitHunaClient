@@ -19,6 +19,7 @@ class MainProfileActivity : BaseActivity() {
     private val binding: ActivityMainProfileBinding by lazy {
         DataBindingUtil.setContentView<ActivityMainProfileBinding>(this, R.layout.activity_main_profile)
     }
+    /*userNameによってActivityを再生生することでlazyにするのとどっちがいいのか?*/
     private lateinit var userName: String
     private lateinit var adapter: ProfilePagerAdapter
     private lateinit var user: User
@@ -29,8 +30,7 @@ class MainProfileActivity : BaseActivity() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        userName = intent?.getStringExtra("userName")?: throw IllegalAccessError("hogehoge")
-        if(userName.isBlank()){}
+        userName = intent?.getStringExtra("userName") ?: throw IllegalAccessError("hogehoge")
         setupViewModel()
     }
     
@@ -61,7 +61,6 @@ class MainProfileActivity : BaseActivity() {
         binding.apply {
             pager.adapter = adapter
             tabLayout.setupWithViewPager(pager)
-            
             mainProfileToolbar.let {
                 supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 mainProfileToolbar.setOnMenuItemClickListener { item ->
@@ -70,7 +69,7 @@ class MainProfileActivity : BaseActivity() {
                 }
             }
         }
-        replaceFragment(R.id.user_info_container, userInfoFragment)
+        navigator.replaceFragment(R.id.user_info_container, userInfoFragment)
     }
     
 }

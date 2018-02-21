@@ -65,11 +65,4 @@ abstract class BaseActivity : KodeinAppCompatActivity() {
         viewModel?.onDestroy()
         Log.d("destroy" ,"寿司")
     }
-    
-    fun replaceFragment(@LayoutRes @IdRes resourceId: Int, fragment: BaseFragment) {
-        supportFragmentManager
-                .beginTransaction()
-                .replace(resourceId, fragment)
-                .commit()
-    }
 }

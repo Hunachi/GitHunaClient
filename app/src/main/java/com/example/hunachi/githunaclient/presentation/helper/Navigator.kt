@@ -1,16 +1,12 @@
 package com.example.hunachi.githunaclient.presentation.helper
 
-import android.app.ActivityManager
 import android.content.Intent
 import android.support.annotation.IdRes
 import android.support.annotation.LayoutRes
-import android.webkit.WebView
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.data.repository.adapter.OauthAdapter
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
-import com.example.hunachi.githunaclient.presentation.fragment.feeds.Feed
-import com.example.hunachi.githunaclient.presentation.fragment.viewpager.ViewPagerFragment
 import com.example.hunachi.githunaclient.presentation.login.LoginGithubActivity
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
 import com.example.hunachi.githunaclient.presentation.main.profile.MainProfileActivity
@@ -47,8 +43,11 @@ class Navigator(
         if (activity is MainProfileActivity) activityFinish()
     }
     
-    fun replaceFragment(fragment: BaseFragment, @IdRes @LayoutRes resourceId: Int = R.id.container) {
-        activity.replaceFragment(resourceId, fragment)
+    fun replaceFragment(@IdRes @LayoutRes resourceId: Int = R.id.container, fragment: BaseFragment) {
+        activity.supportFragmentManager
+                .beginTransaction()
+                .replace(resourceId, fragment)
+                .commit()
     }
     
     fun activityFinish() {
