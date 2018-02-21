@@ -19,7 +19,6 @@ import com.example.hunachi.githunaclient.presentation.login.loginViewModelModule
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
 import com.example.hunachi.githunaclient.presentation.main.mainViewModelModule
 import com.example.hunachi.githunaclient.presentation.main.profile.MainProfileActivity
-import com.example.hunachi.githunaclient.presentation.main.profile.mainProfileViewModelModule
 import com.example.hunachi.githunaclient.util.rx.AppSchedulerProvider
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 import com.github.salomonbrys.kodein.*
@@ -27,7 +26,7 @@ import com.github.salomonbrys.kodein.*
 /**
  * Created by hunachi on 2018/02/20.
  */
-val MainApplication.kodeinModules by Kodein.lazy{
+val MainApplication.kodeinModules by Kodein.lazy {
     //model
     import(githubTokenModule)
     import(navigatorModule)
@@ -38,7 +37,6 @@ val MainApplication.kodeinModules by Kodein.lazy{
     import(viewPagerViewModelModule)
     import(loginViewModelModule)
     import(mainViewModelModule)
-    import(mainProfileViewModelModule)
     //view
     bind<MainActivity>() with singleton { MainActivity() }
     bind<MainProfileActivity>() with singleton { MainProfileActivity() }
@@ -46,7 +44,7 @@ val MainApplication.kodeinModules by Kodein.lazy{
     bind<SchedulerProvider>() with singleton { AppSchedulerProvider() }
     bind<UserInfoFragment>() with multiton { userName: String -> UserInfoFragment.newInstance(userName) }
     bind<FeedsFragment>() with multiton { userName: String -> FeedsFragment.newInstance(userName) }
-    bind<GithubApiRepository>() with multiton { token: String -> GithubApiRepository(token) }
+    bind<GithubApiRepository>() with multiton { application: MyApplication -> GithubApiRepository(application) }
     bind<ViewPagerFragment>() with multiton { userName: String -> ViewPagerFragment.newInstance(userName) }
     bind<LoadingDialogAdapter>() with multiton { context: Context -> LoadingDialogAdapter(context) }
     bind<WarningDialogAdapter>() with multiton { context: Context -> WarningDialogAdapter(context) }

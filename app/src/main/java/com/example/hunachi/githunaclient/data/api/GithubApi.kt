@@ -22,7 +22,7 @@ interface GithubApi {
     fun user(
             @Path("user_name")userName: String,
             @Query("access_token") token: String
-    ): Observable<User>
+    ): Single<User>
     
     
     @GET("users/{user}/received_events")

@@ -22,42 +22,18 @@ class MainProfileActivity : BaseActivity() {
     /*userNameによってActivityを再生生することでlazyにするのとどっちがいいのか?*/
     private lateinit var userName: String
     private lateinit var adapter: ProfilePagerAdapter
-    private lateinit var user: User
-    private lateinit var dialog: AlertDialog
     private val navigator: Navigator by with(this).instance()
-    private lateinit var viewModel: MainProfileViewModel
     private lateinit var userInfoFragment: UserInfoFragment
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         userName = intent?.getStringExtra("userName") ?: throw IllegalAccessError("hogehoge")
-        setupViewModel()
-    }
-    
-    private fun setupViewModel() {
-        dialog = LoadingDialogAdapter(this).onCreateDialog()
-        dialog.show()
-        viewModel = with(Pair(this as BaseActivity, userName)).instance<MainProfileViewModel>().value
-        setViewModel(viewModel)
-        binding.viewModel = viewModel
-        binding.setLifecycleOwner(this)
-        setupProcessor()
-    }
-    
-    private fun setupProcessor() {
-        viewModel.processor.subscribe({
-            user = it
-        }, {
-            it.printStackTrace()
-        }, {
-            setupView()
-            dialog.dismiss()
-        })
+        setupView()
     }
     
     private fun setupView() {
-        adapter = with(Pair(supportFragmentManager, user.userName)).instance<ProfilePagerAdapter>().value
-        userInfoFragment = with(user.userName).instance<UserInfoFragment>().value
+        adapter = with(Pair(supportFragmentManager, userName)).instance<ProfilePagerAdapter>().value
+        userInfoFragment = with(userName).instance<UserInfoFragment>().value
         binding.apply {
             pager.adapter = adapter
             tabLayout.setupWithViewPager(pager)

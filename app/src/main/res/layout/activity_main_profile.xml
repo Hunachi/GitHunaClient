@@ -3,13 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="viewModel"
-            type="com.example.hunachi.githunaclient.presentation.main.profile.MainProfileViewModel" />
-    </data>
-
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/overview_coordinator_layout"
         android:layout_width="match_parent"

@@ -21,21 +21,16 @@ class MainViewModel(
     
     val navigateProcessor: PublishProcessor<MenuItem> = PublishProcessor.create()
     val userProcessor: PublishProcessor<User> = PublishProcessor.create()
-    private var user: User? = null
     
-    override fun onCreate() {
-        super.onCreate()
-        if(user == null)
-            githubApiRepository.ownerUser()
-                    .subscribeOn(scheduler.io())
-                    .observeOn(scheduler.ui())
-                    .subscribe({
-                        user = it
-                        userProcessor.onNext(it)
-                    },{
-                        userProcessor.onError(it)
-                    })
-        else userProcessor.onNext(user)
+    fun setupUser(){
+        githubApiRepository.ownerUser()
+                .subscribeOn(scheduler.io())
+                .observeOn(scheduler.ui())
+                .subscribe({
+                    userProcessor.onNext(it)
+                },{
+                    userProcessor.onError(it)
+                })
     }
     
     fun onItemSelected(): BottomNavigationListener = BottomNavigationListener { item ->

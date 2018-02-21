@@ -14,8 +14,7 @@ fun Event.convertToFollowerEvent() =
             repositoryUrl = this@convertToFollowerEvent.repo.url
             action = type.convertToActionText(payload.action)?: type.convertToLowerText()
             repositoryName = when {
-                repo?.fullName != null -> repo.fullName
-                repo?.name != null     -> repo.name
-                else                   -> "unKnown"
+                repo.fullName != null -> repo.fullName
+                else                   -> repo.name
             }
         }

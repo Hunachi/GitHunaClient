@@ -14,7 +14,7 @@ val mainViewModelModule = Kodein.Module {
         MainViewModel(
             navigator = with(it as AppCompatActivity).instance(),
             scheduler = instance(),
-            githubApiRepository = with((instance() as MyApplication).token).instance()
+            githubApiRepository = with((instance() as MyApplication)).instance()
         )
     }
 }

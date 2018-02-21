@@ -10,7 +10,7 @@ import com.github.salomonbrys.kodein.*
 val eventViewModelModule = Kodein.Module {
     bind<FeedsViewModel>() with factory { userName: String ->
         FeedsViewModel(
-            githubApiRepository = with((instance() as MyApplication).token).instance(),
+            githubApiRepository = with((instance() as MyApplication)).instance(),
             userName = userName,
             schedulers = instance()
         )

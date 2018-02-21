@@ -2,8 +2,8 @@ package com.example.hunachi.githunaclient.presentation.main
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.widget.Toast
 import com.example.hunachi.githunaclient.R
-import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.databinding.ActivityMainBinding
 import com.example.hunachi.githunaclient.presentation.application.MyApplication
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
@@ -22,47 +22,51 @@ class MainActivity : BaseActivity() {
     private val binding: ActivityMainBinding by lazy {
         DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
     }
-    private lateinit var user: User
+    private val myApplication: MyApplication by lazy { application as MyApplication }
     private val manager = supportFragmentManager
     private lateinit var userInfoFragment: UserInfoFragment
     private lateinit var viewPagerFragment: ViewPagerFragment
     private val fragmentTags = FragmentTag.values().map { it.name }
+    private var userName: String = ""
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(checkToken()) setupViewModel()
+        userName = myApplication.userName
+        if (checkToken()) setupViewModel()
+        else navigator.navigateToLogin()
     }
     
-    private fun checkToken(): Boolean =
-            if ((application as MyApplication).token.isBlank()) {
-                navigator.navigateToLogin()
-                false
-            } else true
+    private fun checkToken(): Boolean = myApplication.token.isNotBlank()
     
     private fun setupViewModel() {
-        binding.viewModel = viewModel
-        binding.setLifecycleOwner(this)
-        setViewModel(viewModel)
-        binding.navigation.selectedItemId = R.id.action_lists
-        viewModel.apply {
+        binding.viewModel = viewModel.apply {
             navigateProcessor.subscribe { item ->
                 when (item.itemId) {
                     R.id.action_profile -> manager.show(FragmentTag.USER_INFO.name, fragmentTags)
                     R.id.action_lists   -> manager.show(FragmentTag.FEED.name, fragmentTags)
                 }
             }
-            userProcessor.subscribe ({
-                user = it
-                if(checkToken()) setupFragmentManager()
-            },{
+            userProcessor.subscribe({
+                it.userName.let {
+                    userName = it
+                    myApplication.updateUserName(it)
+                    setupFragmentManager()
+                }
+            }, {
+                //TODO make dialog??.
                 it.printStackTrace()
             })
         }
+        binding.setLifecycleOwner(this)
+        setViewModel(viewModel)
+        binding.navigation.selectedItemId = R.id.action_lists
+        if (userName.isBlank()) viewModel.setupUser()
+        else setupFragmentManager()
     }
     
     private fun setupFragmentManager() {
-        viewPagerFragment = with(user.userName).instance<ViewPagerFragment>().value
-        userInfoFragment = with(user.userName).instance<UserInfoFragment>().value
+        viewPagerFragment = with(userName).instance<ViewPagerFragment>().value
+        userInfoFragment = with(userName).instance<UserInfoFragment>().value
         manager.beginTransaction().apply {
             add(R.id.container, userInfoFragment, FragmentTag.USER_INFO.name)
             add(R.id.container, viewPagerFragment, FragmentTag.FEED.name)

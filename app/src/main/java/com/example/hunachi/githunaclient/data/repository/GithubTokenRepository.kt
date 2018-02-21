@@ -38,7 +38,7 @@ class GithubTokenRepository(
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .subscribe({
-                    application.setUserToken(it.token)
+                    application.updateToken(it.token)
                     callback.tokenStatusCallback(StatusSignal.SUCCESS)
                 }, {
                     it.printStackTrace()

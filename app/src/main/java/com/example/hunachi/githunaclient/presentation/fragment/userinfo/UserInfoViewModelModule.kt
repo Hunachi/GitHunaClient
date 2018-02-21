@@ -14,7 +14,7 @@ val userInfoViewModelModule = Kodein.Module {
     bind<UserInfoViewModel>() with scopedSingleton(androidSupportFragmentScope) {
         UserInfoViewModel(
             navigator = with(it.activity as AppCompatActivity).instance(),
-            githubApiRepository = with((instance() as MyApplication).token).instance(),
+            githubApiRepository = with((instance() as MyApplication)).instance(),
             scheduler = instance()
         )
     }

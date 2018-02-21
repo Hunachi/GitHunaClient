@@ -2,7 +2,6 @@ package com.example.hunachi.githunaclient.presentation.application
 
 import android.content.Context
 import androidx.content.edit
-import com.example.hunachi.githunaclient.BuildConfig
 import com.github.salomonbrys.kodein.*
 
 /**
@@ -16,7 +15,8 @@ class MainApplication : MyApplication(), KodeinAware {
     }
     
     companion object {
-        const val userToken = "user_token"
+        const val KEY_TOKEN = "user_token"
+        const val KEY_USERNAME = "user_name"
     }
     
     private val preferences by lazy {
@@ -25,20 +25,29 @@ class MainApplication : MyApplication(), KodeinAware {
     
     override fun onCreate() {
         super.onCreate()
-        token = preferences.getString(userToken, "")
+        token = preferences.getString(KEY_TOKEN, "")
+        userName = preferences.getString(KEY_USERNAME, "")
     }
     
-    override fun setUserToken(token: String) {
-        super.setUserToken(token)
+    override fun updateToken(token: String) {
+        super.updateToken(token)
         preferences.edit {
-            putString(userToken, token)
+            putString(KEY_TOKEN, token)
+        }
+    }
+    
+    override fun updateUserName(userName: String) {
+        super.updateUserName(userName)
+        preferences.edit{
+            putString(KEY_USERNAME, userName)
         }
     }
     
     override fun deleteUserToken() {
         super.deleteUserToken()
         preferences.edit {
-            remove(userToken)
+            remove(KEY_TOKEN)
+            remove(KEY_USERNAME)
         }
     }
 }
