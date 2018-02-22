@@ -2,53 +2,53 @@ package com.example.hunachi.githunaclient.data.repository
 
 import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.data.repository.adapter.GithubApiAdapter
-import com.example.hunachi.githunaclient.presentation.application.MainApplication
-import com.example.hunachi.githunaclient.presentation.application.MyApplication
+import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
+import io.reactivex.Scheduler
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import retrofit2.http.Url
 
 /**
  * Created by hunachi on 2018/02/03.
  */
 class GithubApiRepository(
-        private val application: MyApplication
+        private val token: String
 ) {
     
-    private val token by lazy { (application as MainApplication).token }
-    
     fun ownerUser(): Single<User> = GithubApiAdapter.githubApi
-            .ownerUser(token)
+            .ownerUser(token = token)
     
     fun user(userName: String): Single<User> =
             if (userName.isNotBlank()) GithubApiAdapter.githubApi
-                    .user(userName, token)
+                    .user(userName = userName, token = token)
             else ownerUser()
     
     fun followerEvent(userName: String, pages: Int) = GithubApiAdapter.githubApi
-            .followerEvents(token, pages, userName)
+            .followerEvents(pages = pages, userName = userName, token = token)
     
-    fun repository(owner: String, repo: String) = GithubApiAdapter.githubApi
-            .repository(owner, repo, token)
+    fun repository(ownerName: String, repositoryName: String) = GithubApiAdapter.githubApi
+            .repository(ownerName = ownerName, repositoryName = repositoryName, token = token)
     
     fun follower(userName: String) = GithubApiAdapter.githubApi
-            .follower(userName, token)
+            .follower(userName = userName,token =  token)
     
     fun following(userName: String) = GithubApiAdapter.githubApi
-            .following(userName, token)
+            .following(userName = userName, token = token)
     
     fun gists(userName: String) = GithubApiAdapter.githubApi
-            .gists(userName, token)
+            .gists(userName = userName, token = token)
     
     fun starredGist(userName: String) = GithubApiAdapter.githubApi
-            .starredGist(token)
+            .starredGist(token = token)
     
     fun watchingRepo(userName: String) = GithubApiAdapter.githubApi
-            .watchingRepo(userName, token)
+            .watchingRepo(userName = userName, token = token)
     
     fun starring(userName: String) = GithubApiAdapter.githubApi
-            .starring(userName, token)
+            .starring(userName = userName, token = token)
     
     fun contribution(@Url url: String) = GithubApiAdapter.githubApi
-            .contribute(url)
+            .contribute(url = url)
     
 }

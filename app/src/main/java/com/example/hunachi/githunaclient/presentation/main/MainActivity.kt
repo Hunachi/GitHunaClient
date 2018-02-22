@@ -1,5 +1,7 @@
 package com.example.hunachi.githunaclient.presentation.main
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import com.example.hunachi.githunaclient.R
@@ -22,40 +24,31 @@ class MainActivity : BaseActivity() {
     private val myApplication: MyApplication by lazy { application as MyApplication }
     private lateinit var userInfoFragment: UserInfoFragment
     private lateinit var viewPagerFragment: ViewPagerFragment
-    private var userName: String = ""
+    private var userName: String? = null
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         userName = myApplication.userName
-        if (checkToken()) setupViewModel()
-        else navigator.navigateToLogin()
+        /*if token don't have, let's go to login page.*/
+        if (checkToken()) setupViewModel() else navigator.navigateToLogin()
     }
     
     private fun checkToken(): Boolean = myApplication.token.isNotBlank()
     
     private fun setupViewModel() {
         binding.viewModel = viewModel.apply {
-            navigateProcessor.subscribe { item ->
-                when (item.itemId) {
-                    R.id.action_profile -> navigator.replaceFragment(R.id.container, userInfoFragment)
-                    R.id.action_lists   -> navigator.replaceFragment(R.id.container, viewPagerFragment)
-                }
-            }
-            userProcessor.subscribe({
-                it.userName.let {
+            user.observe(this@MainActivity, Observer { user ->
+                user?.userName?.let {
                     userName = it
                     myApplication.updateUserName(it)
                     setupFragmentManager()
                 }
-            }, {
-                //TODO make dialog??.
-                it.printStackTrace()
             })
         }
         binding.setLifecycleOwner(this)
         setViewModel(viewModel)
-        if (userName.isBlank()) viewModel.setupUser()
-        else setupFragmentManager()
+        /*if userName is uninitialized, let's get user info.*/
+        if (userName.isNullOrBlank()) viewModel.setupUser() else setupFragmentManager()
     }
     
     private fun setupFragmentManager() {
@@ -63,5 +56,15 @@ class MainActivity : BaseActivity() {
         userInfoFragment = with(userName).instance<UserInfoFragment>().value
         binding.navigation.selectedItemId = R.id.action_lists
         navigator.replaceFragment(R.id.container, viewPagerFragment)
+        setupNavigation()
+    }
+    
+    private fun setupNavigation() {
+        viewModel.navigateListener.observe(this, Observer { item ->
+            when (item?.itemId) {
+                R.id.action_profile -> navigator.replaceFragment(R.id.container, userInfoFragment)
+                R.id.action_lists   -> navigator.replaceFragment(R.id.container, viewPagerFragment)
+            }
+        })
     }
 }

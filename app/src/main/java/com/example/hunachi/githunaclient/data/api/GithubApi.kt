@@ -32,10 +32,10 @@ interface GithubApi {
             @Query("access_token") token: String
     ): Observable<List<Event>>
     
-    @GET("repos/{owner}/{repo}")
+    @GET("repos/{owner_name}/{repository_name}")
     fun repository(
-            @Path("owner") owner: String,
-            @Path("repo") repo: String,
+            @Path("owner_name") ownerName: String,
+            @Path("repository_name") repositoryName: String,
             @Query("access_token") token: String
     ): Observable<Repository>
     

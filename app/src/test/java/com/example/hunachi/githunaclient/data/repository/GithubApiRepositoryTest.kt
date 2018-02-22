@@ -5,6 +5,7 @@ import com.example.hunachi.githunaclient.model.Key
 import com.example.hunachi.githunaclient.util.TestSchedulerProvider
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
@@ -14,8 +15,8 @@ import org.junit.Test
 class GithubApiRepositoryTest {
     
     
-    lateinit var scheduler: SchedulerProvider
-    lateinit var githubApiRepository: GithubApiRepository
+    private lateinit var scheduler: SchedulerProvider
+    private lateinit var githubApiRepository: GithubApiRepository
     private var user: User? = null
     
     @Before
@@ -31,12 +32,11 @@ class GithubApiRepositoryTest {
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .subscribe({
-                    assert(it.userName == "Hunachi")
+                    assertTrue(it.userName == "Hunachi")
                     user = it
-                    //followerEvent()
                 }, {
                     it.printStackTrace()
-                    assert(false)
+                    assertTrue(false)
                 })
     }
     
