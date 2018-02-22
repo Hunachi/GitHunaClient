@@ -1,13 +1,9 @@
 package com.example.hunachi.githunaclient.data.repository
 
-import com.example.hunachi.githunaclient.data.api.GithubApi
 import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.data.repository.adapter.GithubApiAdapter
 import com.example.hunachi.githunaclient.presentation.application.MainApplication
 import com.example.hunachi.githunaclient.presentation.application.MyApplication
-import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
-import io.reactivex.Observable
-import io.reactivex.Scheduler
 import io.reactivex.Single
 import retrofit2.http.Url
 
@@ -28,11 +24,29 @@ class GithubApiRepository(
                     .user(userName, token)
             else ownerUser()
     
-    fun followerEvent(user: String, pages: Int) = GithubApiAdapter.githubApi
-            .followerEvents(token = token, user = user, pages = pages)
+    fun followerEvent(userName: String, pages: Int) = GithubApiAdapter.githubApi
+            .followerEvents(token, pages, userName)
     
     fun repository(owner: String, repo: String) = GithubApiAdapter.githubApi
-            .repository(owner = owner, repo = repo, token = token)
+            .repository(owner, repo, token)
+    
+    fun follower(userName: String) = GithubApiAdapter.githubApi
+            .follower(userName, token)
+    
+    fun following(userName: String) = GithubApiAdapter.githubApi
+            .following(userName, token)
+    
+    fun gists(userName: String) = GithubApiAdapter.githubApi
+            .gists(userName, token)
+    
+    fun starredGist(userName: String) = GithubApiAdapter.githubApi
+            .starredGist(token)
+    
+    fun watchingRepo(userName: String) = GithubApiAdapter.githubApi
+            .watchingRepo(userName, token)
+    
+    fun starring(userName: String) = GithubApiAdapter.githubApi
+            .starring(userName, token)
     
     fun contribution(@Url url: String) = GithubApiAdapter.githubApi
             .contribute(url)

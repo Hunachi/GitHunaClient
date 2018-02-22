@@ -30,7 +30,7 @@ class FeedsViewModel(
     
     private fun updateList() {
         refreshing.value = true
-        githubApiRepository.followerEvent(user = userName, pages = pages)
+        githubApiRepository.followerEvent(userName = userName, pages = pages)
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({

@@ -59,7 +59,7 @@ class GithubApiRepositoryTest {
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .subscribe({
-                    assert(it.name == "gitHunaClient")
+                    assertEquals(it.name, "gitHunaClient")
                 },{
                     it.printStackTrace()
                 })
