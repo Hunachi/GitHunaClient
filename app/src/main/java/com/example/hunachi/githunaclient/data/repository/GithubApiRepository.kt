@@ -2,11 +2,7 @@ package com.example.hunachi.githunaclient.data.repository
 
 import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.data.repository.adapter.GithubApiAdapter
-import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
-import io.reactivex.Scheduler
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import retrofit2.http.Url
 
 /**
@@ -39,14 +35,14 @@ class GithubApiRepository(
     fun gists(userName: String) = GithubApiAdapter.githubApi
             .gists(userName = userName, token = token)
     
-    fun starredGist(userName: String) = GithubApiAdapter.githubApi
+    fun staredGists(userName: String) = GithubApiAdapter.githubApi
             .starredGist(token = token)
     
     fun watchingRepo(userName: String) = GithubApiAdapter.githubApi
             .watchingRepo(userName = userName, token = token)
     
-    fun starring(userName: String) = GithubApiAdapter.githubApi
-            .starring(userName = userName, token = token)
+    fun staring(userName: String) = GithubApiAdapter.githubApi
+            .staring(userName = userName, token = token)
     
     fun contribution(@Url url: String) = GithubApiAdapter.githubApi
             .contribute(url = url)

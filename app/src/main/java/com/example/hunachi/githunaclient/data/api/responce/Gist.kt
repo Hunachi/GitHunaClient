@@ -8,7 +8,6 @@ import se.ansman.kotshi.JsonSerializable
 @JsonSerializable
 data class Gist (
         val id: String,
-        val type: String,
         val owner: Actor,
         val description: String,
         val html_url: String

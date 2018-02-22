@@ -1,10 +1,7 @@
 package com.example.hunachi.githunaclient.data.api
 
 import android.arch.lifecycle.LifecycleOwner
-import com.example.hunachi.githunaclient.data.api.responce.Event
-import com.example.hunachi.githunaclient.data.api.responce.Gist
-import com.example.hunachi.githunaclient.data.api.responce.Repository
-import com.example.hunachi.githunaclient.data.api.responce.User
+import com.example.hunachi.githunaclient.data.api.responce.*
 import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.http.*
@@ -32,10 +29,10 @@ interface GithubApi {
             @Query("access_token") token: String
     ): Observable<List<Event>>
     
-    @GET("repos/{owner_name}/{repository_name}")
+    @GET("repos/{ownername}/{repositoryname}")
     fun repository(
-            @Path("owner_name") ownerName: String,
-            @Path("repository_name") repositoryName: String,
+            @Path("ownername") ownerName: String,
+            @Path("repositoryname") repositoryName: String,
             @Query("access_token") token: String
     ): Observable<Repository>
     
@@ -43,13 +40,13 @@ interface GithubApi {
     fun follower(
             @Path("username") userName: String,
             @Query("access_token") token: String
-    ): Single<List<User>>
+    ): Single<List<ChildUser>>
     
     @GET("users/{username}/following")
     fun following(
             @Path("username") userName: String,
             @Query("access_token") token: String
-    ): Single<List<User>>
+    ): Single<List<ChildUser>>
     
     @GET("users/{username}/gists")
     fun gists(
@@ -68,8 +65,8 @@ interface GithubApi {
             @Query("access_token") token: String
     ):Single<List<Repository>>
     
-    @GET("users/:username/starred")
-    fun starring(
+    @GET("users/{username}/starred")
+    fun staring(
             @Path("username") userName: String,
             @Query("access_token") token: String
     ): Single<List<Repository>>

@@ -46,7 +46,7 @@ fun String.convertToActionText(actions: String?) =
         //"StatusEvent"                                -> { }
         //"TeamEvent"                                  -> { }
         //"TeamAddEvent"                               -> { }
-            "WatchEvent"                                 -> "starring"
+            "WatchEvent"                                 -> "staring"
             else                                         -> this.convertToLowerText()
         }
 
