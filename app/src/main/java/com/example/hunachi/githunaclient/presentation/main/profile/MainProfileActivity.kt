@@ -20,14 +20,13 @@ class MainProfileActivity : BaseActivity() {
         DataBindingUtil.setContentView<ActivityMainProfileBinding>(this, R.layout.activity_main_profile)
     }
     /*userNameによってActivityを再生生することでlazyにするのとどっちがいいのか?*/
-    private lateinit var userName: String
+    private val userName: String? by lazy { intent?.getStringExtra("userName") }
     private lateinit var adapter: ProfilePagerAdapter
     private val navigator: Navigator by with(this).instance()
     private lateinit var userInfoFragment: UserInfoFragment
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        userName = intent?.getStringExtra("userName") ?: throw IllegalAccessError("hogehoge")
         setupView()
     }
     
