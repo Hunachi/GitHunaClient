@@ -10,11 +10,14 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.hunachi.githunaclient.data.api.responce.Repository
 import com.example.hunachi.githunaclient.databinding.FragmentFollowerEventBinding
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.util.FeedItemCallback
+import com.example.hunachi.githunaclient.util.GoWebCallback
+import com.example.hunachi.githunaclient.util.LoadingCallback
 import com.example.hunachi.githunaclient.util.extension.customTabsIntent
 import com.example.hunachi.githunaclient.util.extension.sepatateOwnerRepo
 import com.github.salomonbrys.kodein.instance
@@ -30,7 +33,9 @@ class FeedsFragment : BaseFragment() {
     private val followerEventList = mutableListOf<Feed>()
     private lateinit var feedsAdapter: FeedsAdapter
     private lateinit var viewModel: FeedsViewModel
-    private val userName: String? by lazy { arguments?.getString(ARC_PARAM) ?: throw IllegalAccessException("hoge")}
+    private val userName: String? by lazy {
+        arguments?.getString(ARC_PARAM) ?: throw IllegalAccessException("")
+    }
     private lateinit var tabsIntent: CustomTabsIntent
     private lateinit var navigator: Navigator
     private lateinit var loadingDialog: AlertDialog
@@ -55,6 +60,11 @@ class FeedsFragment : BaseFragment() {
         navigator = with(activity).instance<Navigator>().value
     }
     
+    override fun onStart() {
+        super.onStart()
+        viewModel.updateList(true, loadingCallback)
+    }
+    
     private fun setUpRecycler() {
         feedsAdapter = FeedsAdapter(followerEventList, itemIconCallback, itemCallback)
         binding.apply {
@@ -68,33 +78,22 @@ class FeedsFragment : BaseFragment() {
     }
     
     /*once*/
-    private fun setUpViewModel(){
+    private fun setUpViewModel() {
         viewModel = with(userName).instance<FeedsViewModel>().value
         setViewModel(viewModel)
-        viewModel.apply {
-            feeds.observe(this@FeedsFragment, Observer { event ->
-                followerEventList.also { list ->
-                    event?.forEach{
-                        if(!list.contains(it)){
-                            list.add(0, it)
-                            feedsAdapter.notifyItemInserted(0)
-                        }
+        viewModel.feeds.observe(this@FeedsFragment, Observer { event ->
+            followerEventList.also { list ->
+                event?.forEach {
+                    if (!list.contains(it)) {
+                        list.add(0, it)
+                        feedsAdapter.notifyItemInserted(0)
                     }
                 }
-            })
-            refreshing.observe(this@FeedsFragment, Observer {
-                swiperefresh.isRefreshing = it ?: false
-                if(it == true) loadingDialog.show()
-                else loadingDialog.dismiss()
-            })
-            repository.observe(this@FeedsFragment, Observer {
-                loadingDialog.dismiss()
-                tabsIntent.launchUrl(activity, Uri.parse(it?.htmlUrl))
-            })
-        }
+            }
+        })
     }
     
-    private fun setupDialog(){
+    private fun setupDialog() {
         loadingDialog = with(activity as Context).instance<LoadingDialogAdapter>().value
                 .onCreateDialog()
     }
@@ -103,9 +102,18 @@ class FeedsFragment : BaseFragment() {
         navigator.navigateToMainProfile(it.actor)
     }
     
-    private val itemCallback: FeedItemCallback= {
+    private val itemCallback: FeedItemCallback = {
         loadingDialog.show()
-        viewModel.repository(it.repositoryName.sepatateOwnerRepo())
+        viewModel.repository(it.repositoryName.sepatateOwnerRepo(), goWebCallback)
+    }
+    
+    private val goWebCallback: GoWebCallback = { repository: Repository ->
+        loadingDialog.dismiss()
+        tabsIntent.launchUrl(activity, Uri.parse(repository.htmlUrl))
+    }
+    
+    private val loadingCallback: LoadingCallback = {
+        binding.swiperefresh.isRefreshing = it
     }
     
     companion object {
@@ -117,5 +125,4 @@ class FeedsFragment : BaseFragment() {
                     }
                 }
     }
-    
 }

@@ -16,8 +16,7 @@
             android:id="@+id/swiperefresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:listRefresh="@{viewModel.updateEvents()}"
-            app:setRefreshing="@{viewModel.refreshing}">
+            app:listRefresh="@{viewModel.updateEvents()}">
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -4,9 +4,12 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.LiveDataReactiveStreams
 import android.arch.lifecycle.MutableLiveData
 import android.support.v4.widget.SwipeRefreshLayout
+import com.example.hunachi.githunaclient.data.api.responce.Repo
 import com.example.hunachi.githunaclient.data.api.responce.Repository
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel
+import com.example.hunachi.githunaclient.util.GoWebCallback
+import com.example.hunachi.githunaclient.util.LoadingCallback
 import com.example.hunachi.githunaclient.util.extension.convertToFollowerEvent
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 import io.reactivex.processors.PublishProcessor
@@ -20,22 +23,16 @@ class FeedsViewModel(
         private val schedulers: SchedulerProvider
 ) : BaseFragmentViewModel() {
     
-    private val repositoryProcessor: PublishProcessor<Repository> = PublishProcessor.create()
     private val feedsPublishProcessor: PublishProcessor<List<Feed>> = PublishProcessor.create()
-    private val refreshingProcessor: PublishProcessor<Boolean> = PublishProcessor.create()
-    val feeds: LiveData<List<Feed>> = LiveDataReactiveStreams.fromPublisher(feedsPublishProcessor) //todo make processor.
-    val refreshing: LiveData<Boolean> = LiveDataReactiveStreams.fromPublisher(refreshingProcessor)
-    val repository: LiveData<Repository> = LiveDataReactiveStreams.fromPublisher(repositoryProcessor)
+    val feeds: LiveData<List<Feed>> = LiveDataReactiveStreams.fromPublisher(feedsPublishProcessor)
+    private var loadingCallback: LoadingCallback? = null
     private var pages = 0
     
-    override fun onActivityCreated() {
-        super.onActivityCreated()
-        updateList(true)
-    }
-    
-    private fun updateList(setUp: Boolean) {
+    /*call this by all means first*/
+    fun updateList(setUp: Boolean, callback: LoadingCallback) {
         if (feeds.value == null || !setUp) {
-            refreshingProcessor.onNext(true)
+            loadingCallback = callback
+            callback(true)
             githubApiRepository.followerEvent(userName = userName, pages = pages)
                     .subscribeOn(schedulers.io())
                     .observeOn(schedulers.ui())
@@ -44,27 +41,27 @@ class FeedsViewModel(
                     }, {
                         it.printStackTrace()
                     }, {
-                        refreshingProcessor.onNext(false)
+                        callback(false)
                     })
         } else {
             feedsPublishProcessor.onNext(feeds.value)
-            refreshingProcessor.onNext(false)
+            callback(false)
         }
     }
     
-    fun repository(ownerRepo: Pair<String, String>) {
+    fun repository(ownerRepo: Pair<String, String>, callback: GoWebCallback) {
         githubApiRepository.repository(ownerRepo.first, ownerRepo.second)
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({
-                    repositoryProcessor.onNext(it)
+                    callback(it)
                 }, {
-                    repositoryProcessor.onError(it)
+                    it.printStackTrace()
                 })
     }
     
     fun updateEvents(): SwipeRefreshLayout.OnRefreshListener = SwipeRefreshLayout.OnRefreshListener {
-        updateList(setUp = false)
+        loadingCallback?.also { updateList(setUp = false, callback = it) }
     }
     
 }
