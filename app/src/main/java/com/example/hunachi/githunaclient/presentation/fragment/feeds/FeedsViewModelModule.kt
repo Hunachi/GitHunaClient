@@ -8,7 +8,7 @@ import com.github.salomonbrys.kodein.*
  * Created by hunachi on 2018/02/07.
  */
 val eventViewModelModule = Kodein.Module {
-    bind<FeedsViewModel>() with factory { userName: String ->
+    bind<FeedsViewModel>() with multiton { userName: String ->
         FeedsViewModel(
             githubApiRepository = with((instance() as MyApplication)).instance(),
             userName = userName,

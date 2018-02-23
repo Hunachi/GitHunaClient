@@ -1,6 +1,7 @@
 package com.example.hunachi.githunaclient.presentation.fragment.userinfo
 
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.LiveDataReactiveStreams
 import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
 import com.example.hunachi.githunaclient.data.api.responce.User
@@ -19,17 +20,17 @@ class UserInfoViewModel(
         val scheduler: SchedulerProvider
 ) : BaseFragmentViewModel() {
     
-    val nameExist = ObservableField<Boolean>(true) //todo
-    val user: MutableLiveData<User> = MutableLiveData()
+    val nameExist = ObservableField<Boolean>(true)
+    private val userProcessor: PublishProcessor<User> = PublishProcessor.create()
+    val user: LiveData<User> = LiveDataReactiveStreams.fromPublisher(userProcessor)
     
     fun setUp(userName: String) {
         githubApiRepository.user(userName)
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .subscribe({
-                    user.value = it.also {
-                        if (it.userName.isNullOrBlank()) nameExist.set(false)
-                    }
+                    if (it.userName.isBlank()) nameExist.set(false)
+                    userProcessor.onNext(it)
                 }, {
                     it.printStackTrace()
                 })

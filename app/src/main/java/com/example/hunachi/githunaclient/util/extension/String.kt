@@ -14,7 +14,7 @@ fun String.convertToLowerText(): String {
             index = i
         }
     }
-    // remove "Event"
+    /*remove "Event"*/
     // s += this[index].toLowerCase() + this.substring(index + 1, this.length)
     return string
 }

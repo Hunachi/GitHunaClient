@@ -21,7 +21,6 @@ import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
 import kotlinx.android.synthetic.main.fragment_follower_event.*
 
-@Suppress("DEPRECATION")
 /**
  * Created by hunachi on 2018/02/04.
  */
@@ -31,16 +30,10 @@ class FeedsFragment : BaseFragment() {
     private val followerEventList = mutableListOf<Feed>()
     private lateinit var feedsAdapter: FeedsAdapter
     private lateinit var viewModel: FeedsViewModel
-    private lateinit var userName: String
+    private val userName: String? by lazy { arguments?.getString(ARC_PARAM) ?: throw IllegalAccessException("hoge")}
     private lateinit var tabsIntent: CustomTabsIntent
     private lateinit var navigator: Navigator
     private lateinit var loadingDialog: AlertDialog
-    //private lateinit var warningDialog: AlertDialog
-    
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        userName = arguments?.getString(ARG_PARAME) ?: throw IllegalAccessException("hoge")
-    }
     
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -53,9 +46,9 @@ class FeedsFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setupDialog()
+        loadingDialog.show()
         navigator = with(activity).instance<Navigator>().value
         tabsIntent = activity.customTabsIntent()
-        //warningDialog = with(activity as Context).instance<WarningDialogAdapter>().value.onCreateDialog()
     }
     
     private fun setUpRecycler() {
@@ -71,24 +64,23 @@ class FeedsFragment : BaseFragment() {
             }
         }
         viewModel.apply {
-            event.observe(this@FeedsFragment, Observer { event ->
-                followerEventList.apply {
-                    //O(N^2)is not good. 10^4 unit is a limit.
-                    if (find { it == event } == null) {
-                        event?.let { add(0, it) }
-                        feedsAdapter.notifyItemInserted(0)
+            feeds.observe(this@FeedsFragment, Observer { event ->
+                followerEventList.also { list ->
+                    event?.forEach{
+                        if(!list.contains(it)){
+                            list.add(0, it)
+                            feedsAdapter.notifyItemInserted(0)
+                        }
                     }
                 }
             })
             refreshing.observe(this@FeedsFragment, Observer {
                 swipe_refresh.isRefreshing = it ?: false
+                if(it == false && loadingDialog.isShowing) loadingDialog.dismiss()
             })
-            repositoryProcessor.subscribe({
+            repository.observe(this@FeedsFragment, Observer {
                 loadingDialog.dismiss()
-                tabsIntent.launchUrl(activity, Uri.parse(it.htmlUrl))
-            }, {
-                loadingDialog.dismiss()
-                it.printStackTrace()
+                tabsIntent.launchUrl(activity, Uri.parse(it?.htmlUrl))
             })
         }
     }
@@ -107,17 +99,12 @@ class FeedsFragment : BaseFragment() {
         viewModel.repository(it.repositoryName.sepatateOwnerRepo())
     }
     
-    /*private val warningDailogCallback: (StatusDialog) -> Unit = {
-        status ->
-        if (status == StatusDialog.OK)
-    }*/
-    
     companion object {
-        private const val ARG_PARAME = "userName"
+        private const val ARC_PARAM = "userName"
         fun newInstance(userName: String): FeedsFragment =
                 FeedsFragment().apply {
                     arguments = Bundle().apply {
-                        putString(ARG_PARAME, userName)
+                        putString(ARC_PARAM, userName)
                     }
                 }
     }

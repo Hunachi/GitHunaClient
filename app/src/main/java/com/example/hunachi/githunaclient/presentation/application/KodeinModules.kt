@@ -46,6 +46,6 @@ val MainApplication.kodeinModules by Kodein.lazy {
     bind<FeedsFragment>() with multiton { userName: String -> FeedsFragment.newInstance(userName) }
     bind<GithubApiRepository>() with multiton { application: MyApplication -> GithubApiRepository(application.token) }
     bind<ViewPagerFragment>() with multiton { userName: String -> ViewPagerFragment.newInstance(userName) }
-    bind<LoadingDialogAdapter>() with multiton { context: Context -> LoadingDialogAdapter(context) }
-    bind<WarningDialogAdapter>() with multiton { context: Context -> WarningDialogAdapter(context) }
+    bind<LoadingDialogAdapter>() with factory { context: Context -> LoadingDialogAdapter(context) }
+    bind<WarningDialogAdapter>() with factory { context: Context -> WarningDialogAdapter(context) }
 }
