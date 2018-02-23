@@ -1,14 +1,13 @@
-package com.example.hunachi.githunaclient.presentation.fragment.feeds
+package com.example.hunachi.githunaclient.presentation.fragment.list
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.LiveDataReactiveStreams
-import android.arch.lifecycle.MutableLiveData
 import android.support.v4.widget.SwipeRefreshLayout
-import com.example.hunachi.githunaclient.data.api.responce.Repo
-import com.example.hunachi.githunaclient.data.api.responce.Repository
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel
+import com.example.hunachi.githunaclient.presentation.fragment.list.feed.Feed
 import com.example.hunachi.githunaclient.util.GoWebCallback
+import com.example.hunachi.githunaclient.util.ListType
 import com.example.hunachi.githunaclient.util.LoadingCallback
 import com.example.hunachi.githunaclient.util.extension.convertToFollowerEvent
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
@@ -17,9 +16,9 @@ import io.reactivex.processors.PublishProcessor
 /**
  * Created by hunachi on 2018/02/05.
  */
-class FeedsViewModel(
+class ListsViewModel(
         private val githubApiRepository: GithubApiRepository,
-        private val userName: String,
+        private val listsArgument: ListsArgument,
         private val schedulers: SchedulerProvider
 ) : BaseFragmentViewModel() {
     
@@ -30,10 +29,21 @@ class FeedsViewModel(
     
     /*call this by all means first*/
     fun updateList(setUp: Boolean, callback: LoadingCallback) {
+        loadingCallback = callback
+        when (listsArgument.listsType) {
+            ListType.FEEDS     -> updateFeeds(setUp, callback)
+            ListType.FOLLOWER  -> { }
+            ListType.FOLLOWING -> { }
+            ListType.GIST      -> { }
+            ListType.REPO      -> { }
+            ListType.STARED    -> { }
+        }
+    }
+    
+    private fun updateFeeds(setUp: Boolean, callback: LoadingCallback) {
         if (feeds.value == null || !setUp) {
-            loadingCallback = callback
             callback(true)
-            githubApiRepository.followerEvent(userName = userName, pages = pages)
+            githubApiRepository.followerEvent(userName = listsArgument.userName, pages = pages)
                     .subscribeOn(schedulers.io())
                     .observeOn(schedulers.ui())
                     .subscribe({
@@ -54,7 +64,7 @@ class FeedsViewModel(
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({
-                    callback(it)
+                    callback(it.htmlUrl)
                 }, {
                     it.printStackTrace()
                 })

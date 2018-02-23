@@ -1,14 +1,14 @@
 package com.example.hunachi.githunaclient.presentation.application
 
 import android.content.Context
-import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.data.repository.githubTokenModule
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter
 import com.example.hunachi.githunaclient.presentation.dialog.WarningDialogAdapter
+import com.example.hunachi.githunaclient.presentation.fragment.list.ListsArgument
 import com.example.hunachi.githunaclient.presentation.fragment.viewpager.ViewPagerFragment
-import com.example.hunachi.githunaclient.presentation.fragment.feeds.FeedsFragment
-import com.example.hunachi.githunaclient.presentation.fragment.feeds.eventViewModelModule
+import com.example.hunachi.githunaclient.presentation.fragment.list.ListsFragment
+import com.example.hunachi.githunaclient.presentation.fragment.list.eventViewModelModule
 import com.example.hunachi.githunaclient.presentation.fragment.userinfo.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.fragment.userinfo.userInfoViewModelModule
 import com.example.hunachi.githunaclient.presentation.fragment.viewpager.adapter.profilePagerAdapterModule
@@ -43,7 +43,7 @@ val MainApplication.kodeinModules by Kodein.lazy {
     bind<LoginGithubActivity>() with singleton { LoginGithubActivity() }
     bind<SchedulerProvider>() with singleton { AppSchedulerProvider() }
     bind<UserInfoFragment>() with multiton { userName: String -> UserInfoFragment.newInstance(userName) }
-    bind<FeedsFragment>() with multiton { userName: String -> FeedsFragment.newInstance(userName) }
+    bind<ListsFragment>() with multiton { listsArgument: ListsArgument -> ListsFragment.newInstance(listsArgument) }
     bind<GithubApiRepository>() with multiton { application: MyApplication -> GithubApiRepository(application.token) }
     bind<ViewPagerFragment>() with multiton { userName: String -> ViewPagerFragment.newInstance(userName) }
     bind<LoadingDialogAdapter>() with factory { context: Context -> LoadingDialogAdapter(context) }

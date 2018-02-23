@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.hunachi.githunaclient.presentation.fragment.feeds.FeedsViewModel"/>
+            type="com.example.hunachi.githunaclient.presentation.fragment.list.ListsViewModel"/>
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

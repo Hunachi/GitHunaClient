@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.hunachi.githunaclient.presentation.fragment.feeds.Feed" />
+            type="com.example.hunachi.githunaclient.presentation.fragment.list.feed.Feed" />
 
     </data>
 

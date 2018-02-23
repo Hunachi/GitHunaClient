@@ -1,4 +1,4 @@
-package com.example.hunachi.githunaclient.presentation.fragment.feeds
+package com.example.hunachi.githunaclient.presentation.fragment.list.feed
 
 /**
  * Created by hunachi on 2018/02/05.

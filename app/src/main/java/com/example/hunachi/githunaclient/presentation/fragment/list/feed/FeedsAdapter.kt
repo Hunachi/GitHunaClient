@@ -1,4 +1,4 @@
-package com.example.hunachi.githunaclient.presentation.fragment.feeds
+package com.example.hunachi.githunaclient.presentation.fragment.list.feed
 
 import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView

@@ -2,7 +2,7 @@ package com.example.hunachi.githunaclient.presentation.fragment.viewpager.adapte
 
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import com.example.hunachi.githunaclient.presentation.fragment.feeds.FeedsFragment
+import com.example.hunachi.githunaclient.presentation.fragment.list.ListsFragment
 import com.example.hunachi.githunaclient.util.extension.convertToLowerText
 
 /**
@@ -10,7 +10,7 @@ import com.example.hunachi.githunaclient.util.extension.convertToLowerText
  */
 class ProfilePagerAdapter(
         private val fragmentManager: FragmentManager,
-        private val feedsFragment: FeedsFragment
+        private val feedsFragment: ListsFragment
 ) : FragmentPagerAdapter(fragmentManager) {
     
     override fun getItem(position: Int) =

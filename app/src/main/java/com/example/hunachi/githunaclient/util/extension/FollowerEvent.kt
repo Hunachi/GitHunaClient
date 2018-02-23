@@ -1,7 +1,7 @@
 package com.example.hunachi.githunaclient.util.extension
 
 import com.example.hunachi.githunaclient.data.api.responce.Event
-import com.example.hunachi.githunaclient.presentation.fragment.feeds.Feed
+import com.example.hunachi.githunaclient.presentation.fragment.list.feed.Feed
 
 /**
  * Created by hunachi on 2018/02/07.
