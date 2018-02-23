@@ -34,7 +34,7 @@ interface GithubApi {
             @Path("ownername") ownerName: String,
             @Path("repositoryname") repositoryName: String,
             @Query("access_token") token: String
-    ): Observable<Repository>
+    ): Single<Repository>
     
     @GET("users/{username}/followers")
     fun follower(

@@ -35,6 +35,11 @@ class FeedsFragment : BaseFragment() {
     private lateinit var navigator: Navigator
     private lateinit var loadingDialog: AlertDialog
     
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setUpViewModel()
+    }
+    
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -46,14 +51,11 @@ class FeedsFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setupDialog()
-        loadingDialog.show()
-        navigator = with(activity).instance<Navigator>().value
         tabsIntent = activity.customTabsIntent()
+        navigator = with(activity).instance<Navigator>().value
     }
     
     private fun setUpRecycler() {
-        viewModel = with(userName).instance<FeedsViewModel>().value
-        setViewModel(viewModel)
         feedsAdapter = FeedsAdapter(followerEventList, itemIconCallback, itemCallback)
         binding.apply {
             viewModel = this@FeedsFragment.viewModel
@@ -63,6 +65,12 @@ class FeedsFragment : BaseFragment() {
                 adapter = feedsAdapter
             }
         }
+    }
+    
+    /*once*/
+    private fun setUpViewModel(){
+        viewModel = with(userName).instance<FeedsViewModel>().value
+        setViewModel(viewModel)
         viewModel.apply {
             feeds.observe(this@FeedsFragment, Observer { event ->
                 followerEventList.also { list ->
@@ -75,8 +83,9 @@ class FeedsFragment : BaseFragment() {
                 }
             })
             refreshing.observe(this@FeedsFragment, Observer {
-                swipe_refresh.isRefreshing = it ?: false
-                if(it == false && loadingDialog.isShowing) loadingDialog.dismiss()
+                swiperefresh.isRefreshing = it ?: false
+                if(it == true) loadingDialog.show()
+                else loadingDialog.dismiss()
             })
             repository.observe(this@FeedsFragment, Observer {
                 loadingDialog.dismiss()
@@ -94,7 +103,7 @@ class FeedsFragment : BaseFragment() {
         navigator.navigateToMainProfile(it.actor)
     }
     
-    private val itemCallback: FeedItemCallback = {
+    private val itemCallback: FeedItemCallback= {
         loadingDialog.show()
         viewModel.repository(it.repositoryName.sepatateOwnerRepo())
     }

@@ -28,8 +28,8 @@ class FeedsViewModel(
     val repository: LiveData<Repository> = LiveDataReactiveStreams.fromPublisher(repositoryProcessor)
     private var pages = 0
     
-    override fun onCreate() {
-        super.onCreate()
+    override fun onActivityCreated() {
+        super.onActivityCreated()
         updateList(true)
     }
     

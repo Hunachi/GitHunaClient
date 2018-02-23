@@ -23,8 +23,10 @@ class UserInfoViewModel(
     val nameExist = ObservableField<Boolean>(true)
     private val userProcessor: PublishProcessor<User> = PublishProcessor.create()
     val user: LiveData<User> = LiveDataReactiveStreams.fromPublisher(userProcessor)
+    private var userName: String? = null
     
     fun setUp(userName: String) {
+        if(this.userName.isNullOrBlank())
         githubApiRepository.user(userName)
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
@@ -34,6 +36,7 @@ class UserInfoViewModel(
                 }, {
                     it.printStackTrace()
                 })
+        else userProcessor.onNext(user.value)
     }
     
 }
