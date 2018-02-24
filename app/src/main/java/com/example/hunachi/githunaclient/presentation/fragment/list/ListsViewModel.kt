@@ -4,7 +4,6 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.LiveDataReactiveStreams
 import android.support.v4.widget.SwipeRefreshLayout
 import com.example.hunachi.githunaclient.data.api.responce.ChildUser
-import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel
 import com.example.hunachi.githunaclient.presentation.fragment.list.feed.Feed
@@ -25,11 +24,9 @@ class ListsViewModel(
 ) : BaseFragmentViewModel() {
     
     private val feedsPublishProcessor: PublishProcessor<List<Feed>> = PublishProcessor.create()
-    private val followerPublishProcessor: PublishProcessor<List<ChildUser>> = PublishProcessor.create()
-    private val followingPublishProcessor: PublishProcessor<List<ChildUser>> = PublishProcessor.create()
+    private val usersPublishProcessor: PublishProcessor<List<ChildUser>> = PublishProcessor.create()
     val feeds: LiveData<List<Feed>> = LiveDataReactiveStreams.fromPublisher(feedsPublishProcessor)
-    val follower: LiveData<List<ChildUser>> = LiveDataReactiveStreams.fromPublisher(followerPublishProcessor)
-    val following: LiveData<List<ChildUser>> = LiveDataReactiveStreams.fromPublisher(followingPublishProcessor)
+    val users: LiveData<List<ChildUser>> = LiveDataReactiveStreams.fromPublisher(usersPublishProcessor)
     private lateinit var loadingCallback: LoadingCallback
     private var pages = 0
     
@@ -38,11 +35,11 @@ class ListsViewModel(
         loadingCallback = callback
         when (listsArgument.listsType) {
             ListType.FEEDS     -> updateFeeds(setUp)
-            ListType.FOLLOWER  -> updateFollowers(setUp)
-            ListType.FOLLOWING -> updateFollowing(setUp)
-            ///ListType.GIST      -> { }
-            ///ListType.REPO      -> { }
-            ///ListType.STARED    -> { }
+            ListType.FOLLOWER  -> updateFollows(setUp, follower = true)
+            ListType.FOLLOWING -> updateFollows(setUp, follower = false)
+        ///ListType.GIST      -> { }
+        ///ListType.REPO      -> { }
+        ///ListType.STARED    -> { }
         }
     }
     
@@ -62,30 +59,20 @@ class ListsViewModel(
         } else loadingCallback(false)
     }
     
-    private fun updateFollowers(setUp: Boolean) {
-        if (follower.value == null || !setUp) {
+    private fun updateFollows(setUp: Boolean, follower: Boolean) {
+        if (users.value == null || !setUp) {
             loadingCallback(true)
-            githubApiRepository.follower(userName = listsArgument.userName)
+            if (follower) {
+                githubApiRepository.follower(userName = listsArgument.userName)
+            } else {
+                githubApiRepository.following(listsArgument.userName)
+            }
                     .subscribeOn(schedulers.io())
                     .observeOn(schedulers.ui())
                     .subscribe({
-                        followerPublishProcessor.onNext(it.reversed().sortedBy { it.userName })
-                    }, {
-                        it.printStackTrace()
-                    }, {
-                        loadingCallback(false)
-                    })
-        } else loadingCallback(false)
-    }
-    
-    private fun updateFollowing(setUp: Boolean){
-        if (following.value == null || !setUp) {
-            loadingCallback(true)
-            githubApiRepository.following(userName = listsArgument.userName)
-                    .subscribeOn(schedulers.io())
-                    .observeOn(schedulers.ui())
-                    .subscribe({
-                        followingPublishProcessor.onNext(it.reversed().sortedBy { it.userName })
+                        usersPublishProcessor.onNext(it.sortedByDescending {
+                            it.name?.toLowerCase() ?: it.userName.toLowerCase()
+                        })
                     }, {
                         it.printStackTrace()
                     }, {

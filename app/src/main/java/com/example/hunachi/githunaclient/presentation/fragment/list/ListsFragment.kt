@@ -11,7 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.hunachi.githunaclient.data.api.responce.ChildUser
-import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.databinding.FragmentFollowerEventBinding
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter
@@ -83,7 +82,7 @@ class ListsFragment : BaseFragment() {
                 binding.list.adapter = feedsAdapter
             }
             ListType.FOLLOWER, ListType.FOLLOWING -> {
-                userAdapter = UserAdapter(list, itemIconCallback)
+                userAdapter = UserAdapter(list, itemCallback)
                 binding.list.adapter = userAdapter
             }
         }
@@ -94,35 +93,20 @@ class ListsFragment : BaseFragment() {
         viewModel = with(listsArgument).instance<ListsViewModel>().value
         setViewModel(viewModel)
         viewModel.apply {
-            when (listsArgument.listsType) {
-                ListType.FEEDS     ->
-                    feeds.observe(this@ListsFragment, Observer { feeds ->
-                        feeds?.filterNot { list.contains(it) }
-                                ?.forEach {
-                                    list.add(0, it)
-                                    feedsAdapter.notifyItemInserted(0)
-                                }
-                    })
-                ListType.FOLLOWER  ->
-                    follower.observe(this@ListsFragment, Observer { followers ->
-                        followers?.filterNot { list.contains(it) }
-                                ?.forEach {
-                                    list.add(0, it)
-                                    userAdapter.notifyItemInserted(0)
-                                }
-                    })
-                ListType.FOLLOWING ->
-                    following.observe(this@ListsFragment, Observer { following ->
-                        following?.filterNot { list.contains(it) }
-                                ?.forEach {
-                                    list.add(0, it)
-                                    userAdapter.notifyItemInserted(0)
-                                }
-                    })
-                //ListType.STARED -> {}
-                //ListType.REPO -> {}
-                //ListType.GIST -> {}
-            }
+            feeds.observe(this@ListsFragment, Observer { feeds ->
+                feeds?.filterNot { list.contains(it) }
+                        ?.forEach {
+                            list.add(0, it)
+                            feedsAdapter.notifyItemInserted(0)
+                        }
+            })
+            users.observe(this@ListsFragment, Observer { followers ->
+                followers?.filterNot { list.contains(it) }
+                        ?.forEach {
+                            list.add(0, it)
+                            userAdapter.notifyItemInserted(0)
+                        }
+            })
         }
     }
     
@@ -134,7 +118,6 @@ class ListsFragment : BaseFragment() {
     private val itemIconCallback: ItemCallback = {
         when (it) {
             is Feed      -> navigator.navigateToMainProfile(it.actor)
-            is ChildUser -> navigator.navigateToMainProfile(it.userName)
         }
     }
     
@@ -142,7 +125,7 @@ class ListsFragment : BaseFragment() {
         loadingDialog.show()
         when (it) {
             is Feed      -> viewModel.repository(it.repositoryName.sepatateOwnerRepo(), goWebCallback)
-            is ChildUser -> viewModel
+            is ChildUser -> navigator.navigateToMainProfile(it.userName)
         }
     }
     

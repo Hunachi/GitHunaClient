@@ -34,6 +34,9 @@ class UserAdapter(
             itemBaseLayout.setOnClickListener {
                 callback(list[position] as ChildUser)
             }
+            actorImageButton.setOnClickListener {
+                callback(list[position] as ChildUser)
+            }
         }
     }
     
