@@ -2,6 +2,7 @@ package com.example.hunachi.githunaclient.data.repository
 
 import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.data.repository.adapter.GithubApiAdapter
+import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.http.Url
 
@@ -12,10 +13,10 @@ class GithubApiRepository(
         private val token: String
 ) {
     
-    fun ownerUser(): Single<User> = GithubApiAdapter.githubApi
+    fun ownerUser(): Observable<User> = GithubApiAdapter.githubApi
             .ownerUser(token = token)
     
-    fun user(userName: String): Single<User> =
+    fun user(userName: String): Observable<User> =
             if (userName.isNotBlank()) GithubApiAdapter.githubApi
                     .user(userName = userName, token = token)
             else ownerUser()
@@ -35,7 +36,7 @@ class GithubApiRepository(
     fun gists(userName: String) = GithubApiAdapter.githubApi
             .gists(userName = userName, token = token)
     
-    fun staredGists(userName: String) = GithubApiAdapter.githubApi
+    fun staredGists() = GithubApiAdapter.githubApi
             .starredGist(token = token)
     
     fun watchingRepo(userName: String) = GithubApiAdapter.githubApi

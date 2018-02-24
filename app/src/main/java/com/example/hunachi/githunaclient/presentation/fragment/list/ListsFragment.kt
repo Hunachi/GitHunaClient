@@ -10,12 +10,14 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.hunachi.githunaclient.data.api.responce.Repository
+import com.example.hunachi.githunaclient.data.api.responce.ChildUser
+import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.databinding.FragmentFollowerEventBinding
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter
 import com.example.hunachi.githunaclient.presentation.fragment.list.feed.Feed
 import com.example.hunachi.githunaclient.presentation.fragment.list.feed.FeedsAdapter
+import com.example.hunachi.githunaclient.presentation.fragment.list.follow.UserAdapter
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.util.*
 import com.example.hunachi.githunaclient.util.extension.customTabsIntent
@@ -29,8 +31,9 @@ import com.github.salomonbrys.kodein.with
 class ListsFragment : BaseFragment() {
     
     private lateinit var binding: FragmentFollowerEventBinding
-    private val followerEventList = mutableListOf<Feed>()
+    private val list = mutableListOf<BaseItem>()
     private lateinit var feedsAdapter: FeedsAdapter
+    private lateinit var userAdapter: UserAdapter
     private lateinit var viewModel: ListsViewModel
     private lateinit var tabsIntent: CustomTabsIntent
     private lateinit var navigator: Navigator
@@ -65,13 +68,23 @@ class ListsFragment : BaseFragment() {
     }
     
     private fun setUpRecycler() {
-        feedsAdapter = FeedsAdapter(followerEventList, itemIconCallback, itemCallback)
+        setUpAdapter()
         binding.apply {
             viewModel = this@ListsFragment.viewModel
             setLifecycleOwner(this@ListsFragment)
-            list.apply {
-                layoutManager = LinearLayoutManager(context)
-                adapter = feedsAdapter
+            list.layoutManager = LinearLayoutManager(context)
+        }
+    }
+    
+    private fun setUpAdapter() {
+        when (listsArgument.listsType) {
+            ListType.FEEDS                        -> {
+                feedsAdapter = FeedsAdapter(list, itemIconCallback, itemCallback)
+                binding.list.adapter = feedsAdapter
+            }
+            ListType.FOLLOWER, ListType.FOLLOWING -> {
+                userAdapter = UserAdapter(list, itemIconCallback)
+                binding.list.adapter = userAdapter
             }
         }
     }
@@ -81,16 +94,35 @@ class ListsFragment : BaseFragment() {
         viewModel = with(listsArgument).instance<ListsViewModel>().value
         setViewModel(viewModel)
         viewModel.apply {
-            feeds.observe(this@ListsFragment, Observer { event ->
-                followerEventList.also { list ->
-                    event?.forEach {
-                        if (!list.contains(it)) {
-                            list.add(0, it)
-                            feedsAdapter.notifyItemInserted(0)
-                        }
-                    }
-                }
-            })
+            when (listsArgument.listsType) {
+                ListType.FEEDS     ->
+                    feeds.observe(this@ListsFragment, Observer { feeds ->
+                        feeds?.filterNot { list.contains(it) }
+                                ?.forEach {
+                                    list.add(0, it)
+                                    feedsAdapter.notifyItemInserted(0)
+                                }
+                    })
+                ListType.FOLLOWER  ->
+                    follower.observe(this@ListsFragment, Observer { followers ->
+                        followers?.filterNot { list.contains(it) }
+                                ?.forEach {
+                                    list.add(0, it)
+                                    userAdapter.notifyItemInserted(0)
+                                }
+                    })
+                ListType.FOLLOWING ->
+                    following.observe(this@ListsFragment, Observer { following ->
+                        following?.filterNot { list.contains(it) }
+                                ?.forEach {
+                                    list.add(0, it)
+                                    userAdapter.notifyItemInserted(0)
+                                }
+                    })
+                //ListType.STARED -> {}
+                //ListType.REPO -> {}
+                //ListType.GIST -> {}
+            }
         }
     }
     
@@ -99,13 +131,19 @@ class ListsFragment : BaseFragment() {
                 .onCreateDialog()
     }
     
-    private val itemIconCallback: FeedItemCallback = {
-        navigator.navigateToMainProfile(it.actor)
+    private val itemIconCallback: ItemCallback = {
+        when (it) {
+            is Feed      -> navigator.navigateToMainProfile(it.actor)
+            is ChildUser -> navigator.navigateToMainProfile(it.userName)
+        }
     }
     
-    private val itemCallback: FeedItemCallback = {
+    private val itemCallback: ItemCallback = {
         loadingDialog.show()
-        viewModel.repository(it.repositoryName.sepatateOwnerRepo(), goWebCallback)
+        when (it) {
+            is Feed      -> viewModel.repository(it.repositoryName.sepatateOwnerRepo(), goWebCallback)
+            is ChildUser -> viewModel
+        }
     }
     
     private val goWebCallback: GoWebCallback = { url: String ->

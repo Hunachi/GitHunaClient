@@ -20,7 +20,6 @@ class UserInfoViewModel(
         val scheduler: SchedulerProvider
 ) : BaseFragmentViewModel() {
     
-    val nameExist = ObservableField<Boolean>(true)
     private val userProcessor: PublishProcessor<User> = PublishProcessor.create()
     val user: LiveData<User> = LiveDataReactiveStreams.fromPublisher(userProcessor)
     private var userName: String? = null
@@ -31,7 +30,6 @@ class UserInfoViewModel(
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .subscribe({
-                    if (it.userName.isBlank()) nameExist.set(false)
                     userProcessor.onNext(it)
                 }, {
                     it.printStackTrace()

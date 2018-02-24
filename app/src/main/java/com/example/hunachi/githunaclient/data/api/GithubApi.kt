@@ -14,13 +14,13 @@ interface GithubApi {
     @GET("user")
     fun ownerUser(
             @Query("access_token") token: String
-    ): Single<User>
+    ): Observable<User>
     
     @GET("users/{user_name}")
     fun user(
             @Path("user_name")userName: String,
             @Query("access_token") token: String
-    ): Single<User>
+    ): Observable<User>
     
     @GET("users/{username}/received_events")
     fun followerEvents(
@@ -34,42 +34,42 @@ interface GithubApi {
             @Path("ownername") ownerName: String,
             @Path("repositoryname") repositoryName: String,
             @Query("access_token") token: String
-    ): Single<Repository>
+    ): Observable<Repository>
     
     @GET("users/{username}/followers")
     fun follower(
             @Path("username") userName: String,
             @Query("access_token") token: String
-    ): Single<List<ChildUser>>
+    ): Observable<List<ChildUser>>
     
     @GET("users/{username}/following")
     fun following(
             @Path("username") userName: String,
             @Query("access_token") token: String
-    ): Single<List<ChildUser>>
+    ): Observable<List<ChildUser>>
     
     @GET("users/{username}/gists")
     fun gists(
             @Path("username") userName: String,
             @Query("access_token") token: String
-    ): Single<List<Gist>>
+    ): Observable<List<Gist>>
     
     @GET("gists/starred")
     fun starredGist(
             @Query("access_token") token: String
-    ): Single<List<Gist>>
+    ): Observable<List<Gist>>
     
     @GET("/users/{username}/subscriptions")
     fun watchingRepo(
             @Path("username") userName: String,
             @Query("access_token") token: String
-    ):Single<List<Repository>>
+    ):Observable<List<Repository>>
     
     @GET("users/{username}/starred")
     fun staring(
             @Path("username") userName: String,
             @Query("access_token") token: String
-    ): Single<List<Repository>>
+    ): Observable<List<Repository>>
     
     @GET
     fun contribute(@Url url: String): Observable<String>

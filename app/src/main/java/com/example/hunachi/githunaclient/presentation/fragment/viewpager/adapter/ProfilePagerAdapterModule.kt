@@ -1,7 +1,9 @@
 package com.example.hunachi.githunaclient.presentation.fragment.viewpager.adapter
 
 import android.support.v4.app.FragmentManager
+import android.support.v4.app.ListFragment
 import com.example.hunachi.githunaclient.presentation.fragment.list.ListsArgument
+import com.example.hunachi.githunaclient.presentation.fragment.list.ListsFragment
 import com.example.hunachi.githunaclient.util.ListType
 import com.github.salomonbrys.kodein.*
 
@@ -10,9 +12,13 @@ import com.github.salomonbrys.kodein.*
  */
 val profilePagerAdapterModule = Kodein.Module{
     bind<ProfilePagerAdapter>() with factory { it: Pair<FragmentManager, String> ->
+        val fragments = mutableListOf<ListsFragment>()
+        ListType.values().forEach { listType ->
+            fragments.add(with(ListsArgument(it.second, listType)).instance())
+        }
         ProfilePagerAdapter(
             fragmentManager = it.first,
-            feedsFragment = with(ListsArgument(it.second, ListType.FEEDS)).instance()
+            fragments = fragments.toList()
         )
     }
 }

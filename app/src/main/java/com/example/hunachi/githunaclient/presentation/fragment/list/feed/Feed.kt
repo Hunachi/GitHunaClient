@@ -1,5 +1,7 @@
 package com.example.hunachi.githunaclient.presentation.fragment.list.feed
 
+import com.example.hunachi.githunaclient.presentation.fragment.list.BaseItem
+
 /**
  * Created by hunachi on 2018/02/05.
  */
@@ -10,4 +12,4 @@ data class Feed(
         var repositoryUrl: String = "",
         var action: String = "coding!!",
         var repositoryName: String = ""
-)
+): BaseItem

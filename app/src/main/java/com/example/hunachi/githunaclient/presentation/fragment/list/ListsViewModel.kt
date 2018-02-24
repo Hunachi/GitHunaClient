@@ -3,6 +3,8 @@ package com.example.hunachi.githunaclient.presentation.fragment.list
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.LiveDataReactiveStreams
 import android.support.v4.widget.SwipeRefreshLayout
+import com.example.hunachi.githunaclient.data.api.responce.ChildUser
+import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel
 import com.example.hunachi.githunaclient.presentation.fragment.list.feed.Feed
@@ -23,26 +25,30 @@ class ListsViewModel(
 ) : BaseFragmentViewModel() {
     
     private val feedsPublishProcessor: PublishProcessor<List<Feed>> = PublishProcessor.create()
+    private val followerPublishProcessor: PublishProcessor<List<ChildUser>> = PublishProcessor.create()
+    private val followingPublishProcessor: PublishProcessor<List<ChildUser>> = PublishProcessor.create()
     val feeds: LiveData<List<Feed>> = LiveDataReactiveStreams.fromPublisher(feedsPublishProcessor)
-    private var loadingCallback: LoadingCallback? = null
+    val follower: LiveData<List<ChildUser>> = LiveDataReactiveStreams.fromPublisher(followerPublishProcessor)
+    val following: LiveData<List<ChildUser>> = LiveDataReactiveStreams.fromPublisher(followingPublishProcessor)
+    private lateinit var loadingCallback: LoadingCallback
     private var pages = 0
     
     /*call this by all means first*/
     fun updateList(setUp: Boolean, callback: LoadingCallback) {
         loadingCallback = callback
         when (listsArgument.listsType) {
-            ListType.FEEDS     -> updateFeeds(setUp, callback)
-            ListType.FOLLOWER  -> { }
-            ListType.FOLLOWING -> { }
-            ListType.GIST      -> { }
-            ListType.REPO      -> { }
-            ListType.STARED    -> { }
+            ListType.FEEDS     -> updateFeeds(setUp)
+            ListType.FOLLOWER  -> updateFollowers(setUp)
+            ListType.FOLLOWING -> updateFollowing(setUp)
+            ///ListType.GIST      -> { }
+            ///ListType.REPO      -> { }
+            ///ListType.STARED    -> { }
         }
     }
     
-    private fun updateFeeds(setUp: Boolean, callback: LoadingCallback) {
+    private fun updateFeeds(setUp: Boolean) {
         if (feeds.value == null || !setUp) {
-            callback(true)
+            loadingCallback(true)
             githubApiRepository.followerEvent(userName = listsArgument.userName, pages = pages)
                     .subscribeOn(schedulers.io())
                     .observeOn(schedulers.ui())
@@ -51,12 +57,41 @@ class ListsViewModel(
                     }, {
                         it.printStackTrace()
                     }, {
-                        callback(false)
+                        loadingCallback(false)
                     })
-        } else {
-            feedsPublishProcessor.onNext(feeds.value)
-            callback(false)
-        }
+        } else loadingCallback(false)
+    }
+    
+    private fun updateFollowers(setUp: Boolean) {
+        if (follower.value == null || !setUp) {
+            loadingCallback(true)
+            githubApiRepository.follower(userName = listsArgument.userName)
+                    .subscribeOn(schedulers.io())
+                    .observeOn(schedulers.ui())
+                    .subscribe({
+                        followerPublishProcessor.onNext(it.reversed().sortedBy { it.userName })
+                    }, {
+                        it.printStackTrace()
+                    }, {
+                        loadingCallback(false)
+                    })
+        } else loadingCallback(false)
+    }
+    
+    private fun updateFollowing(setUp: Boolean){
+        if (following.value == null || !setUp) {
+            loadingCallback(true)
+            githubApiRepository.following(userName = listsArgument.userName)
+                    .subscribeOn(schedulers.io())
+                    .observeOn(schedulers.ui())
+                    .subscribe({
+                        followingPublishProcessor.onNext(it.reversed().sortedBy { it.userName })
+                    }, {
+                        it.printStackTrace()
+                    }, {
+                        loadingCallback(false)
+                    })
+        } else loadingCallback(false)
     }
     
     fun repository(ownerRepo: Pair<String, String>, callback: GoWebCallback) {
@@ -71,7 +106,7 @@ class ListsViewModel(
     }
     
     fun updateEvents(): SwipeRefreshLayout.OnRefreshListener = SwipeRefreshLayout.OnRefreshListener {
-        loadingCallback?.also { updateList(setUp = false, callback = it) }
+        updateList(setUp = false, callback = loadingCallback)
     }
     
 }

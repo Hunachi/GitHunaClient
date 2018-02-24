@@ -1,5 +1,6 @@
 package com.example.hunachi.githunaclient.data.api.responce
 
+import com.example.hunachi.githunaclient.presentation.fragment.list.BaseItem
 import com.squareup.moshi.Json
 import io.reactivex.annotations.Nullable
 import se.ansman.kotshi.JsonSerializable
@@ -17,4 +18,4 @@ data class ChildUser(
         var url: String,
         @Json(name = "avatar_url")
         var avatarUrl: String
-)
+): BaseItem
