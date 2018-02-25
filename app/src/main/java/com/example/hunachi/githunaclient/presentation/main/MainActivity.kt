@@ -21,7 +21,7 @@ class MainActivity : BaseActivity() {
         DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
     }
     private val myApplication: MyApplication by lazy { application as MyApplication }
-    private lateinit var userInfoFragment: UserInfoFragment
+    private lateinit var ownerInfoFragment: UserInfoFragment
     private lateinit var viewPagerFragment: ViewPagerFragment
     private var userName: String? = null
     
@@ -52,7 +52,7 @@ class MainActivity : BaseActivity() {
     
     private fun setupFragmentManager() {
         viewPagerFragment = with(userName).instance<ViewPagerFragment>().value
-        userInfoFragment = with(userName).instance<UserInfoFragment>().value
+        ownerInfoFragment = with(userName).instance<UserInfoFragment>().value
         binding.navigation.selectedItemId = R.id.action_lists
         navigator.replaceFragment(R.id.container, viewPagerFragment)
         setupNavigation()
@@ -61,7 +61,7 @@ class MainActivity : BaseActivity() {
     private fun setupNavigation() {
         viewModel.navigateListener.observe(this, Observer { item ->
             when (item?.itemId) {
-                R.id.action_profile -> navigator.replaceFragment(R.id.container, userInfoFragment)
+                R.id.action_profile -> navigator.replaceFragment(R.id.container, ownerInfoFragment)
                 R.id.action_lists   -> navigator.replaceFragment(R.id.container, viewPagerFragment)
             }
         })

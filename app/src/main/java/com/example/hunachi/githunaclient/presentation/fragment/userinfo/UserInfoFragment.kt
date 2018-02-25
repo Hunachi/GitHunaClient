@@ -19,14 +19,13 @@ import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapte
 import com.example.hunachi.githunaclient.util.GoWebCallback
 import com.example.hunachi.githunaclient.util.extension.customTabsIntent
 import com.github.salomonbrys.kodein.*
-import retrofit2.http.Url
 
 
 class UserInfoFragment : BaseFragment() {
     
     private lateinit var binding: FragmentUserInfoBinding
     private val viewModel: UserInfoViewModel by with(this).instance()
-    private val userName: String? by lazy { arguments?.getString(ARG_PARAM) }
+    private val userName: String? by lazy { arguments?.getString(USERNAME) }
     private lateinit var loadingDialog: AlertDialog //目がチカチカするから消し他方がいいかも．
     private lateinit var tabsIntent: CustomTabsIntent
     
@@ -73,11 +72,11 @@ class UserInfoFragment : BaseFragment() {
     }
     
     companion object {
-        private const val ARG_PARAM = "userName"
+        private const val USERNAME = "userName"
         fun newInstance(userName: String): UserInfoFragment =
                 UserInfoFragment().apply {
                     arguments = Bundle().apply {
-                        putString(ARG_PARAM, userName)
+                        putString(USERNAME, userName)
                     }
                 }
     }

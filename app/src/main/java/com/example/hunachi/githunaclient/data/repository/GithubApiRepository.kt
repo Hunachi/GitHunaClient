@@ -10,7 +10,8 @@ import retrofit2.http.Url
  * Created by hunachi on 2018/02/03.
  */
 class GithubApiRepository(
-        private val token: String
+        private val token: String,
+        private val ownerName: String
 ) {
     
     fun ownerUser(): Observable<User> = GithubApiAdapter.githubApi
@@ -24,7 +25,7 @@ class GithubApiRepository(
     fun followerEvent(userName: String, pages: Int) = GithubApiAdapter.githubApi
             .followerEvents(pages = pages, userName = userName, token = token)
     
-    fun repositories(userName: String) = GithubApiAdapter.githubApi
+    fun repositories(userName: String) = GithubApiAdapter.githubApi //TODO owner
             .repositories(userName = userName, token = token)
     
     fun repository(ownerName: String, repositoryName: String) = GithubApiAdapter.githubApi
