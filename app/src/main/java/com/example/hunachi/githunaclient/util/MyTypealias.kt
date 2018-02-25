@@ -1,6 +1,7 @@
 package com.example.hunachi.githunaclient.util
 
 import android.support.design.widget.BottomNavigationView
+import android.view.MenuItem
 import com.example.hunachi.githunaclient.presentation.fragment.list.BaseItem
 import com.example.hunachi.githunaclient.presentation.login.SignalStatus
         
@@ -16,5 +17,7 @@ typealias ItemCallback = (BaseItem) -> Unit
 typealias GoWebCallback = (String) -> Unit
 
 typealias LoadingCallback = (Boolean) -> Unit
+
+typealias NavigatorCallback = (MenuItem) -> Unit
 
 typealias BottomNavigationListener = BottomNavigationView.OnNavigationItemSelectedListener

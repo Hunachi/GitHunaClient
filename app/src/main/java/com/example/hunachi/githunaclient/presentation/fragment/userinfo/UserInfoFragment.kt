@@ -48,6 +48,7 @@ class UserInfoFragment : BaseFragment() {
     private fun setupViewModel() {
         viewModel.let {
             setViewModel(it)
+            loadingDialog.show()
             binding.viewModel = it
             it.user.observe(this, Observer {
                 loadingDialog.dismiss()
@@ -65,7 +66,6 @@ class UserInfoFragment : BaseFragment() {
     private fun setupDialog() {
         loadingDialog = with(activity as Context).instance<LoadingDialogAdapter>().value
                 .onCreateDialog()
-        loadingDialog.show()
     }
     
     private val goWebCallback: GoWebCallback = { url ->

@@ -65,7 +65,7 @@ class ListsViewModel(
                     }, {
                         loadingCallback(false)
                     })
-        }
+        } else feedsPublishProcessor.onNext(feeds.value) /*再度更新しないとたまに何も表示されなくなるため*/
     }
     
     private fun updateFollows(setUp: Boolean, followType: FollowType) {
@@ -86,7 +86,7 @@ class ListsViewModel(
                     }, {
                         loadingCallback(false)
                     })
-        }
+        } else usersPublishProcessor.onNext(users.value)
     }
     
     private fun updateGists(setUp: Boolean) {
@@ -102,7 +102,7 @@ class ListsViewModel(
                     }, {
                         loadingCallback(false)
                     })
-        }
+        } else gistsPublishProcessor.onNext(gists.value)
     }
     
     private fun updateRepositories(setUp: Boolean, repositoryType: RepositoryType) {
@@ -122,7 +122,7 @@ class ListsViewModel(
                     }, {
                         loadingCallback(false)
                     })
-        }
+        } else repositoriesPublishProcessor.onNext(repositories.value)
     }
     
     fun repository(ownerRepo: Pair<String, String>, callback: GoWebCallback) {

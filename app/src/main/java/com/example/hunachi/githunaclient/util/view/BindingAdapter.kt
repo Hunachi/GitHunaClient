@@ -1,13 +1,13 @@
-package com.example.hunachi.githunaclient.util.extension
+package com.example.hunachi.githunaclient.util.view
 
 import android.databinding.BindingAdapter
-import android.support.annotation.Nullable
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.widget.SwipeRefreshLayout
 import android.widget.ImageButton
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.hunachi.githunaclient.util.BottomNavigationListener
+import com.example.hunachi.githunaclient.util.extension.setBackgroundTranspot
 
 /**
  * Created by hunachi on 2018/02/01.

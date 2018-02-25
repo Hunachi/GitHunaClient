@@ -10,6 +10,5 @@ class Key{
         const val CLIENT_ID: String = BuildConfig.CLIENT_ID
         const val state: String = "git-huna-oauth"
         const val CLIENT_SECRET: String = BuildConfig.CLIENT_SECRET
-        const val OWNER_RESULT_CODE: Int = 278
     }
 }

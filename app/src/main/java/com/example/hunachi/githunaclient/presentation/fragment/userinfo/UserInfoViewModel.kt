@@ -37,6 +37,7 @@ class UserInfoViewModel(
                     }, {
                         it.printStackTrace()
                     })
+        else userProcessor.onNext(user.value)
     }
     
     fun onClickUserBlog() {
