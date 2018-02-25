@@ -38,7 +38,7 @@ class LoginGithubActivity : BaseActivity() {
             codeProcessor.subscribe { status ->
                 when (status) {
                     SignalStatus.SUCCESS -> dialog.show()
-                    SignalStatus.ERROR   -> {}//TODO
+                    SignalStatus.ERROR   -> navigator.errorToast("failed to login.")
                 }
             }
             tokenProcessor.subscribe { status ->
@@ -47,7 +47,7 @@ class LoginGithubActivity : BaseActivity() {
                         if (dialog.isShowing) dialog.dismiss()
                         navigator.navigateToMain()
                     }
-                    SignalStatus.ERROR   -> {}//TODO
+                    SignalStatus.ERROR   -> navigator.errorToast("failed to login")
                 }
             }
         }

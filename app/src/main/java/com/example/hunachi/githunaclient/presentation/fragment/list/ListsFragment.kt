@@ -25,7 +25,7 @@ import com.example.hunachi.githunaclient.presentation.fragment.viewpager.ListTyp
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.util.*
 import com.example.hunachi.githunaclient.util.extension.customTabsIntent
-import com.example.hunachi.githunaclient.util.extension.sepatateOwnerRepo
+import com.example.hunachi.githunaclient.util.extension.separateOwnerRepo
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
 
@@ -108,35 +108,43 @@ class ListsFragment : BaseFragment() {
         viewModel = with(listsArgument).instance<ListsViewModel>().value
         setViewModel(viewModel)
         viewModel.apply {
-            feeds.observe(this@ListsFragment, Observer { feeds ->
-                feeds?.filterNot { list.contains(it) }
-                        ?.forEach {
-                            list.add(0, it)
-                            feedsAdapter.notifyItemInserted(0)
-                        }
-            })
-            users.observe(this@ListsFragment, Observer { followers ->
-                followers?.filterNot { list.contains(it) }
-                        ?.forEach {
-                            list.add(0, it)
-                            userAdapter.notifyItemInserted(0)
-                        }
-            })
-            gists.observe(this@ListsFragment, Observer { gists ->
-                gists?.filterNot { list.contains(it) }
-                        ?.forEach {
-                            list.add(0, it)
-                            gistAdapter.notifyItemInserted(0)
-                        }
-            })
-            repositories.observe(this@ListsFragment, Observer { repositories ->
-                repositories?.filterNot { list.contains(it) }
-                        ?.forEach {
-                            list.add(0, it)
-                            repositoryAdapter.notifyItemInserted(0)
-                        }
-            })
+            when (listsArgument.listsType) {
+                ListType.FEEDS                                       ->
+                    feeds.observe(this@ListsFragment, Observer { feeds ->
+                        feeds?.filterNot { list.contains(it) }
+                                ?.forEach {
+                                    list.add(0, it)
+                                    feedsAdapter.notifyItemInserted(0)
+                                }
+                    })
+                ListType.FOLLOWER, ListType.FOLLOWING                ->
+                    users.observe(this@ListsFragment, Observer { followers ->
+                        followers?.filterNot { list.contains(it) }
+                                ?.forEach {
+                                    list.add(0, it)
+                                    userAdapter.notifyItemInserted(0)
+                                }
+                    })
+                ListType.GIST                                        ->
+                    gists.observe(this@ListsFragment, Observer { gists ->
+                        gists?.filterNot { list.contains(it) }
+                                ?.forEach {
+                                    list.add(0, it)
+                                    gistAdapter.notifyItemInserted(0)
+                                }
+                    })
+                ListType.REPOSITORY, ListType.STARED, ListType.WATCH ->
+                    repositories.observe(this@ListsFragment, Observer { repositories ->
+                        repositories?.filterNot { list.contains(it) }
+                                ?.forEach {
+                                    list.add(0, it)
+                                    repositoryAdapter.notifyItemInserted(0)
+                                }
+                    })
+                
+            }
         }
+        
     }
     
     private fun setupDialog() {
@@ -152,7 +160,7 @@ class ListsFragment : BaseFragment() {
     
     private val itemCallback: ItemCallback = {
         when (it) {
-            is Feed       -> viewModel.repository(it.repositoryName.sepatateOwnerRepo(), goWebCallback)
+            is Feed       -> viewModel.repository(it.repositoryName.separateOwnerRepo(), goWebCallback)
             is ChildUser  -> navigator.navigateToMainProfile(it.userName)
             is Gist       -> goWebCallback(it.html_url)
             is Repository -> goWebCallback(it.htmlUrl)

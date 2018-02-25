@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/action_profile"
-        android:icon="@mipmap/ic_launcher_round"
+        android:icon="@drawable/profile_icon"
         android:title="my page" />
     <item
         android:id="@+id/action_lists"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/list_icon"
         android:title="events" />
 </menu>

@@ -31,7 +31,7 @@ class MainViewModel(
                 .subscribe({
                     userProcessor.onNext(it)
                 },{
-                    userProcessor.onError(it) //TODO
+                    userProcessor.onError(it)
                 })
         else userProcessor.onNext(user.value)
     }

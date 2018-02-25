@@ -25,8 +25,11 @@ class GithubApiRepository(
     fun followerEvent(userName: String, pages: Int) = GithubApiAdapter.githubApi
             .followerEvents(pages = pages, userName = userName, token = token)
     
-    fun repositories(userName: String) = GithubApiAdapter.githubApi //TODO owner
-            .repositories(userName = userName, token = token)
+    fun repositories(userName: String) =
+            if(userName == ownerName) GithubApiAdapter.githubApi
+                    .ownerRepositories(token)
+            else GithubApiAdapter.githubApi
+                    .repositories(userName = userName, token = token)
     
     fun repository(ownerName: String, repositoryName: String) = GithubApiAdapter.githubApi
             .repository(ownerName = ownerName, repositoryName = repositoryName, token = token)

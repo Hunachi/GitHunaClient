@@ -11,7 +11,7 @@ object OauthAdapter {
     
     private const val scopes = "repo,gist,read:user"
     private const val baseUrl = "https://github.com/login/oauth/authorize"
-    private const val clientId: String = Key.clientId
+    private const val clientId: String = Key.CLIENT_ID
     private const val state: String = Key.state
     
     private const val url = baseUrl + "?" +

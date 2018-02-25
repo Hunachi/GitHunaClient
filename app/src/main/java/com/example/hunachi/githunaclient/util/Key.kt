@@ -7,8 +7,9 @@ import com.example.hunachi.githunaclient.BuildConfig
  */
 class Key{
     companion object {
-        const val clientId: String = BuildConfig.CLIENT_ID
+        const val CLIENT_ID: String = BuildConfig.CLIENT_ID
         const val state: String = "git-huna-oauth"
-        const val clientSecret: String = BuildConfig.CLIENT_SECRET
+        const val CLIENT_SECRET: String = BuildConfig.CLIENT_SECRET
+        const val OWNER_RESULT_CODE: Int = 278
     }
 }

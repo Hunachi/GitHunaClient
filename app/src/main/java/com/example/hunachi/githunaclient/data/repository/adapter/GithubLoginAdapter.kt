@@ -45,6 +45,6 @@ object GithubLoginAdapter {
     }
     
     fun register(code: String)
-            = githubOauth.accessToken(Key.clientId, Key.clientSecret, code)
+            = githubOauth.accessToken(Key.CLIENT_ID, Key.CLIENT_SECRET, code)
     
 }

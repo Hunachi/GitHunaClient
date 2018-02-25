@@ -22,7 +22,7 @@ class GithubApiRepositoryTest {
     @Before
     fun init() {
         scheduler = TestSchedulerProvider()
-        githubApiRepository = GithubApiRepository(Key.token)
+        githubApiRepository = GithubApiRepository(Key.token, "hunachi")
     }
     
     /*生まれて初めて書いたテストが通って嬉しい(((o(*ﾟ▽ﾟ*)o)))！！*/
@@ -103,7 +103,7 @@ class GithubApiRepositoryTest {
     
     @Test
     fun staredGists(){
-        githubApiRepository.staredGists("hunachi")
+        githubApiRepository.staredGists()
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .subscribe({

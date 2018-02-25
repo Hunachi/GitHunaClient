@@ -11,6 +11,7 @@ import com.example.hunachi.githunaclient.presentation.fragment.list.ListsArgumen
 import com.example.hunachi.githunaclient.presentation.fragment.viewpager.ViewPagerFragment
 import com.example.hunachi.githunaclient.presentation.fragment.list.ListsFragment
 import com.example.hunachi.githunaclient.presentation.fragment.list.eventViewModelModule
+import com.example.hunachi.githunaclient.presentation.fragment.ownerinfo.OwnerInfoFragment
 import com.example.hunachi.githunaclient.presentation.fragment.userinfo.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.fragment.userinfo.userInfoViewModelModule
 import com.example.hunachi.githunaclient.presentation.fragment.viewpager.adapter.profilePagerAdapterModule
@@ -46,8 +47,9 @@ val MainApplication.kodeinModules by Kodein.lazy {
     bind<SchedulerProvider>() with singleton { AppSchedulerProvider() }
     bind<UserInfoFragment>() with multiton { userName: String -> UserInfoFragment.newInstance(userName) }
     bind<ListsFragment>() with multiton { listsArgument: ListsArgument -> ListsFragment.newInstance(listsArgument) }
-    bind<GithubApiRepository>() with multiton { application: MyApplication -> GithubApiRepository(application.token) }
+    bind<GithubApiRepository>() with multiton { application: MyApplication -> GithubApiRepository(application.token, application.userName) }
     bind<ViewPagerFragment>() with multiton { userName: String -> ViewPagerFragment.newInstance(userName) }
+    bind<OwnerInfoFragment>() with multiton { userName: String -> OwnerInfoFragment.newInstance(userName) }
     bind<LoadingDialogAdapter>() with factory { context: Context -> LoadingDialogAdapter(context) }
     bind<WarningDialogAdapter>() with factory { context: Context -> WarningDialogAdapter(context) }
 }

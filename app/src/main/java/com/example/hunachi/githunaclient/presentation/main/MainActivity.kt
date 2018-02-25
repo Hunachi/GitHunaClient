@@ -1,6 +1,7 @@
 package com.example.hunachi.githunaclient.presentation.main
 
 import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import com.example.hunachi.githunaclient.R
@@ -10,6 +11,7 @@ import com.example.hunachi.githunaclient.presentation.base.BaseActivity
 import com.example.hunachi.githunaclient.presentation.fragment.viewpager.ViewPagerFragment
 import com.example.hunachi.githunaclient.presentation.fragment.userinfo.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
+import com.example.hunachi.githunaclient.util.Key
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
 
@@ -53,8 +55,7 @@ class MainActivity : BaseActivity() {
     private fun setupFragmentManager() {
         viewPagerFragment = with(userName).instance<ViewPagerFragment>().value
         ownerInfoFragment = with(userName).instance<UserInfoFragment>().value
-        binding.navigation.selectedItemId = R.id.action_lists
-        navigator.replaceFragment(R.id.container, viewPagerFragment)
+        navigator.replaceFragment(R.id.container, ownerInfoFragment)
         setupNavigation()
     }
     
@@ -65,5 +66,13 @@ class MainActivity : BaseActivity() {
                 R.id.action_lists   -> navigator.replaceFragment(R.id.container, viewPagerFragment)
             }
         })
+    }
+    
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == Key.OWNER_RESULT_CODE){
+            binding.navigation.selectedItemId = R.id.action_profile
+            navigator.replaceFragment(R.id.container, ownerInfoFragment)
+        }
     }
 }

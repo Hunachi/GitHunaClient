@@ -29,7 +29,7 @@ fun String.convertToActionText(actions: String?) =
             "ForkEvent"                                  -> "forked"
             "ForkApplyEvent"                             -> "applied fork"
             "GistEvent"                                  -> "created gits"
-            "GollumEvent"                                -> "action on Wiki page" //todo "action on" -> "pages.action"
+            "GollumEvent"                                -> "action on Wiki page"
             "InstallationRepositoriesEvent"              -> actions
             "IssueCommentEvent", "IssuesEvent"           -> "$actions issue"
             "LabelEvent"                                 -> "$actions label"
@@ -40,15 +40,10 @@ fun String.convertToActionText(actions: String?) =
             "PublicEvent"                                -> "made public"
             "PullRequestEvent", "PullRequestReviewEvent" -> "$actions pull request"
             "PullRequestReviewCommentEvent"              -> "$actions pull request comment"
-        //"PushEvent"                                   -> { }
             "ReleaseEvent"                               -> "published release"
-        //"RepositoryEvent"                            -> { }
-        //"StatusEvent"                                -> { }
-        //"TeamEvent"                                  -> { }
-        //"TeamAddEvent"                               -> { }
             "WatchEvent"                                 -> "staring"
             else                                         -> this.convertToLowerText()
         }
 
-fun String.sepatateOwnerRepo() =
+fun String.separateOwnerRepo() =
         Pair(substring(0, indexOfFirst { it == '/' }), substring(indexOfFirst { it == '/' } + 1, length))
