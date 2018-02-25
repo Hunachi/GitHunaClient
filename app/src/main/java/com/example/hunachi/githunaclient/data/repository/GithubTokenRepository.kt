@@ -2,8 +2,8 @@ package com.example.hunachi.githunaclient.data.repository
 
 import android.content.Intent
 import com.example.hunachi.githunaclient.data.repository.adapter.GithubLoginAdapter
-import com.example.hunachi.githunaclient.util.StatusSignal
-import com.example.hunachi.githunaclient.presentation.application.MyApplication
+import com.example.hunachi.githunaclient.presentation.login.SignalStatus
+import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.util.Key
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 
@@ -25,7 +25,7 @@ class GithubTokenRepository(
                 val state = getQueryParameter("state")
                 if (state == Key.state && code.isNotBlank()){
                     reciveToken(code)
-                    callback.codeStatusCallback(StatusSignal.SUCCESS)
+                    callback.codeStatusCallback(SignalStatus.SUCCESS)
                 }
                 else throw Exception("Callbackのstateが異なりました．")
             }
@@ -39,18 +39,18 @@ class GithubTokenRepository(
                 .observeOn(scheduler.ui())
                 .subscribe({
                     application.updateToken(it.token)
-                    callback.tokenStatusCallback(StatusSignal.SUCCESS)
+                    callback.tokenStatusCallback(SignalStatus.SUCCESS)
                 }, {
                     it.printStackTrace()
-                    callback.tokenStatusCallback(StatusSignal.ERROR)
+                    callback.tokenStatusCallback(SignalStatus.ERROR)
                 })
     }
     
     interface Callback{
         
-        fun codeStatusCallback(statusSignal: StatusSignal)
+        fun codeStatusCallback(signalStatus: SignalStatus)
         
-        fun tokenStatusCallback(statusSignal: StatusSignal)
+        fun tokenStatusCallback(signalStatus: SignalStatus)
         
     }
     

@@ -1,7 +1,6 @@
 package com.example.hunachi.githunaclient.presentation.fragment.list
 
-import com.example.hunachi.githunaclient.presentation.application.MyApplication
-import com.example.hunachi.githunaclient.util.ListType
+import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.github.salomonbrys.kodein.*
 
 /**

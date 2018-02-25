@@ -1,9 +1,7 @@
 package com.example.hunachi.githunaclient.presentation.fragment.userinfo
 
 import android.support.v7.app.AppCompatActivity
-import com.example.hunachi.githunaclient.data.api.responce.User
-import com.example.hunachi.githunaclient.presentation.application.MyApplication
-import com.example.hunachi.githunaclient.presentation.base.BaseFragment
+import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.github.salomonbrys.kodein.*
 import com.github.salomonbrys.kodein.android.androidSupportFragmentScope
 

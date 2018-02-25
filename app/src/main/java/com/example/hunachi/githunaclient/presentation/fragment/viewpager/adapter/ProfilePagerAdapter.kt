@@ -3,8 +3,7 @@ package com.example.hunachi.githunaclient.presentation.fragment.viewpager.adapte
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import com.example.hunachi.githunaclient.presentation.fragment.list.ListsFragment
-import com.example.hunachi.githunaclient.util.ListType
-import com.example.hunachi.githunaclient.util.extension.convertToLowerText
+import com.example.hunachi.githunaclient.presentation.fragment.viewpager.ListType
 
 /**
  * Created by hunachi on 2018/02/10.

@@ -1,12 +1,11 @@
 package com.example.hunachi.githunaclient.presentation.main
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.databinding.ActivityMainBinding
-import com.example.hunachi.githunaclient.presentation.application.MyApplication
+import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
 import com.example.hunachi.githunaclient.presentation.fragment.viewpager.ViewPagerFragment
 import com.example.hunachi.githunaclient.presentation.fragment.userinfo.UserInfoFragment

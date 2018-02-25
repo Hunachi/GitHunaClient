@@ -1,8 +1,10 @@
-package com.example.hunachi.githunaclient.presentation.application
+package com.example.hunachi.githunaclient.presentation
 
 import android.content.Context
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.data.repository.githubTokenModule
+import com.example.hunachi.githunaclient.presentation.MainApplication
+import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter
 import com.example.hunachi.githunaclient.presentation.dialog.WarningDialogAdapter
 import com.example.hunachi.githunaclient.presentation.fragment.list.ListsArgument

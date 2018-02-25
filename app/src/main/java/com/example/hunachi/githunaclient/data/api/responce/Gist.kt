@@ -8,7 +8,7 @@ import se.ansman.kotshi.JsonSerializable
  * Created by hunachi on 2018/02/22.
  */
 @JsonSerializable
-data class Gist (
+data class Gist(
         val id: String,
         val owner: Actor,
         var description: String,
@@ -17,4 +17,7 @@ data class Gist (
         val createdAt: String,
         @Json(name = "updated_at")
         val updatedAt: String
-): BaseItem
+) : BaseItem {
+    val existDiscriotion = description.isNotBlank()
+    val subDiscription = "No description"
+}

@@ -1,4 +1,4 @@
-package com.example.hunachi.githunaclient.util
+package com.example.hunachi.githunaclient.presentation.fragment.viewpager
 
 /**
  * Created by hunachi on 2018/02/24.

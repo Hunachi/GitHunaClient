@@ -9,9 +9,10 @@ import com.example.hunachi.githunaclient.data.api.responce.Repository
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel
 import com.example.hunachi.githunaclient.presentation.fragment.list.feed.Feed
+import com.example.hunachi.githunaclient.presentation.fragment.list.follow.FollowType
 import com.example.hunachi.githunaclient.presentation.fragment.list.repository.RepositoryType
 import com.example.hunachi.githunaclient.util.GoWebCallback
-import com.example.hunachi.githunaclient.util.ListType
+import com.example.hunachi.githunaclient.presentation.fragment.viewpager.ListType
 import com.example.hunachi.githunaclient.util.LoadingCallback
 import com.example.hunachi.githunaclient.util.extension.convertToFollowerEvent
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
@@ -42,8 +43,8 @@ class ListsViewModel(
         loadingCallback = callback
         when (listsArgument.listsType) {
             ListType.FEEDS      -> updateFeeds(setUp)
-            ListType.FOLLOWER   -> updateFollows(setUp, follower = true)
-            ListType.FOLLOWING  -> updateFollows(setUp, follower = false)
+            ListType.FOLLOWER   -> updateFollows(setUp, FollowType.Follower)
+            ListType.FOLLOWING  -> updateFollows(setUp, FollowType.Following)
             ListType.GIST       -> updateGists(setUp)
             ListType.STARED     -> updateRepositories(setUp, RepositoryType.STARED)
             ListType.WATCH      -> updateRepositories(setUp, RepositoryType.WATCH)
@@ -67,13 +68,12 @@ class ListsViewModel(
         }
     }
     
-    private fun updateFollows(setUp: Boolean, follower: Boolean) {
+    private fun updateFollows(setUp: Boolean, followType: FollowType) {
         if (users.value == null || !setUp) {
             loadingCallback(true)
-            if (follower) {
-                githubApiRepository.follower(userName = listsArgument.userName)
-            } else {
-                githubApiRepository.following(listsArgument.userName)
+            when (followType) {
+                FollowType.Follower  -> githubApiRepository.follower(userName = listsArgument.userName)
+                FollowType.Following -> githubApiRepository.following(userName = listsArgument.userName)
             }
                     .subscribeOn(schedulers.io())
                     .observeOn(schedulers.ui())
@@ -96,13 +96,7 @@ class ListsViewModel(
                     .subscribeOn(schedulers.io())
                     .observeOn(schedulers.ui())
                     .subscribe({
-                        //TODO make usecase
-                        gistsPublishProcessor.onNext(
-                            it.sortedBy { it.updatedAt }.map {
-                                if(it.description.isBlank())it.apply { description = "No Title" }
-                                else it
-                            }
-                        )
+                        gistsPublishProcessor.onNext(it.sortedBy { it.updatedAt })
                     }, {
                         it.printStackTrace()
                     }, {
@@ -140,7 +134,7 @@ class ListsViewModel(
                     callback(it.htmlUrl)
                 }, {
                     it.printStackTrace()
-                },{
+                }, {
                     loadingCallback(false)
                 })
     }

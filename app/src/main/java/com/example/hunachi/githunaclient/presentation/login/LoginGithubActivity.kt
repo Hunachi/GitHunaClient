@@ -9,7 +9,6 @@ import com.example.hunachi.githunaclient.databinding.ActivityLoginGitHubBinding
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
-import com.example.hunachi.githunaclient.util.StatusSignal
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
 
@@ -38,17 +37,17 @@ class LoginGithubActivity : BaseActivity() {
         viewModel.apply {
             codeProcessor.subscribe { status ->
                 when (status) {
-                    StatusSignal.SUCCESS -> dialog.show()
-                    StatusSignal.ERROR   -> {}//TODO
+                    SignalStatus.SUCCESS -> dialog.show()
+                    SignalStatus.ERROR   -> {}//TODO
                 }
             }
             tokenProcessor.subscribe { status ->
                 when (status) {
-                    StatusSignal.SUCCESS -> {
+                    SignalStatus.SUCCESS -> {
                         if (dialog.isShowing) dialog.dismiss()
                         navigator.navigateToMain()
                     }
-                    StatusSignal.ERROR   -> {}//TODO
+                    SignalStatus.ERROR   -> {}//TODO
                 }
             }
         }

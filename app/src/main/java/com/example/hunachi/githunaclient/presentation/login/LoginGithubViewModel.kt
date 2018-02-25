@@ -1,9 +1,8 @@
 package com.example.hunachi.githunaclient.presentation.login
 
 import com.example.hunachi.githunaclient.data.repository.GithubTokenRepository
-import com.example.hunachi.githunaclient.util.StatusSignal
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
-import com.example.hunachi.githunaclient.presentation.application.MyApplication
+import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.util.rx.AppSchedulerProvider
 import com.github.salomonbrys.kodein.*
@@ -17,8 +16,8 @@ class LoginGithubViewModel(
         private val application: MyApplication
 ) : BaseViewModel(), GithubTokenRepository.Callback {
     
-    val tokenProcessor: PublishProcessor<StatusSignal> = PublishProcessor.create()
-    val codeProcessor: PublishProcessor<StatusSignal> = PublishProcessor.create()
+    val tokenProcessor: PublishProcessor<SignalStatus> = PublishProcessor.create()
+    val codeProcessor: PublishProcessor<SignalStatus> = PublishProcessor.create()
     
     private val kodein = Kodein.lazy {
         bind<GithubTokenRepository>() with singleton {
@@ -46,12 +45,12 @@ class LoginGithubViewModel(
         githubTokenRepository.callbackToken(navigator.activity.intent)
     }
     
-    override fun codeStatusCallback(statusSignal: StatusSignal) {
-        codeProcessor.onNext(statusSignal)
+    override fun codeStatusCallback(signalStatus: SignalStatus) {
+        codeProcessor.onNext(signalStatus)
     }
     
-    override fun tokenStatusCallback(statusSignal: StatusSignal) {
-        tokenProcessor.onNext(statusSignal)
+    override fun tokenStatusCallback(signalStatus: SignalStatus) {
+        tokenProcessor.onNext(signalStatus)
     }
 }
 
