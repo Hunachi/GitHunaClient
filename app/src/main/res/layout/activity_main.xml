@@ -4,46 +4,70 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.example.hunachi.githunaclient.presentation.main.MainViewModel" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/droid_background"
         tools:context=".presentation.main.MainActivity">
 
-        <android.support.constraint.ConstraintLayout
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                app:title="@string/app_name"
+                app:titleTextColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                app:layout_scrollFlags="scroll|enterAlways" />
+
+        </android.support.design.widget.AppBarLayout>
+
+        <FrameLayout
             android:id="@+id/container"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layout_constraintBottom_toTopOf="@+id/navigation"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-        </android.support.constraint.ConstraintLayout>
-
-
-        <android.support.design.widget.BottomNavigationView
-            android:id="@+id/navigation"
+        <LinearLayout
+            android:id="@+id/bottom_layout"
+            app:layout_behavior="@string/bottom_layout_behavior"
+            android:gravity="bottom"
+            android:layout_gravity="bottom"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_gravity="start"
-            android:background="@color/kotlinOrange"
-            app:itemTextColor="@animator/bnv_item_selected"
-            app:itemIconTint="@animator/bnv_item_selected"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/container"
-            app:layout_constraintVertical_bias="1.0"
-            app:menu="@menu/bottom_navigation_items"
-            app:navigationClick="@{viewModel.onItemSelected()}" />
+            android:layout_height="wrap_content">
 
-    </android.support.constraint.ConstraintLayout>
+            <android.support.design.widget.BottomNavigationView
+                android:id="@+id/navigation"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_gravity="start"
+                android:background="@color/kotlinOrange"
+                app:itemIconTint="@animator/bnv_item_selected"
+                app:itemTextColor="@animator/bnv_item_selected"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/container"
+                app:layout_constraintVertical_bias="1.0"
+                app:menu="@menu/bottom_navigation_items"
+                app:navigationClick="@{viewModel.onItemSelected()}" />
+        </LinearLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
 </layout>

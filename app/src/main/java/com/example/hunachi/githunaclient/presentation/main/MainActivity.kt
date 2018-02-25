@@ -67,4 +67,6 @@ class MainActivity : BaseActivity() {
             R.id.action_lists   -> navigator.replaceFragment(R.id.container, viewPagerFragment)
         }
     }
+    
+    //TODO scroll top.
 }
