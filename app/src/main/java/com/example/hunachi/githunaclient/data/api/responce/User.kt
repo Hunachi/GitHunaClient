@@ -16,12 +16,14 @@ data class User(
         @Json(name = "avatar_url")
         var avatarUrl: String? = null,
         @Json(name = "html_url")
-        var url: String = "",
+        var htmlUrl: String = "",
         @Nullable
         var name: String? = null,
         @Nullable
         var company: String? = null,
         var bio: String? = null,
+        @Nullable
+        var blog: String? = null,
         @Json(name = "public_repos")
         var publicRepoCount: Int = 0,
         @Json(name = "public_gists")

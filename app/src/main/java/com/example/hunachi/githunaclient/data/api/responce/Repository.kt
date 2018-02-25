@@ -17,6 +17,6 @@ data class Repository(
         val url: String,
         @Json(name = "html_url")
         val htmlUrl: String,
-        @Json(name = "created_at")
-        val createdAt: String
+        @Json(name = "updated_at")
+        val updatedAt: String
 ): BaseItem

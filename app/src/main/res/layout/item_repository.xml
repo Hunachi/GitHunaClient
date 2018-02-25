@@ -20,7 +20,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
-            android:text="@{item.createdAt}"
+            android:text="@{item.updatedAt}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView4"
@@ -30,8 +30,8 @@
             android:id="@+id/description_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:gravity="start"
@@ -50,11 +50,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:text="created at "
+            android:text="@string/updated_at"
             app:layout_constraintBottom_toBottomOf="@+id/created_at_text"
             app:layout_constraintEnd_toStartOf="@+id/created_at_text"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/description_text"
             app:layout_constraintTop_toTopOf="@+id/created_at_text" />
 
     </android.support.constraint.ConstraintLayout>

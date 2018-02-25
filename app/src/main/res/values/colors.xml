@@ -12,4 +12,5 @@
     <color name="kotlinLightBlue">#01b0ff</color>
     <color name="kotlinPurple">#945dff</color>
     <color name="lightOrange">#fccca0</color>
+    <color name="white">#FFFFFF</color>
 </resources>

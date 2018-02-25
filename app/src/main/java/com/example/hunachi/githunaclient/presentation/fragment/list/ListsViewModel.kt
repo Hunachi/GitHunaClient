@@ -98,7 +98,7 @@ class ListsViewModel(
                     .subscribe({
                         //TODO make usecase
                         gistsPublishProcessor.onNext(
-                            it.sortedBy { it.createdAt }.map {
+                            it.sortedBy { it.updatedAt }.map {
                                 if(it.description.isBlank())it.apply { description = "No Title" }
                                 else it
                             }
@@ -122,7 +122,7 @@ class ListsViewModel(
                     .subscribeOn(schedulers.io())
                     .observeOn(schedulers.ui())
                     .subscribe({
-                        repositoriesPublishProcessor.onNext(it.sortedBy { it.createdAt })
+                        repositoriesPublishProcessor.onNext(it.sortedBy { it.updatedAt })
                     }, {
                         it.printStackTrace()
                     }, {

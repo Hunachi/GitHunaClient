@@ -8,6 +8,7 @@ import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
+import com.example.hunachi.githunaclient.util.GoWebCallback
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 import io.reactivex.processors.PublishProcessor
 
@@ -23,18 +24,26 @@ class UserInfoViewModel(
     private val userProcessor: PublishProcessor<User> = PublishProcessor.create()
     val user: LiveData<User> = LiveDataReactiveStreams.fromPublisher(userProcessor)
     private var userName: String? = null
+    private lateinit var goWebCallback: GoWebCallback
     
-    fun setUp(userName: String) {
-        if(this.userName.isNullOrBlank())
-        githubApiRepository.user(userName)
-                .subscribeOn(scheduler.io())
-                .observeOn(scheduler.ui())
-                .subscribe({
-                    userProcessor.onNext(it)
-                }, {
-                    it.printStackTrace()
-                })
-        else userProcessor.onNext(user.value)
+    fun setUp(userName: String, goWebCallback: GoWebCallback) {
+        this.goWebCallback = goWebCallback
+        if (this.userName.isNullOrBlank())
+            githubApiRepository.user(userName)
+                    .subscribeOn(scheduler.io())
+                    .observeOn(scheduler.ui())
+                    .subscribe({
+                        userProcessor.onNext(it)
+                    }, {
+                        it.printStackTrace()
+                    })
     }
     
+    fun onClickUserBlog() {
+        user.value?.blog?.let { goWebCallback(it) }
+    }
+    
+    fun onClickUserIcon() {
+        user.value?.htmlUrl?.let { goWebCallback(it) }
+    }
 }
