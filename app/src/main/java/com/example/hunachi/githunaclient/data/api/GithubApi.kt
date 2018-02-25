@@ -29,6 +29,12 @@ interface GithubApi {
             @Query("access_token") token: String
     ): Observable<List<Event>>
     
+    @GET("users/{username}/repos")
+    fun repositories(
+            @Path("username") userName: String,
+            @Query("access_token") token: String
+    ): Observable<List<Repository>>
+    
     @GET("repos/{ownername}/{repositoryname}")
     fun repository(
             @Path("ownername") ownerName: String,

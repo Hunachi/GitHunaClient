@@ -31,7 +31,7 @@ class UserAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding?.apply {
             setVariable(BR.item, list[position])
-            itemBaseLayout.setOnClickListener {
+            itemBodyLayout.setOnClickListener {
                 callback(list[position] as ChildUser)
             }
             actorImageButton.setOnClickListener {
@@ -45,5 +45,4 @@ class UserAdapter(
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding: ItemUserBinding? = DataBindingUtil.bind(view)
     }
-    
 }

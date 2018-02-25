@@ -11,12 +11,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.hunachi.githunaclient.data.api.responce.ChildUser
+import com.example.hunachi.githunaclient.data.api.responce.Gist
+import com.example.hunachi.githunaclient.data.api.responce.Repository
 import com.example.hunachi.githunaclient.databinding.FragmentFollowerEventBinding
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter
 import com.example.hunachi.githunaclient.presentation.fragment.list.feed.Feed
 import com.example.hunachi.githunaclient.presentation.fragment.list.feed.FeedsAdapter
 import com.example.hunachi.githunaclient.presentation.fragment.list.follow.UserAdapter
+import com.example.hunachi.githunaclient.presentation.fragment.list.gist.GistAdapter
+import com.example.hunachi.githunaclient.presentation.fragment.list.repository.RepositoryAdapter
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.util.*
 import com.example.hunachi.githunaclient.util.extension.customTabsIntent
@@ -33,6 +37,8 @@ class ListsFragment : BaseFragment() {
     private val list = mutableListOf<BaseItem>()
     private lateinit var feedsAdapter: FeedsAdapter
     private lateinit var userAdapter: UserAdapter
+    private lateinit var gistAdapter: GistAdapter
+    private lateinit var repositoryAdapter: RepositoryAdapter
     private lateinit var viewModel: ListsViewModel
     private lateinit var tabsIntent: CustomTabsIntent
     private lateinit var navigator: Navigator
@@ -77,14 +83,22 @@ class ListsFragment : BaseFragment() {
     
     private fun setUpAdapter() {
         when (listsArgument.listsType) {
-            ListType.FEEDS                        -> {
-                feedsAdapter = FeedsAdapter(list, itemIconCallback, itemCallback)
-                binding.list.adapter = feedsAdapter
-            }
-            ListType.FOLLOWER, ListType.FOLLOWING -> {
-                userAdapter = UserAdapter(list, itemCallback)
-                binding.list.adapter = userAdapter
-            }
+            ListType.FEEDS      -> feedsAdapter = FeedsAdapter(list, itemIconCallback, itemCallback)
+            ListType.FOLLOWER,
+            ListType.FOLLOWING  -> userAdapter = UserAdapter(list, itemCallback)
+            ListType.GIST       -> gistAdapter = GistAdapter(list, itemCallback)
+            ListType.STARED,
+            ListType.WATCH,
+            ListType.REPOSITORY -> repositoryAdapter = RepositoryAdapter(list, itemCallback)
+        }
+        binding.list.adapter = when (listsArgument.listsType) {
+            ListType.FEEDS      -> feedsAdapter
+            ListType.FOLLOWER,
+            ListType.FOLLOWING  -> userAdapter
+            ListType.GIST       -> gistAdapter
+            ListType.STARED,
+            ListType.WATCH,
+            ListType.REPOSITORY -> repositoryAdapter
         }
     }
     
@@ -107,6 +121,20 @@ class ListsFragment : BaseFragment() {
                             userAdapter.notifyItemInserted(0)
                         }
             })
+            gists.observe(this@ListsFragment, Observer { gists ->
+                gists?.filterNot { list.contains(it) }
+                        ?.forEach {
+                            list.add(0, it)
+                            gistAdapter.notifyItemInserted(0)
+                        }
+            })
+            repositories.observe(this@ListsFragment, Observer { repositories ->
+                repositories?.filterNot { list.contains(it) }
+                        ?.forEach {
+                            list.add(0, it)
+                            repositoryAdapter.notifyItemInserted(0)
+                        }
+            })
         }
     }
     
@@ -117,15 +145,16 @@ class ListsFragment : BaseFragment() {
     
     private val itemIconCallback: ItemCallback = {
         when (it) {
-            is Feed      -> navigator.navigateToMainProfile(it.actor)
+            is Feed -> navigator.navigateToMainProfile(it.actor)
         }
     }
     
     private val itemCallback: ItemCallback = {
-        loadingDialog.show()
         when (it) {
-            is Feed      -> viewModel.repository(it.repositoryName.sepatateOwnerRepo(), goWebCallback)
-            is ChildUser -> navigator.navigateToMainProfile(it.userName)
+            is Feed       -> viewModel.repository(it.repositoryName.sepatateOwnerRepo(), goWebCallback)
+            is ChildUser  -> navigator.navigateToMainProfile(it.userName)
+            is Gist       -> goWebCallback(it.html_url)
+            is Repository -> goWebCallback(it.htmlUrl)
         }
     }
     

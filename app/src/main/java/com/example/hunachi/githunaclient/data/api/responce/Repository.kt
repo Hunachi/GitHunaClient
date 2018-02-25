@@ -1,5 +1,6 @@
 package com.example.hunachi.githunaclient.data.api.responce
 
+import com.example.hunachi.githunaclient.presentation.fragment.list.BaseItem
 import com.squareup.moshi.Json
 import io.reactivex.annotations.Nullable
 import se.ansman.kotshi.JsonSerializable
@@ -15,5 +16,7 @@ data class Repository(
         val fullName: String,
         val url: String,
         @Json(name = "html_url")
-        val htmlUrl: String
-)
+        val htmlUrl: String,
+        @Json(name = "created_at")
+        val createdAt: String
+): BaseItem

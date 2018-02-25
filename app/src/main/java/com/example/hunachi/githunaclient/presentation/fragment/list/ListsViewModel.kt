@@ -4,9 +4,12 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.LiveDataReactiveStreams
 import android.support.v4.widget.SwipeRefreshLayout
 import com.example.hunachi.githunaclient.data.api.responce.ChildUser
+import com.example.hunachi.githunaclient.data.api.responce.Gist
+import com.example.hunachi.githunaclient.data.api.responce.Repository
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel
 import com.example.hunachi.githunaclient.presentation.fragment.list.feed.Feed
+import com.example.hunachi.githunaclient.presentation.fragment.list.repository.RepositoryType
 import com.example.hunachi.githunaclient.util.GoWebCallback
 import com.example.hunachi.githunaclient.util.ListType
 import com.example.hunachi.githunaclient.util.LoadingCallback
@@ -25,8 +28,12 @@ class ListsViewModel(
     
     private val feedsPublishProcessor: PublishProcessor<List<Feed>> = PublishProcessor.create()
     private val usersPublishProcessor: PublishProcessor<List<ChildUser>> = PublishProcessor.create()
+    private val gistsPublishProcessor: PublishProcessor<List<Gist>> = PublishProcessor.create()
+    private val repositoriesPublishProcessor: PublishProcessor<List<Repository>> = PublishProcessor.create()
     val feeds: LiveData<List<Feed>> = LiveDataReactiveStreams.fromPublisher(feedsPublishProcessor)
     val users: LiveData<List<ChildUser>> = LiveDataReactiveStreams.fromPublisher(usersPublishProcessor)
+    val gists: LiveData<List<Gist>> = LiveDataReactiveStreams.fromPublisher(gistsPublishProcessor)
+    val repositories: LiveData<List<Repository>> = LiveDataReactiveStreams.fromPublisher(repositoriesPublishProcessor)
     private lateinit var loadingCallback: LoadingCallback
     private var pages = 0
     
@@ -34,12 +41,13 @@ class ListsViewModel(
     fun updateList(setUp: Boolean, callback: LoadingCallback) {
         loadingCallback = callback
         when (listsArgument.listsType) {
-            ListType.FEEDS     -> updateFeeds(setUp)
-            ListType.FOLLOWER  -> updateFollows(setUp, follower = true)
-            ListType.FOLLOWING -> updateFollows(setUp, follower = false)
-        ///ListType.GIST      -> { }
-        ///ListType.REPO      -> { }
-        ///ListType.STARED    -> { }
+            ListType.FEEDS      -> updateFeeds(setUp)
+            ListType.FOLLOWER   -> updateFollows(setUp, follower = true)
+            ListType.FOLLOWING  -> updateFollows(setUp, follower = false)
+            ListType.GIST       -> updateGists(setUp)
+            ListType.STARED     -> updateRepositories(setUp, RepositoryType.STARED)
+            ListType.WATCH      -> updateRepositories(setUp, RepositoryType.WATCH)
+            ListType.REPOSITORY -> updateRepositories(setUp, RepositoryType.MY_REPOSITORY)
         }
     }
     
@@ -56,7 +64,7 @@ class ListsViewModel(
                     }, {
                         loadingCallback(false)
                     })
-        } else loadingCallback(false)
+        }
     }
     
     private fun updateFollows(setUp: Boolean, follower: Boolean) {
@@ -78,10 +86,53 @@ class ListsViewModel(
                     }, {
                         loadingCallback(false)
                     })
-        } else loadingCallback(false)
+        }
+    }
+    
+    private fun updateGists(setUp: Boolean) {
+        if (gists.value == null || !setUp) {
+            loadingCallback(true)
+            githubApiRepository.gists(userName = listsArgument.userName)
+                    .subscribeOn(schedulers.io())
+                    .observeOn(schedulers.ui())
+                    .subscribe({
+                        //TODO make usecase
+                        gistsPublishProcessor.onNext(
+                            it.sortedBy { it.createdAt }.map {
+                                if(it.description.isBlank())it.apply { description = "No Title" }
+                                else it
+                            }
+                        )
+                    }, {
+                        it.printStackTrace()
+                    }, {
+                        loadingCallback(false)
+                    })
+        }
+    }
+    
+    private fun updateRepositories(setUp: Boolean, repositoryType: RepositoryType) {
+        if (repositories.value == null || !setUp) {
+            loadingCallback(true)
+            when (repositoryType) {
+                RepositoryType.WATCH         -> githubApiRepository.watchingRepo(userName = listsArgument.userName)
+                RepositoryType.STARED        -> githubApiRepository.staring(userName = listsArgument.userName)
+                RepositoryType.MY_REPOSITORY -> githubApiRepository.repositories(userName = listsArgument.userName)
+            }
+                    .subscribeOn(schedulers.io())
+                    .observeOn(schedulers.ui())
+                    .subscribe({
+                        repositoriesPublishProcessor.onNext(it.sortedBy { it.createdAt })
+                    }, {
+                        it.printStackTrace()
+                    }, {
+                        loadingCallback(false)
+                    })
+        }
     }
     
     fun repository(ownerRepo: Pair<String, String>, callback: GoWebCallback) {
+        loadingCallback(true)
         githubApiRepository.repository(ownerRepo.first, ownerRepo.second)
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
@@ -89,6 +140,8 @@ class ListsViewModel(
                     callback(it.htmlUrl)
                 }, {
                     it.printStackTrace()
+                },{
+                    loadingCallback(false)
                 })
     }
     

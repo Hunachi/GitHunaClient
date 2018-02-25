@@ -1,4 +1,4 @@
-package com.example.hunachi.githunaclient.presentation.fragment.list.repository
+package com.example.hunachi.githunaclient.presentation.fragment.list.gist
 
 import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
@@ -7,23 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.hunachi.githunaclient.BR
 import com.example.hunachi.githunaclient.R
-import com.example.hunachi.githunaclient.data.api.responce.Repository
+import com.example.hunachi.githunaclient.data.api.responce.Gist
 import com.example.hunachi.githunaclient.databinding.ItemGistBinding
-import com.example.hunachi.githunaclient.databinding.ItemRepositoryBinding
 import com.example.hunachi.githunaclient.presentation.fragment.list.BaseItem
 import com.example.hunachi.githunaclient.util.ItemCallback
 
 /**
- * Created by hunachi on 2018/02/24.
+ * Created by hunachi on 2018/02/25.
  */
-class RepositoryAdapter(
+class GistAdapter(
         private val list: MutableList<BaseItem>,
         private val callback: ItemCallback
-) : RecyclerView.Adapter<RepositoryAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<GistAdapter.ViewHolder>() {
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_repository, parent, false)
+                .inflate(R.layout.item_gist, parent, false)
         return ViewHolder(view)
     }
     
@@ -31,7 +30,7 @@ class RepositoryAdapter(
         holder.binding?.apply {
             setVariable(BR.item, list[position])
             itemBodyLayout.setOnClickListener {
-                callback(list[position] as Repository)
+                callback(list[position] as Gist)
             }
         }
     }
@@ -39,6 +38,6 @@ class RepositoryAdapter(
     override fun getItemCount() = list.size
     
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val binding: ItemRepositoryBinding? = DataBindingUtil.bind(view)
+        val binding: ItemGistBinding? = DataBindingUtil.bind(view)
     }
 }
