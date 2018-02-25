@@ -8,6 +8,7 @@ import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
 import com.example.hunachi.githunaclient.util.BottomNavigationListener
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
+import com.example.hunachi.githunaclient.util.NavigatorCallback
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 import io.reactivex.processors.PublishProcessor
 
@@ -19,10 +20,14 @@ class MainViewModel(
         private val githubApiRepository: GithubApiRepository
 ) : BaseViewModel() {
     
-    private val navigateProcessor: PublishProcessor<MenuItem> = PublishProcessor.create()
     private val userProcessor: PublishProcessor<User> = PublishProcessor.create()
-    val navigateListener: LiveData<MenuItem> = LiveDataReactiveStreams.fromPublisher(navigateProcessor)
     val user: LiveData<User> = LiveDataReactiveStreams.fromPublisher(userProcessor)
+    private var navigatorCallback: NavigatorCallback? = null
+    
+    /*must*/
+    fun initCallback(callback: NavigatorCallback){
+        navigatorCallback = callback
+    }
     
     fun setupUser(){
         if(user.value == null)githubApiRepository.ownerUser()
@@ -37,7 +42,7 @@ class MainViewModel(
     }
     
     fun onItemSelected(): BottomNavigationListener = BottomNavigationListener { item ->
-        navigateProcessor.onNext(item)
+        navigatorCallback?.invoke(item)
         true
     }
 }

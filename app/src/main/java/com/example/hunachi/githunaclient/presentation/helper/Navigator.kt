@@ -38,10 +38,9 @@ class Navigator(
     }
     
     fun navigateToMainProfile(userName: String) {
-        activity.startActivityForResult(
+        activity.startActivity(
             Intent(activity, mainProfileActivity::class.java)
-                    .apply { putExtra("userName", userName) },
-            Key.OWNER_RESULT_CODE
+                    .apply { putExtra("userName", userName) }
         )
         if (activity is MainProfileActivity) activityFinish()
     }

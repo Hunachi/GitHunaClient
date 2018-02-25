@@ -12,6 +12,7 @@ import com.example.hunachi.githunaclient.presentation.fragment.viewpager.ViewPag
 import com.example.hunachi.githunaclient.presentation.fragment.userinfo.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.util.Key
+import com.example.hunachi.githunaclient.util.NavigatorCallback
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
 
@@ -55,24 +56,15 @@ class MainActivity : BaseActivity() {
     private fun setupFragmentManager() {
         viewPagerFragment = with(userName).instance<ViewPagerFragment>().value
         ownerInfoFragment = with(userName).instance<UserInfoFragment>().value
-        navigator.replaceFragment(R.id.container, ownerInfoFragment)
-        setupNavigation()
+        binding.navigation.selectedItemId = R.id.action_lists
+        navigator.replaceFragment(R.id.container, viewPagerFragment)
+        viewModel.initCallback(callback)
     }
     
-    private fun setupNavigation() {
-        viewModel.navigateListener.observe(this, Observer { item ->
-            when (item?.itemId) {
-                R.id.action_profile -> navigator.replaceFragment(R.id.container, ownerInfoFragment)
-                R.id.action_lists   -> navigator.replaceFragment(R.id.container, viewPagerFragment)
-            }
-        })
-    }
-    
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == Key.OWNER_RESULT_CODE){
-            binding.navigation.selectedItemId = R.id.action_profile
-            navigator.replaceFragment(R.id.container, ownerInfoFragment)
+    private val callback: NavigatorCallback = { item ->
+        when (item.itemId) {
+            R.id.action_profile -> navigator.replaceFragment(R.id.container, ownerInfoFragment)
+            R.id.action_lists   -> navigator.replaceFragment(R.id.container, viewPagerFragment)
         }
     }
 }
