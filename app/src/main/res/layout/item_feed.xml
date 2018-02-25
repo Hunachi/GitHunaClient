@@ -101,8 +101,7 @@
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:setIcon="@{item.avatarUrl}"
-            app:srcCompat="@drawable/basic_icon_translation" />
+            app:setIcon="@{item.avatarUrl}" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

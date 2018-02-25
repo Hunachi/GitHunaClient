@@ -35,7 +35,6 @@ import com.github.salomonbrys.kodein.with
 class ListsFragment : BaseFragment() {
     
     private lateinit var binding: FragmentFollowerEventBinding
-    private val list = mutableListOf<BaseItem>()
     private lateinit var feedsAdapter: FeedsAdapter
     private lateinit var userAdapter: UserAdapter
     private lateinit var gistAdapter: GistAdapter

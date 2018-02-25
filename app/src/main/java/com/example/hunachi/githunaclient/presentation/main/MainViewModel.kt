@@ -22,27 +22,23 @@ class MainViewModel(
     
     private val userProcessor: PublishProcessor<User> = PublishProcessor.create()
     val user: LiveData<User> = LiveDataReactiveStreams.fromPublisher(userProcessor)
-    private var navigatorCallback: NavigatorCallback? = null
+    private val isShowingListProcessor: PublishProcessor<MenuItem> = PublishProcessor.create()
+    val isShowingList: LiveData<MenuItem> = LiveDataReactiveStreams.fromPublisher(isShowingListProcessor)
     
-    /*must*/
-    fun initCallback(callback: NavigatorCallback){
-        navigatorCallback = callback
-    }
-    
-    fun setupUser(){
-        if(user.value == null)githubApiRepository.ownerUser()
+    fun setupUser() {
+        if (user.value == null) githubApiRepository.ownerUser()
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .subscribe({
                     userProcessor.onNext(it)
-                },{
+                }, {
                     userProcessor.onError(it)
                 })
         else userProcessor.onNext(user.value)
     }
     
     fun onItemSelected(): BottomNavigationListener = BottomNavigationListener { item ->
-        navigatorCallback?.invoke(item)
+        if (isShowingList.value != item) isShowingListProcessor.onNext(item)
         true
     }
 }

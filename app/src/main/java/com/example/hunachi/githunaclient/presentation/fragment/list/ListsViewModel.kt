@@ -2,14 +2,9 @@ package com.example.hunachi.githunaclient.presentation.fragment.list
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.LiveDataReactiveStreams
-import android.arch.lifecycle.MutableLiveData
 import android.support.v4.widget.SwipeRefreshLayout
-import com.example.hunachi.githunaclient.data.api.responce.ChildUser
-import com.example.hunachi.githunaclient.data.api.responce.Gist
-import com.example.hunachi.githunaclient.data.api.responce.Repository
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel
-import com.example.hunachi.githunaclient.presentation.fragment.list.feed.Feed
 import com.example.hunachi.githunaclient.presentation.fragment.list.follow.FollowType
 import com.example.hunachi.githunaclient.presentation.fragment.list.repository.RepositoryType
 import com.example.hunachi.githunaclient.util.GoWebCallback

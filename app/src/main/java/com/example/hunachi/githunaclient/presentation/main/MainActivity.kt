@@ -1,7 +1,6 @@
 package com.example.hunachi.githunaclient.presentation.main
 
 import android.arch.lifecycle.Observer
-import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import com.example.hunachi.githunaclient.R
@@ -11,14 +10,13 @@ import com.example.hunachi.githunaclient.presentation.base.BaseActivity
 import com.example.hunachi.githunaclient.presentation.fragment.viewpager.ViewPagerFragment
 import com.example.hunachi.githunaclient.presentation.fragment.userinfo.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
-import com.example.hunachi.githunaclient.util.Key
 import com.example.hunachi.githunaclient.util.NavigatorCallback
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
 
 class MainActivity : BaseActivity() {
     
-    private val viewModel: MainViewModel by with(this).instance()
+    private val viewModel: MainViewModel by instance()
     private val navigator: Navigator by with(this).instance()
     private val binding: ActivityMainBinding by lazy {
         DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
@@ -27,6 +25,7 @@ class MainActivity : BaseActivity() {
     private lateinit var ownerInfoFragment: UserInfoFragment
     private lateinit var viewPagerFragment: ViewPagerFragment
     private var userName: String? = null
+    private var fragmentFrag = false
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,11 +39,17 @@ class MainActivity : BaseActivity() {
     private fun setupViewModel() {
         binding.viewModel = viewModel.apply {
             user.observe(this@MainActivity, Observer { user ->
-                user?.userName?.let {
+                if (user == null) return@Observer
+                user.userName.let {
                     userName = it
                     myApplication.updateUserName(it)
                     setupFragmentManager()
                 }
+            })
+            isShowingList.observe(this@MainActivity, Observer { item ->
+                if (item == null) return@Observer
+                navigationListener(item)
+                fragmentFrag = true
             })
         }
         binding.setLifecycleOwner(this)
@@ -56,12 +61,13 @@ class MainActivity : BaseActivity() {
     private fun setupFragmentManager() {
         viewPagerFragment = with(userName).instance<ViewPagerFragment>().value
         ownerInfoFragment = with(userName).instance<UserInfoFragment>().value
-        binding.navigation.selectedItemId = R.id.action_lists
-        navigator.replaceFragment(R.id.container, viewPagerFragment)
-        viewModel.initCallback(callback)
+        if (!fragmentFrag) {
+            binding.navigation.selectedItemId = R.id.action_lists
+            navigator.replaceFragment(R.id.container, viewPagerFragment)
+        }
     }
     
-    private val callback: NavigatorCallback = { item ->
+    private val navigationListener: NavigatorCallback = { item ->
         when (item.itemId) {
             R.id.action_profile -> navigator.replaceFragment(R.id.container, ownerInfoFragment)
             R.id.action_lists   -> navigator.replaceFragment(R.id.container, viewPagerFragment)

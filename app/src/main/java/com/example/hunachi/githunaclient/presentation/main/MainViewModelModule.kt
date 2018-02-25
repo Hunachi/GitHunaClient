@@ -8,7 +8,7 @@ import com.github.salomonbrys.kodein.android.androidActivityScope
  * Created by hunachi on 2018/02/04.
  */
 val mainViewModelModule = Kodein.Module {
-    bind<MainViewModel>() with scopedSingleton(androidActivityScope) {
+    bind<MainViewModel>() with singleton {
         MainViewModel(
             scheduler = instance(),
             githubApiRepository = with((instance() as MyApplication)).instance()
