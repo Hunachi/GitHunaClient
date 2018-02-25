@@ -9,6 +9,7 @@ import com.example.hunachi.githunaclient.databinding.ActivityMainProfileBinding
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter
 import com.example.hunachi.githunaclient.presentation.fragment.userinfo.UserInfoFragment
+import com.example.hunachi.githunaclient.presentation.fragment.viewpager.ViewPagerFragment
 import com.example.hunachi.githunaclient.presentation.fragment.viewpager.adapter.ProfilePagerAdapter
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.github.salomonbrys.kodein.instance
@@ -19,10 +20,10 @@ class MainProfileActivity : BaseActivity() {
     private val binding: ActivityMainProfileBinding by lazy {
         DataBindingUtil.setContentView<ActivityMainProfileBinding>(this, R.layout.activity_main_profile)
     }
-    /*userNameによってActivityを再生生することでlazyにするのとどっちがいいのか?*/
     private val userName: String? by lazy { intent?.getStringExtra("userName") }
     private lateinit var adapter: ProfilePagerAdapter
     private val navigator: Navigator by with(this).instance()
+    private lateinit var viewPagerFragment: ViewPagerFragment
     private lateinit var userInfoFragment: UserInfoFragment
     
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,19 +32,13 @@ class MainProfileActivity : BaseActivity() {
     }
     
     private fun setupView() {
-        adapter = with(Pair(supportFragmentManager, userName)).instance<ProfilePagerAdapter>().value
+        viewPagerFragment = with(userName).instance<ViewPagerFragment>().value
         userInfoFragment = with(userName).instance<UserInfoFragment>().value
+        adapter = with(Pair(supportFragmentManager, userName)).instance<ProfilePagerAdapter>().value
         binding.apply {
-            pager.adapter = adapter
-            tabLayout.setupWithViewPager(pager)
-            mainProfileToolbar.let {
-                supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                mainProfileToolbar.setOnMenuItemClickListener { item ->
-                    if (item.itemId == it.id) navigator.activityFinish()
-                    true
-                }
-            }
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
+        navigator.replaceFragment(R.id.viewpager_container, viewPagerFragment)
         navigator.replaceFragment(R.id.user_info_container, userInfoFragment)
     }
     
