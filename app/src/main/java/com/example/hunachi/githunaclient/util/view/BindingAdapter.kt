@@ -23,10 +23,3 @@ fun ImageButton.setIcon(url: String?) {
 
 @BindingAdapter("app:listRefresh")
 fun SwipeRefreshLayout.refreshListner(listener: SwipeRefreshLayout.OnRefreshListener) = setOnRefreshListener(listener)
-
-/*
-fun<T> LiveData<T>.observeOnChanged(owner: LifecycleOwner, observer: Observer<T>){
-    this.observe(owner, Observer<T>{
-        
-    })
-}*/

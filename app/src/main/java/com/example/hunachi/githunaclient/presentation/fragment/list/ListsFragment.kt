@@ -73,6 +73,17 @@ class ListsFragment : BaseFragment() {
         viewModel.updateList(true, loadingCallback)
     }
     
+    /*once*/
+    private fun setUpViewModel() {
+        viewModel = with(listsArgument).instance<ListsViewModel>().value
+        setViewModel(viewModel)
+        viewModel.apply {
+            listSize.observe(this@ListsFragment, Observer { listSize ->
+                adapter.notifyItemRangeInserted(0, listSize ?: 0)
+            })
+        }
+    }
+    
     private fun setUpRecycler() {
         setUpAdapter()
         binding.apply {
@@ -84,15 +95,19 @@ class ListsFragment : BaseFragment() {
     
     private fun setUpAdapter() {
         when (listsArgument.listsType) {
-            ListType.FEEDS      -> feedsAdapter = FeedsAdapter(list, itemIconCallback, itemCallback)
+            ListType.FEEDS      -> feedsAdapter = FeedsAdapter(viewModel.list, itemIconCallback, itemCallback)
             ListType.FOLLOWER,
-            ListType.FOLLOWING  -> userAdapter = UserAdapter(list, itemCallback)
-            ListType.GIST       -> gistAdapter = GistAdapter(list, itemCallback)
+            ListType.FOLLOWING  -> userAdapter = UserAdapter(viewModel.list, itemCallback)
+            ListType.GIST       -> gistAdapter = GistAdapter(viewModel.list, itemCallback)
             ListType.STARED,
             ListType.WATCH,
-            ListType.REPOSITORY -> repositoryAdapter = RepositoryAdapter(list, itemCallback)
+            ListType.REPOSITORY -> repositoryAdapter = RepositoryAdapter(viewModel.list, itemCallback)
         }
-        binding.list.adapter = when (listsArgument.listsType) {
+        binding.list.adapter = adapter
+    }
+    
+    private val adapter by lazy {
+        when (listsArgument.listsType) {
             ListType.FEEDS      -> feedsAdapter
             ListType.FOLLOWER,
             ListType.FOLLOWING  -> userAdapter
@@ -101,50 +116,6 @@ class ListsFragment : BaseFragment() {
             ListType.WATCH,
             ListType.REPOSITORY -> repositoryAdapter
         }
-    }
-    
-    /*once*/
-    private fun setUpViewModel() {
-        viewModel = with(listsArgument).instance<ListsViewModel>().value
-        setViewModel(viewModel)
-        viewModel.apply {
-            when (listsArgument.listsType) {
-                ListType.FEEDS                                       ->
-                    feeds.observe(this@ListsFragment, Observer { feeds ->
-                        feeds?.filterNot { list.contains(it) }
-                                ?.forEach {
-                                    list.add(0, it)
-                                    feedsAdapter.notifyItemInserted(0)
-                                }
-                    })
-                ListType.FOLLOWER, ListType.FOLLOWING                ->
-                    users.observe(this@ListsFragment, Observer { followers ->
-                        followers?.filterNot { list.contains(it) }
-                                ?.forEach {
-                                    list.add(0, it)
-                                    userAdapter.notifyItemInserted(0)
-                                }
-                    })
-                ListType.GIST                                        ->
-                    gists.observe(this@ListsFragment, Observer { gists ->
-                        gists?.filterNot { list.contains(it) }
-                                ?.forEach {
-                                    list.add(0, it)
-                                    gistAdapter.notifyItemInserted(0)
-                                }
-                    })
-                ListType.REPOSITORY, ListType.STARED, ListType.WATCH ->
-                    repositories.observe(this@ListsFragment, Observer { repositories ->
-                        repositories?.filterNot { list.contains(it) }
-                                ?.forEach {
-                                    list.add(0, it)
-                                    repositoryAdapter.notifyItemInserted(0)
-                                }
-                    })
-                
-            }
-        }
-        
     }
     
     private fun setupDialog() {
