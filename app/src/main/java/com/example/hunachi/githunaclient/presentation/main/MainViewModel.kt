@@ -21,8 +21,8 @@ class MainViewModel(
 ) : BaseViewModel() {
     
     private val userProcessor: PublishProcessor<User> = PublishProcessor.create()
-    val user: LiveData<User> = LiveDataReactiveStreams.fromPublisher(userProcessor)
     private val isShowingListProcessor: PublishProcessor<MenuItem> = PublishProcessor.create()
+    val user: LiveData<User> = LiveDataReactiveStreams.fromPublisher(userProcessor)
     val isShowingList: LiveData<MenuItem> = LiveDataReactiveStreams.fromPublisher(isShowingListProcessor)
     
     fun setupUser() {
@@ -34,7 +34,6 @@ class MainViewModel(
                 }, {
                     userProcessor.onError(it)
                 })
-        else userProcessor.onNext(user.value)
     }
     
     fun onItemSelected(): BottomNavigationListener = BottomNavigationListener { item ->

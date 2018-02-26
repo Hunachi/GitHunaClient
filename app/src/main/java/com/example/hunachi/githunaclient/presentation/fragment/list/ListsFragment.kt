@@ -44,7 +44,7 @@ class ListsFragment : BaseFragment() {
     private lateinit var navigator: Navigator
     private lateinit var loadingDialog: AlertDialog
     private val listsArgument: ListsArgument by lazy {
-        arguments?.getSerializable(ARG_KEY) as ListsArgument
+        arguments?.getSerializable(LISTTIPE_PARAM) as ListsArgument
     }
     
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,7 +78,8 @@ class ListsFragment : BaseFragment() {
         setViewModel(viewModel)
         viewModel.apply {
             listSize.observe(this@ListsFragment, Observer { listSize ->
-                adapter.notifyItemRangeInserted(0, listSize ?: 0)
+                if(listSize == null) return@Observer
+                adapter.notifyItemRangeInserted(0, listSize)
             })
         }
     }
@@ -147,11 +148,11 @@ class ListsFragment : BaseFragment() {
     }
     
     companion object {
-        private const val ARG_KEY = "listType"
+        private const val LISTTIPE_PARAM = "listType"
         fun newInstance(listsArgument: ListsArgument): ListsFragment =
                 ListsFragment().apply {
                     arguments = Bundle().apply {
-                        putSerializable(ARG_KEY, listsArgument)
+                        putSerializable(LISTTIPE_PARAM, listsArgument)
                     }
                 }
     }

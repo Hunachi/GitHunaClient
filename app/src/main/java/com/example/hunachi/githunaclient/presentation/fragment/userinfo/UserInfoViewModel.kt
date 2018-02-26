@@ -9,6 +9,7 @@ import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.util.GoWebCallback
+import com.example.hunachi.githunaclient.util.LoadingCallback
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 import io.reactivex.processors.PublishProcessor
 
@@ -16,7 +17,6 @@ import io.reactivex.processors.PublishProcessor
  * Created by hunachi on 2018/02/03.
  */
 class UserInfoViewModel(
-        val navigator: Navigator,
         val githubApiRepository: GithubApiRepository,
         val scheduler: SchedulerProvider
 ) : BaseFragmentViewModel() {
@@ -26,9 +26,10 @@ class UserInfoViewModel(
     private var userName: String? = null
     private lateinit var goWebCallback: GoWebCallback
     
-    fun setUp(userName: String, goWebCallback: GoWebCallback) {
+    fun setUp(userName: String, goWebCallback: GoWebCallback, loadingCallback: LoadingCallback) {
         this.goWebCallback = goWebCallback
-        if (this.userName.isNullOrBlank())
+        if (this.userName.isNullOrBlank()) {
+            loadingCallback(true)
             githubApiRepository.user(userName)
                     .subscribeOn(scheduler.io())
                     .observeOn(scheduler.ui())
@@ -36,8 +37,10 @@ class UserInfoViewModel(
                         userProcessor.onNext(it)
                     }, {
                         it.printStackTrace()
+                    }, {
+                        loadingCallback(false)
                     })
-        else userProcessor.onNext(user.value)
+        }
     }
     
     fun onClickUserBlog() {

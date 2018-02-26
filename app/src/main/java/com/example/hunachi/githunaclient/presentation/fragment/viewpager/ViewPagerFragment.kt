@@ -20,7 +20,7 @@ class ViewPagerFragment : BaseFragment() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        userName = arguments?.getString(ARG_PARAM) ?: throw IllegalAccessException("userName is null")
+        userName = arguments?.getString(USERNAME_PARAM) ?: throw IllegalAccessException("userName is null")
     }
     
     override fun onCreateView(
@@ -43,11 +43,11 @@ class ViewPagerFragment : BaseFragment() {
     }
     
     companion object {
-        private const val ARG_PARAM = "userName"
+        private const val USERNAME_PARAM = "userName"
         fun newInstance(userName: String): ViewPagerFragment =
                 ViewPagerFragment().apply {
                     arguments = Bundle().apply {
-                        putString(ARG_PARAM, userName)
+                        putString(USERNAME_PARAM, userName)
                     }
                 }
     }

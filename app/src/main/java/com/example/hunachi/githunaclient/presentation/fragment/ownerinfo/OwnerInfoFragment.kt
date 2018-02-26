@@ -15,7 +15,7 @@ import com.github.salomonbrys.kodein.with
 
 class OwnerInfoFragment : BaseFragment() {
     
-    private val userName: String? by lazy { arguments?.getString(USERNAME) }
+    private val userName: String? by lazy { arguments?.getString(USERNAME_PARAM) }
     private lateinit var binding: FragmentOwnerInfoBinding
     private lateinit var userInfoFragment: UserInfoFragment
     private val navigator: Navigator by with(activity).instance()
@@ -35,15 +35,14 @@ class OwnerInfoFragment : BaseFragment() {
     
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        //navigator = with(activity).instance<Navigator>().value
         navigator.replaceFragment(R.id.user_info_container, userInfoFragment)
     }
     
     companion object {
-        const val USERNAME = "userName"
+        const val USERNAME_PARAM = "userName"
         fun newInstance(userName: String) = OwnerInfoFragment().apply {
             arguments = Bundle().apply {
-                putString(USERNAME, userName)
+                putString(USERNAME_PARAM, userName)
             }
         }
     }

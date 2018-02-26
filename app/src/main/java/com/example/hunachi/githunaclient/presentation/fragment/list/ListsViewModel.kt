@@ -122,7 +122,7 @@ class ListsViewModel(
                 })
     }
     
-    fun addList(addList: List<BaseItem>) {
+    private fun addList(addList: List<BaseItem>) {
         list.addAll(0, addList)
         listSizePublishProcessor.onNext(addList.size)
     }
