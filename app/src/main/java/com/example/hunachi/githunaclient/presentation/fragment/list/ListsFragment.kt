@@ -68,7 +68,7 @@ class ListsFragment : BaseFragment() {
     
     override fun onStart() {
         super.onStart()
-        viewModel.updateList(true, loadingCallback, errorCallback)
+        if (viewModel.list.size <= 0) viewModel.updateList(true, loadingCallback, errorCallback)
     }
     
     /*once*/
@@ -95,13 +95,13 @@ class ListsFragment : BaseFragment() {
     private fun setUpAdapter() {
         when (listsArgument.listsType) {
             ListType.FEED,
-            ListType.TL         -> feedsAdapter = FeedsAdapter(viewModel.list, itemIconCallback, itemCallback)
-            ListType.FOLLOWER,
-            ListType.FOLLOWING  -> userAdapter = UserAdapter(viewModel.list, itemCallback)
-            ListType.GIST       -> gistAdapter = GistAdapter(viewModel.list, itemCallback)
+            ListType.TL           -> feedsAdapter = FeedsAdapter(viewModel.list, itemIconCallback, itemCallback)
+            ListType.FOLLOWERS,
+            ListType.FOLLOWING    -> userAdapter = UserAdapter(viewModel.list, itemCallback)
+            ListType.GISTS        -> gistAdapter = GistAdapter(viewModel.list, itemCallback)
             ListType.STARED,
             ListType.WATCH,
-            ListType.REPOSITORY -> repositoryAdapter = RepositoryAdapter(viewModel.list, itemCallback)
+            ListType.REPOSITORIES -> repositoryAdapter = RepositoryAdapter(viewModel.list, itemCallback)
         }
         binding.list.adapter = adapter
     }
@@ -109,13 +109,13 @@ class ListsFragment : BaseFragment() {
     private val adapter by lazy {
         when (listsArgument.listsType) {
             ListType.FEED,
-            ListType.TL         -> feedsAdapter
-            ListType.FOLLOWER,
-            ListType.FOLLOWING  -> userAdapter
-            ListType.GIST       -> gistAdapter
+            ListType.TL           -> feedsAdapter
+            ListType.FOLLOWERS,
+            ListType.FOLLOWING    -> userAdapter
+            ListType.GISTS        -> gistAdapter
             ListType.STARED,
             ListType.WATCH,
-            ListType.REPOSITORY -> repositoryAdapter
+            ListType.REPOSITORIES -> repositoryAdapter
         }
     }
     
@@ -140,7 +140,6 @@ class ListsFragment : BaseFragment() {
     }
     
     private val goWebCallback: GoWebCallback = { url: String ->
-        loadingDialog.dismiss()
         tabsIntent.launchUrl(activity, Uri.parse(url))
     }
     

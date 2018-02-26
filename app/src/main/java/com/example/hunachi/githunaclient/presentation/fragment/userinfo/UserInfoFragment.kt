@@ -39,13 +39,13 @@ class UserInfoFragment : BaseFragment() {
         super.onCreateView(inflater, container, savedInstanceState)
         if (userName == null) errorCallback
         binding = FragmentUserInfoBinding.inflate(inflater, container, false)
+        setupDialog()
         binding.setLifecycleOwner(this)
         return binding.root
     }
     
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setupDialog()
         setupViewModel()
     }
     

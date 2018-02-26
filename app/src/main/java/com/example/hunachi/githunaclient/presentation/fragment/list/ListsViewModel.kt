@@ -30,7 +30,7 @@ class ListsViewModel(
     val list: MutableList<BaseItem> = mutableListOf()
     private lateinit var loadingCallback: LoadingCallback
     private lateinit var errorCallback: ErrorCallback
-    //TODO 時間があったらpageの更新．
+    //TODO 時間があったらlistを下向きに更新できるようにしたい．．
     
     /*call this by all means first*/
     fun updateList(setUp: Boolean, callback: LoadingCallback, errorCallback: ErrorCallback) {
@@ -39,14 +39,14 @@ class ListsViewModel(
         if (listSize.value == null || !setUp) {
             loadingCallback(true)
             when (listsArgument.listsType) {
-                ListType.TL         -> updateFeeds(FeedType.FOLLOWER_FEED)
-                ListType.FEED       -> updateFeeds(FeedType.MY_FEED)
-                ListType.FOLLOWER   -> updateFollows(FollowType.Follower)
-                ListType.FOLLOWING  -> updateFollows(FollowType.Following)
-                ListType.GIST       -> updateGists()
-                ListType.STARED     -> updateRepositories(RepositoryType.STARED)
-                ListType.WATCH      -> updateRepositories(RepositoryType.WATCH)
-                ListType.REPOSITORY -> updateRepositories(RepositoryType.MY_REPOSITORY)
+                ListType.TL           -> updateFeeds(FeedType.FOLLOWER_FEED)
+                ListType.FEED         -> updateFeeds(FeedType.MY_FEED)
+                ListType.FOLLOWERS    -> updateFollows(FollowType.Follower)
+                ListType.FOLLOWING    -> updateFollows(FollowType.Following)
+                ListType.GISTS        -> updateGists()
+                ListType.STARED       -> updateRepositories(RepositoryType.STARED)
+                ListType.WATCH        -> updateRepositories(RepositoryType.WATCH)
+                ListType.REPOSITORIES -> updateRepositories(RepositoryType.MY_REPOSITORY)
             }
         }
     }
@@ -59,12 +59,11 @@ class ListsViewModel(
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({
+                    loadingCallback(false)
                     addList(it.map { it.convertToFollowerEvent() }.filterNot { list.contains(it) })
                 }, {
                     it.printStackTrace()
                     errorCallback()
-                }, {
-                    loadingCallback(false)
                 })
     }
     
@@ -76,14 +75,13 @@ class ListsViewModel(
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({
+                    loadingCallback(false)
                     addList(it.sortedBy {
                         it.name?.toLowerCase() ?: it.userName.toLowerCase()
                     }.filterNot { list.contains(it) })
                 }, {
                     it.printStackTrace()
                     errorCallback()
-                }, {
-                    loadingCallback(false)
                 })
     }
     
@@ -92,12 +90,11 @@ class ListsViewModel(
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({
+                    loadingCallback(false)
                     addList(it.sortedByDescending { it.updatedAt }.filterNot { list.contains(it) })
                 }, {
                     it.printStackTrace()
                     errorCallback()
-                }, {
-                    loadingCallback(false)
                 })
     }
     
@@ -110,12 +107,11 @@ class ListsViewModel(
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({
+                    loadingCallback(false)
                     addList(it.sortedByDescending { it.updatedAt }.filterNot { list.contains(it) })
                 }, {
                     it.printStackTrace()
                     errorCallback()
-                }, {
-                    loadingCallback(false)
                 })
     }
     
@@ -125,12 +121,11 @@ class ListsViewModel(
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({
+                    loadingCallback(false)
                     callback(it.htmlUrl)
                 }, {
                     it.printStackTrace()
                     errorCallback()
-                }, {
-                    loadingCallback(false)
                 })
     }
     

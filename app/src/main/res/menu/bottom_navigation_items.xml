@@ -3,9 +3,13 @@
     <item
         android:id="@+id/action_profile"
         android:icon="@drawable/profile_icon"
-        android:title="my page" />
+        android:title="@string/my_page" />
+    <item
+        android:id="@+id/action_feed"
+        android:icon="@drawable/feeds_home_icon"
+        android:title="@string/time_line"/>
     <item
         android:id="@+id/action_lists"
         android:icon="@drawable/list_icon"
-        android:title="events" />
+        android:title="@string/lists" />
 </menu>

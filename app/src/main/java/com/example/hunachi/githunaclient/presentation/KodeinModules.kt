@@ -43,8 +43,8 @@ val MainApplication.kodeinModules by Kodein.lazy {
     bind<MainProfileActivity>() with singleton { MainProfileActivity() }
     bind<LoginGithubActivity>() with singleton { LoginGithubActivity() }
     bind<SchedulerProvider>() with singleton { AppSchedulerProvider() }
-    bind<UserInfoFragment>() with multiton { userName: String -> UserInfoFragment.newInstance(userName) }
-    bind<ListsFragment>() with multiton { listsArgument: ListsArgument -> ListsFragment.newInstance(listsArgument) }
+    bind<UserInfoFragment>() with factory { userName: String -> UserInfoFragment.newInstance(userName) }
+    bind<ListsFragment>() with factory { listsArgument: ListsArgument -> ListsFragment.newInstance(listsArgument) }
     bind<GithubApiRepository>() with multiton { application: MyApplication -> GithubApiRepository(application.token, application.userName) }
     bind<ViewPagerFragment>() with multiton { userName: String -> ViewPagerFragment.newInstance(userName) }
     bind<OwnerInfoFragment>() with multiton { userName: String -> OwnerInfoFragment.newInstance(userName) }
