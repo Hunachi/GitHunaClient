@@ -11,6 +11,7 @@ import com.example.hunachi.githunaclient.presentation.fragment.list.repository.R
 import com.example.hunachi.githunaclient.util.GoWebCallback
 import com.example.hunachi.githunaclient.util.ErrorCallback
 import com.example.hunachi.githunaclient.util.LoadingCallback
+import com.example.hunachi.githunaclient.util.extension.addListItem
 import com.example.hunachi.githunaclient.util.extension.convertToFollowerEvent
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 import io.reactivex.processors.PublishProcessor
@@ -59,8 +60,10 @@ class ListsViewModel(
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({
+                    listSizePublishProcessor.onNext(
+                        list.addListItem(it.map { it.convertToFollowerEvent() }, isTopAddPosition = true)
+                    )
                     loadingCallback(false)
-                    addList(it.map { it.convertToFollowerEvent() }.filterNot { list.contains(it) })
                 }, {
                     it.printStackTrace()
                     errorCallback()
@@ -75,10 +78,10 @@ class ListsViewModel(
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({
-                    loadingCallback(false)
                     addList(it.sortedBy {
                         it.name?.toLowerCase() ?: it.userName.toLowerCase()
                     }.filterNot { list.contains(it) })
+                    loadingCallback(false)
                 }, {
                     it.printStackTrace()
                     errorCallback()
@@ -90,8 +93,11 @@ class ListsViewModel(
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({
+                    listSizePublishProcessor.onNext(
+                        list.addListItem(it.sortedByDescending { it.updatedAt }, isTopAddPosition = true)
+                    )
                     loadingCallback(false)
-                    addList(it.sortedByDescending { it.updatedAt }.filterNot { list.contains(it) })
+                    //addList(it.sortedByDescending { it.updatedAt }.filterNot { list.contains(it) })
                 }, {
                     it.printStackTrace()
                     errorCallback()
@@ -130,6 +136,7 @@ class ListsViewModel(
     }
     
     private fun addList(addList: List<BaseItem>) {
+        loadingCallback(false)
         list.addAll(0, addList)
         listSizePublishProcessor.onNext(addList.size)
     }
