@@ -9,11 +9,11 @@ import com.github.salomonbrys.kodein.*
 /**
  * Created by hunachi on 2018/02/10.
  */
-val profilePagerAdapterModule = Kodein.Module{
+val profilePagerAdapterModule = Kodein.Module {
     bind<ProfilePagerAdapter>() with factory { it: Pair<FragmentManager, String> ->
         val fragments = mutableListOf<ListsFragment>()
         ListType.values().forEach { listType ->
-            fragments.add(with(ListsArgument(it.second, listType)).instance())
+            if (listType != ListType.TL) fragments.add(with(ListsArgument(it.second, listType)).instance())
         }
         ProfilePagerAdapter(
             fragmentManager = it.first,
