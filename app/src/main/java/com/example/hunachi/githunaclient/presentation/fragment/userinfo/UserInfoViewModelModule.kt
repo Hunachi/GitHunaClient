@@ -9,10 +9,11 @@ import com.github.salomonbrys.kodein.android.androidSupportFragmentScope
  * Created by hunachi on 2018/02/04.
  */
 val userInfoViewModelModule = Kodein.Module {
-    bind<UserInfoViewModel>() with scopedSingleton(androidSupportFragmentScope) {
+    bind<UserInfoViewModel>() with multiton {userName: String ->
         UserInfoViewModel(
             githubApiRepository = with((instance() as MyApplication)).instance(),
-            scheduler = instance()
+            scheduler = instance(),
+            userName = userName
         )
     }
 }

@@ -14,6 +14,7 @@ import com.example.hunachi.githunaclient.data.api.responce.ChildUser
 import com.example.hunachi.githunaclient.data.api.responce.Gist
 import com.example.hunachi.githunaclient.data.api.responce.Repository
 import com.example.hunachi.githunaclient.databinding.FragmentFollowerEventBinding
+import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter
 import com.example.hunachi.githunaclient.presentation.fragment.list.feed.Feed
@@ -22,6 +23,7 @@ import com.example.hunachi.githunaclient.presentation.fragment.list.follow.UserA
 import com.example.hunachi.githunaclient.presentation.fragment.list.gist.GistAdapter
 import com.example.hunachi.githunaclient.presentation.fragment.list.repository.RepositoryAdapter
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
+import com.example.hunachi.githunaclient.presentation.main.FragmentFrag
 import com.example.hunachi.githunaclient.util.*
 import com.example.hunachi.githunaclient.util.extension.customTabsIntent
 import com.example.hunachi.githunaclient.util.extension.separateOwnerRepo
@@ -126,17 +128,25 @@ class ListsFragment : BaseFragment() {
     
     private val itemIconCallback: ItemCallback = {
         when (it) {
-            is Feed -> navigator.navigateToMainProfile(it.actor)
+            is Feed -> if (isNotOwner(it.actorUserName)) navigator.navigateToMainProfile(it.actorUserName)
         }
     }
     
     private val itemCallback: ItemCallback = {
         when (it) {
             is Feed       -> viewModel.repository(it.repositoryName.separateOwnerRepo(), goWebCallback)
-            is ChildUser  -> navigator.navigateToMainProfile(it.userName)
+            is ChildUser  -> if (isNotOwner(it.userName)) navigator.navigateToMainProfile(it.userName)
             is Gist       -> goWebCallback(it.html_url)
             is Repository -> goWebCallback(it.htmlUrl)
         }
+    }
+    
+    private fun isNotOwner(userName: String): Boolean {
+        if ((activity.application as MyApplication).userName == userName) {
+            navigator.navigateToMain(FragmentFrag.PROFILE)
+            return false
+        }
+        return true
     }
     
     private val goWebCallback: GoWebCallback = { url: String ->

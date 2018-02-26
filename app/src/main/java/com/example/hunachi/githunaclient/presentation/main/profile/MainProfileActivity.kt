@@ -10,6 +10,7 @@ import com.example.hunachi.githunaclient.presentation.fragment.userinfo.UserInfo
 import com.example.hunachi.githunaclient.presentation.fragment.viewpager.ViewPagerFragment
 import com.example.hunachi.githunaclient.presentation.fragment.viewpager.adapter.ProfilePagerAdapter
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
+import com.example.hunachi.githunaclient.presentation.main.FragmentFrag
 import com.example.hunachi.githunaclient.util.ErrorCallback
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
@@ -27,8 +28,8 @@ class MainProfileActivity : BaseActivity() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (userName == (application as MyApplication).userName) navigator.activityFinish()
-        else setupView()
+        //if (userName == (application as MyApplication).userName) navigator.navigateToMain(FragmentFrag.PROFILE) else
+            setupView()
     }
     
     private fun setupView() {

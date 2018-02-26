@@ -24,6 +24,7 @@ import com.example.hunachi.githunaclient.presentation.main.profile.MainProfileAc
 import com.example.hunachi.githunaclient.util.rx.AppSchedulerProvider
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 import com.github.salomonbrys.kodein.*
+import kotlin.math.sin
 
 /**
  * Created by hunachi on 2018/02/20.
@@ -39,6 +40,7 @@ val MainApplication.kodeinModules by Kodein.lazy {
     import(loginViewModelModule)
     import(mainViewModelModule)
     //view
+    /*if you want to user same args fragment, please it make multiton -> factory*/
     bind<MainActivity>() with singleton { MainActivity() }
     bind<MainProfileActivity>() with singleton { MainProfileActivity() }
     bind<LoginGithubActivity>() with singleton { LoginGithubActivity() }

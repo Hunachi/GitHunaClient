@@ -57,7 +57,7 @@
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:gravity="start"
-                android:text="@{item.actor}"
+                android:text="@{(item.actorName != null)? item.actorName: item.actorUserName}"
                 android:textAlignment="textStart"
                 app:layout_constraintBottom_toBottomOf="@+id/action_text_view"
                 app:layout_constraintEnd_toStartOf="@+id/action_text_view"

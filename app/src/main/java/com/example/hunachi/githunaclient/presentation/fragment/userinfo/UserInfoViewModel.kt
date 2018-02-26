@@ -18,8 +18,9 @@ import io.reactivex.processors.PublishProcessor
  * Created by hunachi on 2018/02/03.
  */
 class UserInfoViewModel(
-        val githubApiRepository: GithubApiRepository,
-        val scheduler: SchedulerProvider
+        private val githubApiRepository: GithubApiRepository,
+        private val scheduler: SchedulerProvider,
+        private val userName: String
 ) : BaseFragmentViewModel() {
     
     private val userProcessor: PublishProcessor<User> = PublishProcessor.create()
@@ -27,8 +28,7 @@ class UserInfoViewModel(
     private lateinit var goWebCallback: GoWebCallback
     
     fun setUp(
-            userName: String, goWebCallback: GoWebCallback,
-            loadingCallback: LoadingCallback, errorCallback: ErrorCallback
+            goWebCallback: GoWebCallback, loadingCallback: LoadingCallback, errorCallback: ErrorCallback
     ) {
         this.goWebCallback = goWebCallback
         if (user.value == null) {
@@ -37,12 +37,11 @@ class UserInfoViewModel(
                     .subscribeOn(scheduler.io())
                     .observeOn(scheduler.ui())
                     .subscribe({
+                        loadingCallback(false)
                         userProcessor.onNext(it)
                     }, {
                         it.printStackTrace()
                         errorCallback()
-                    }, {
-                        loadingCallback(false)
                     })
         }
     }

@@ -60,10 +60,10 @@ class ListsViewModel(
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({
+                    loadingCallback(false)
                     listSizePublishProcessor.onNext(
                         list.addListItem(it.map { it.convertToFollowerEvent() }, isTopAddPosition = true)
                     )
-                    loadingCallback(false)
                 }, {
                     it.printStackTrace()
                     errorCallback()
@@ -78,10 +78,10 @@ class ListsViewModel(
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({
+                    loadingCallback(false)
                     addList(it.sortedBy {
                         it.name?.toLowerCase() ?: it.userName.toLowerCase()
                     }.filterNot { list.contains(it) })
-                    loadingCallback(false)
                 }, {
                     it.printStackTrace()
                     errorCallback()
@@ -93,11 +93,10 @@ class ListsViewModel(
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({
+                    loadingCallback(false)
                     listSizePublishProcessor.onNext(
                         list.addListItem(it.sortedByDescending { it.updatedAt }, isTopAddPosition = true)
                     )
-                    loadingCallback(false)
-                    //addList(it.sortedByDescending { it.updatedAt }.filterNot { list.contains(it) })
                 }, {
                     it.printStackTrace()
                     errorCallback()

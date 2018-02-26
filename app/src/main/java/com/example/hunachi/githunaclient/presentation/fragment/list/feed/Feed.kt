@@ -7,7 +7,8 @@ import com.example.hunachi.githunaclient.presentation.fragment.list.BaseItem
  */
 data class Feed(
         var id: Long = 0,
-        var actor: String = "",
+        var actorUserName: String = "",
+        var actorName: String? = "",
         var avatarUrl: String? = "",
         var repositoryUrl: String = "",
         var action: String = "coding!!",

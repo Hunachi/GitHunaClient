@@ -22,9 +22,15 @@ class MainViewModel(
 ) : BaseViewModel() {
     
     private val userProcessor: PublishProcessor<User> = PublishProcessor.create()
-    private val isShowingListProcessor: PublishProcessor<MenuItem> = PublishProcessor.create()
+    //private val isShowingListProcessor: PublishProcessor<MenuItem> = PublishProcessor.create()
     val user: LiveData<User> = LiveDataReactiveStreams.fromPublisher(userProcessor)
-    val isShowingList: LiveData<MenuItem> = LiveDataReactiveStreams.fromPublisher(isShowingListProcessor)
+    //val isShowingList: LiveData<MenuItem> = LiveDataReactiveStreams.fromPublisher(isShowingListProcessor)
+    private var callback: NavigatorCallback? = null
+    private var nowItem: MenuItem? = null
+    
+    fun init(callback: NavigatorCallback){
+        this.callback = callback
+    }
     
     fun setupUser(errorCallback: ErrorCallback) {
         if (user.value == null) githubApiRepository.ownerUser()
@@ -38,7 +44,11 @@ class MainViewModel(
     }
     
     fun onItemSelected(): BottomNavigationListener = BottomNavigationListener { item ->
-        if (isShowingList.value != item) isShowingListProcessor.onNext(item)
+        //if (isShowingList.value != item) isShowingListProcessor.onNext(item)
+        if(nowItem != item){
+            nowItem = item
+            callback?.let { it(item) }
+        }
         true
     }
 }

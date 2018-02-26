@@ -9,7 +9,8 @@ import com.example.hunachi.githunaclient.presentation.fragment.list.feed.Feed
 fun Event.convertToFollowerEvent() =
         Feed().apply {
             id = this@convertToFollowerEvent.id.toLong()
-            actor = this@convertToFollowerEvent.actor.userName
+            actorUserName = this@convertToFollowerEvent.actor.userName
+            actorName = this@convertToFollowerEvent.actor.name
             avatarUrl = this@convertToFollowerEvent.actor.avatarUrl
             repositoryUrl = this@convertToFollowerEvent.repo.url
             action = type.convertToActionText(payload.action)?: type.convertToLowerText()

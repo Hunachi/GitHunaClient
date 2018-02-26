@@ -8,6 +8,8 @@ import com.example.hunachi.githunaclient.data.repository.adapter.OauthAdapter
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
 import com.example.hunachi.githunaclient.presentation.login.LoginGithubActivity
+import com.example.hunachi.githunaclient.presentation.main.FRAGMENT_FRAG_NAME
+import com.example.hunachi.githunaclient.presentation.main.FragmentFrag
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
 import com.example.hunachi.githunaclient.presentation.main.profile.MainProfileActivity
 
@@ -24,6 +26,13 @@ class Navigator(
     fun navigateToLogin() {
         activity.startActivity(Intent(activity, loginGithubActivity::class.java))
         activity.finish()
+    }
+    
+    fun navigateToMain(flag: FragmentFrag) {
+        activity.startActivity(Intent(activity, mainActivity::class.java).apply {
+            putExtra(FRAGMENT_FRAG_NAME, flag)
+        })
+        activityFinish()
     }
     
     fun navigateToMain() {
@@ -43,7 +52,7 @@ class Navigator(
         if (activity is MainProfileActivity) activityFinish()
     }
     
-    fun replaceFragment(@IdRes @LayoutRes resourceId: Int = R.id.container, fragment: BaseFragment) {
+    fun replaceFragment(@IdRes @LayoutRes resourceId: Int, fragment: BaseFragment) {
         activity.supportFragmentManager
                 .beginTransaction()
                 .replace(resourceId, fragment)

@@ -21,7 +21,6 @@ import com.github.salomonbrys.kodein.with
 
 class MainActivity : BaseActivity() {
     //TODO Duration
-    
     private lateinit var viewModel: MainViewModel
     private val navigator: Navigator by with(this).instance()
     private val binding: ActivityMainBinding by lazy {
@@ -37,6 +36,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         userName = myApplication.userName
+        fragmentFrag = intent.getSerializableExtra(FRAGMENT_FRAG_NAME) as FragmentFrag?
         /*if token don't have, let's go to login page.*/
         if (checkToken()) setupViewModel() else navigator.navigateToLogin()
     }
@@ -54,10 +54,6 @@ class MainActivity : BaseActivity() {
                     setupFragmentManager()
                 }
             })
-            isShowingList.observe(this@MainActivity, Observer { item ->
-                if (item == null) return@Observer
-                navigationListener(item)
-            })
         }
         binding.setLifecycleOwner(this)
         setViewModel(viewModel)
@@ -71,34 +67,46 @@ class MainActivity : BaseActivity() {
             ownerInfoFragment = with(it).instance<UserInfoFragment>().value
             timeLineFragment = with(ListsArgument(it, ListType.TL)).instance<ListsFragment>().value
         }
-        if (fragmentFrag == null)
-            binding.navigation.also {
-                it.selectedItemId = R.id.action_feed
-                navigationListener(it.menu.getItem(FragmentFrag.FEED.ordinal))
-            }
+        replaceFragment(fragmentFrag)
+        viewModel.init(replaceFragment)
     }
     
-    private val navigationListener: NavigatorCallback = { item ->
+    val replaceFragment: NavigatorCallback = { item ->
         when (item.itemId) {
             R.id.action_profile -> {
-                binding.navigation.selectedItemId = R.id.action_profile
+                binding.navigation.selectedItemId = menuProfileId
                 navigator.replaceFragment(R.id.container, ownerInfoFragment)
                 fragmentFrag = FragmentFrag.PROFILE
             }
             R.id.action_feed    -> {
-                binding.navigation.selectedItemId = R.id.action_feed
+                binding.navigation.selectedItemId = menuFeedId
                 navigator.replaceFragment(R.id.container, timeLineFragment)
                 fragmentFrag = FragmentFrag.FEED
             }
             R.id.action_lists   -> {
-                binding.navigation.selectedItemId = R.id.action_lists
+                binding.navigation.selectedItemId = menuListId
                 navigator.replaceFragment(R.id.container, viewPagerFragment)
                 fragmentFrag = FragmentFrag.LISTS
             }
         }
     }
     
+    private fun replaceFragment(frag: FragmentFrag?) {
+        val menu = binding.navigation.menu
+        when (frag) {
+            FragmentFrag.PROFILE    -> replaceFragment(menu.getItem(FragmentFrag.PROFILE.ordinal))
+            FragmentFrag.FEED, null -> replaceFragment(menu.getItem(FragmentFrag.FEED.ordinal))
+            FragmentFrag.LISTS      -> replaceFragment(menu.getItem(FragmentFrag.LISTS.ordinal))
+        }
+    }
+    
     override val errorCallback: ErrorCallback = {
         errorToast()
+    }
+    
+    companion object {
+        const val menuProfileId = R.id.action_profile
+        const val menuFeedId = R.id.action_feed
+        const val menuListId = R.id.action_lists
     }
 }

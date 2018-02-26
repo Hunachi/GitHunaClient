@@ -28,15 +28,21 @@ import kotlinx.android.synthetic.main.activity_main.*
 class UserInfoFragment : BaseFragment() {
     
     private lateinit var binding: FragmentUserInfoBinding
-    private val viewModel: UserInfoViewModel by with(this).instance()
+    private lateinit var viewModel: UserInfoViewModel
     private val userName: String? by lazy { arguments?.getString(USERNAME_PARAM) }
     private lateinit var loadingDialog: AlertDialog //目がチカチカするから消し他方がいいかも．
     private lateinit var tabsIntent: CustomTabsIntent
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = with(userName).instance<UserInfoViewModel>().value
+    }
     
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
+        container?.removeAllViews()
         if (userName == null) errorCallback
         binding = FragmentUserInfoBinding.inflate(inflater, container, false)
         setupDialog()
@@ -63,7 +69,7 @@ class UserInfoFragment : BaseFragment() {
             })
             tabsIntent = activity.customTabsIntent()
             /*userName has already null check.*/
-            it.setUp(userName!!, goWebCallback, loadingCallback, errorCallback)
+            it.setUp(goWebCallback, loadingCallback, errorCallback)
         }
     }
     
