@@ -3,7 +3,7 @@ package com.example.hunachi.githunaclient.presentation.fragment.viewpager.adapte
 import android.support.v4.app.FragmentManager
 import com.example.hunachi.githunaclient.presentation.fragment.list.ListsArgument
 import com.example.hunachi.githunaclient.presentation.fragment.list.ListsFragment
-import com.example.hunachi.githunaclient.presentation.fragment.viewpager.ListType
+import com.example.hunachi.githunaclient.presentation.fragment.list.ListType
 import com.github.salomonbrys.kodein.*
 
 /**

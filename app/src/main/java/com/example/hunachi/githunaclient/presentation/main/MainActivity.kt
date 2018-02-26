@@ -84,6 +84,4 @@ class MainActivity : BaseActivity() {
     override val errorCallback: ErrorCallback = {
         errorToast()
     }
-    
-    //TODO scroll top.
 }

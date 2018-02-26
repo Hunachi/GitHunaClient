@@ -42,7 +42,7 @@ class GithubApiRepositoryTest {
     
     @Test
     fun followerEvent() {
-        githubApiRepository.followerEvent("hunachi", 1)
+        githubApiRepository.followerEvent("hunachi")
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .subscribe({
@@ -50,6 +50,19 @@ class GithubApiRepositoryTest {
                 }, {
                     it.printStackTrace()
                     assert(false)
+                })
+    }
+    
+    @Test
+    fun feed(){
+        githubApiRepository.feed("hunachi")
+                .subscribeOn(scheduler.io())
+                .observeOn(scheduler.ui())
+                .subscribe({
+                    assertTrue(it.isNotEmpty())
+                },{
+                    it.printStackTrace()
+                    assertTrue(false)
                 })
     }
     

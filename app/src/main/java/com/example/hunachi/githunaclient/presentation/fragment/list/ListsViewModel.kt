@@ -5,10 +5,10 @@ import android.arch.lifecycle.LiveDataReactiveStreams
 import android.support.v4.widget.SwipeRefreshLayout
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel
+import com.example.hunachi.githunaclient.presentation.fragment.list.feed.FeedType
 import com.example.hunachi.githunaclient.presentation.fragment.list.follow.FollowType
 import com.example.hunachi.githunaclient.presentation.fragment.list.repository.RepositoryType
 import com.example.hunachi.githunaclient.util.GoWebCallback
-import com.example.hunachi.githunaclient.presentation.fragment.viewpager.ListType
 import com.example.hunachi.githunaclient.util.ErrorCallback
 import com.example.hunachi.githunaclient.util.LoadingCallback
 import com.example.hunachi.githunaclient.util.extension.convertToFollowerEvent
@@ -30,7 +30,7 @@ class ListsViewModel(
     val list: MutableList<BaseItem> = mutableListOf()
     private lateinit var loadingCallback: LoadingCallback
     private lateinit var errorCallback: ErrorCallback
-    private var pages = 0 //TODO
+    //TODO 時間があったらpageの更新．
     
     /*call this by all means first*/
     fun updateList(setUp: Boolean, callback: LoadingCallback, errorCallback: ErrorCallback) {
@@ -39,7 +39,8 @@ class ListsViewModel(
         if (listSize.value == null || !setUp) {
             loadingCallback(true)
             when (listsArgument.listsType) {
-                ListType.FEEDS      -> updateFeeds()
+                ListType.TL         -> updateFeeds(FeedType.FOLLOWER_FEED)
+                ListType.FEED       -> updateFeeds(FeedType.MY_FEED)
                 ListType.FOLLOWER   -> updateFollows(FollowType.Follower)
                 ListType.FOLLOWING  -> updateFollows(FollowType.Following)
                 ListType.GIST       -> updateGists()
@@ -50,8 +51,11 @@ class ListsViewModel(
         }
     }
     
-    private fun updateFeeds() {
-        githubApiRepository.followerEvent(userName = listsArgument.userName, pages = pages)
+    private fun updateFeeds(feedType: FeedType) {
+        when (feedType) {
+            FeedType.FOLLOWER_FEED -> githubApiRepository.followerEvent(userName = listsArgument.userName)
+            FeedType.MY_FEED       -> githubApiRepository.feed(userName = listsArgument.userName)
+        }
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({

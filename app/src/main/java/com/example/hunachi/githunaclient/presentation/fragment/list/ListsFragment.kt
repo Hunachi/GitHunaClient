@@ -21,7 +21,6 @@ import com.example.hunachi.githunaclient.presentation.fragment.list.feed.FeedsAd
 import com.example.hunachi.githunaclient.presentation.fragment.list.follow.UserAdapter
 import com.example.hunachi.githunaclient.presentation.fragment.list.gist.GistAdapter
 import com.example.hunachi.githunaclient.presentation.fragment.list.repository.RepositoryAdapter
-import com.example.hunachi.githunaclient.presentation.fragment.viewpager.ListType
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.util.*
 import com.example.hunachi.githunaclient.util.extension.customTabsIntent
@@ -95,7 +94,8 @@ class ListsFragment : BaseFragment() {
     
     private fun setUpAdapter() {
         when (listsArgument.listsType) {
-            ListType.FEEDS      -> feedsAdapter = FeedsAdapter(viewModel.list, itemIconCallback, itemCallback)
+            ListType.FEED,
+            ListType.TL         -> feedsAdapter = FeedsAdapter(viewModel.list, itemIconCallback, itemCallback)
             ListType.FOLLOWER,
             ListType.FOLLOWING  -> userAdapter = UserAdapter(viewModel.list, itemCallback)
             ListType.GIST       -> gistAdapter = GistAdapter(viewModel.list, itemCallback)
@@ -108,7 +108,8 @@ class ListsFragment : BaseFragment() {
     
     private val adapter by lazy {
         when (listsArgument.listsType) {
-            ListType.FEEDS      -> feedsAdapter
+            ListType.FEED,
+            ListType.TL         -> feedsAdapter
             ListType.FOLLOWER,
             ListType.FOLLOWING  -> userAdapter
             ListType.GIST       -> gistAdapter
