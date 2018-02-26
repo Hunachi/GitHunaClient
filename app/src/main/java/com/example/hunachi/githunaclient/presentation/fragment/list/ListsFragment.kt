@@ -69,7 +69,7 @@ class ListsFragment : BaseFragment() {
     
     override fun onStart() {
         super.onStart()
-        viewModel.updateList(true, loadingCallback)
+        viewModel.updateList(true, loadingCallback, errorCallback)
     }
     
     /*once*/
@@ -78,7 +78,7 @@ class ListsFragment : BaseFragment() {
         setViewModel(viewModel)
         viewModel.apply {
             listSize.observe(this@ListsFragment, Observer { listSize ->
-                if(listSize == null) return@Observer
+                if (listSize == null) return@Observer
                 adapter.notifyItemRangeInserted(0, listSize)
             })
         }
@@ -145,6 +145,10 @@ class ListsFragment : BaseFragment() {
     
     private val loadingCallback: LoadingCallback = {
         binding.swiperefresh.isRefreshing = it
+    }
+    
+    override val errorCallback: ErrorCallback = {
+        errorToast()
     }
     
     companion object {

@@ -19,7 +19,7 @@ fun String.convertToLowerText(): String {
     return string
 }
 
-//todo if you have time, add detail info for these actions.
+//TODO if you have time, add detail info for these actions.
 fun String.convertToActionText(actions: String?) =
         when (this) {
             "CommitCommentEvent"                         -> "committed"

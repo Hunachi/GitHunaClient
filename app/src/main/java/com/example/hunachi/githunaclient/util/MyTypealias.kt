@@ -6,8 +6,8 @@ import com.example.hunachi.githunaclient.presentation.fragment.list.BaseItem
 import com.example.hunachi.githunaclient.presentation.login.SignalStatus
         
         /**
- * Created by hunachi on 2018/01/30.
- */
+         * Created by hunachi on 2018/01/30.
+         */
 typealias Scopes = MutableList<String>
 
 typealias OauthAccessCallback = (SignalStatus) -> Unit
@@ -19,5 +19,7 @@ typealias GoWebCallback = (String) -> Unit
 typealias LoadingCallback = (Boolean) -> Unit
 
 typealias NavigatorCallback = (MenuItem) -> Unit
+
+typealias ErrorCallback = () -> Unit
 
 typealias BottomNavigationListener = BottomNavigationView.OnNavigationItemSelectedListener

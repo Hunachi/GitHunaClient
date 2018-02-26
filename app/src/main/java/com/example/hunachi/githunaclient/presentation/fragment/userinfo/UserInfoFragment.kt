@@ -16,20 +16,20 @@ import com.example.hunachi.githunaclient.databinding.FragmentUserInfoBinding
 
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter
+import com.example.hunachi.githunaclient.presentation.helper.Navigator
+import com.example.hunachi.githunaclient.util.ErrorCallback
 import com.example.hunachi.githunaclient.util.GoWebCallback
 import com.example.hunachi.githunaclient.util.LoadingCallback
 import com.example.hunachi.githunaclient.util.extension.customTabsIntent
 import com.github.salomonbrys.kodein.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class UserInfoFragment : BaseFragment() {
     
     private lateinit var binding: FragmentUserInfoBinding
     private val viewModel: UserInfoViewModel by with(this).instance()
-    //TODO
-    private val userName: String by lazy {
-        arguments?.getString(USERNAME_PARAM) ?: throw IllegalStateException("userName is null.")
-    }
+    private val userName: String? by lazy { arguments?.getString(USERNAME_PARAM) }
     private lateinit var loadingDialog: AlertDialog //目がチカチカするから消し他方がいいかも．
     private lateinit var tabsIntent: CustomTabsIntent
     
@@ -37,6 +37,7 @@ class UserInfoFragment : BaseFragment() {
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
+        if (userName == null) errorCallback
         binding = FragmentUserInfoBinding.inflate(inflater, container, false)
         binding.setLifecycleOwner(this)
         return binding.root
@@ -55,13 +56,14 @@ class UserInfoFragment : BaseFragment() {
             it.user.observe(this, Observer {
                 if (it == null) return@Observer
                 when {
-                    it.bio.isNullOrBlank() -> binding.userbioText.visibility = View.GONE
+                    it.bio.isNullOrBlank()  -> binding.userbioText.visibility = View.GONE
                     it.blog.isNullOrBlank() -> binding.userurlText.visibility = View.GONE
                 }
                 it.blog?.let { binding.userurlText.toMakeUnderline(it) }
             })
             tabsIntent = activity.customTabsIntent()
-            it.setUp(userName, goWebCallback, loadingCallback)
+            /*userName has already null check.*/
+            it.setUp(userName!!, goWebCallback, loadingCallback, errorCallback)
         }
     }
     
@@ -76,7 +78,11 @@ class UserInfoFragment : BaseFragment() {
     
     private val loadingCallback: LoadingCallback = { show ->
         if (show) loadingDialog.show()
-        else loadingDialog.dismiss()
+        else if (loadingDialog.isShowing) loadingDialog.dismiss()
+    }
+    
+    override val errorCallback: ErrorCallback = {
+        errorToast()
     }
     
     companion object {

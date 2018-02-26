@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import com.example.hunachi.githunaclient.util.ErrorCallback
 import com.github.salomonbrys.kodein.android.KodeinSupportFragment
 
 /**
@@ -70,4 +72,14 @@ abstract class BaseFragment: KodeinSupportFragment() {
         super.onDetach()
         viewModel?.onDetach()
     }
+    
+    fun errorToast(){
+        errorToast("failed to receive the data")
+    }
+    
+    fun errorToast(text: String){
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+    }
+    
+    abstract val errorCallback: ErrorCallback
 }

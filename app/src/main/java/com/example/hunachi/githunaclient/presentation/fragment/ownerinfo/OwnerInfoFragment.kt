@@ -10,6 +10,7 @@ import com.example.hunachi.githunaclient.databinding.FragmentOwnerInfoBinding
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
 import com.example.hunachi.githunaclient.presentation.fragment.userinfo.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
+import com.example.hunachi.githunaclient.util.ErrorCallback
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
 
@@ -22,6 +23,7 @@ class OwnerInfoFragment : BaseFragment() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (userName == null) errorCallback
         userInfoFragment = with(userName).instance<UserInfoFragment>().value
     }
     
@@ -36,6 +38,10 @@ class OwnerInfoFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         navigator.replaceFragment(R.id.user_info_container, userInfoFragment)
+    }
+    
+    override val errorCallback: ErrorCallback = {
+        errorToast()
     }
     
     companion object {

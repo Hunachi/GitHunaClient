@@ -10,6 +10,7 @@ import com.example.hunachi.githunaclient.presentation.fragment.userinfo.UserInfo
 import com.example.hunachi.githunaclient.presentation.fragment.viewpager.ViewPagerFragment
 import com.example.hunachi.githunaclient.presentation.fragment.viewpager.adapter.ProfilePagerAdapter
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
+import com.example.hunachi.githunaclient.util.ErrorCallback
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
 
@@ -41,4 +42,7 @@ class MainProfileActivity : BaseActivity() {
         navigator.replaceFragment(R.id.user_info_container, userInfoFragment)
     }
     
+    override val errorCallback: ErrorCallback = {
+        errorToast()
+    }
 }

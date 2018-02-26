@@ -9,6 +9,7 @@ import com.example.hunachi.githunaclient.databinding.ActivityLoginGitHubBinding
 import com.example.hunachi.githunaclient.presentation.base.BaseActivity
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
+import com.example.hunachi.githunaclient.util.ErrorCallback
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
 
@@ -38,7 +39,7 @@ class LoginGithubActivity : BaseActivity() {
             codeProcessor.subscribe { status ->
                 when (status) {
                     SignalStatus.SUCCESS -> dialog.show()
-                    SignalStatus.ERROR   -> navigator.errorToast("failed to login.")
+                    SignalStatus.ERROR   -> errorCallback()
                 }
             }
             tokenProcessor.subscribe { status ->
@@ -47,10 +48,14 @@ class LoginGithubActivity : BaseActivity() {
                         if (dialog.isShowing) dialog.dismiss()
                         navigator.navigateToMain()
                     }
-                    SignalStatus.ERROR   -> navigator.errorToast("failed to login")
+                    SignalStatus.ERROR   -> errorCallback()
                 }
             }
         }
         setViewModel(viewModel)
+    }
+    
+    override val errorCallback: ErrorCallback = {
+        errorToast("failed to login")
     }
 }

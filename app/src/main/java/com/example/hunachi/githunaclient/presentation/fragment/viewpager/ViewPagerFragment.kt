@@ -4,23 +4,28 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 
 import com.example.hunachi.githunaclient.databinding.FragmentViewPagerBinding
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
 import com.example.hunachi.githunaclient.presentation.fragment.viewpager.adapter.ProfilePagerAdapter
+import com.example.hunachi.githunaclient.presentation.helper.Navigator
+import com.example.hunachi.githunaclient.util.ErrorCallback
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
 
 class ViewPagerFragment : BaseFragment() {
     
     private lateinit var binding: FragmentViewPagerBinding
-    private lateinit var viewModel: ViewpagerViewModel
     private lateinit var adapter: ProfilePagerAdapter
     private lateinit var userName: String
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        userName = arguments?.getString(USERNAME_PARAM) ?: throw IllegalAccessException("userName is null")
+        arguments?.getString(USERNAME_PARAM).let {
+            if (it == null) errorCallback
+            else userName = it
+        }
     }
     
     override fun onCreateView(
@@ -29,17 +34,19 @@ class ViewPagerFragment : BaseFragment() {
     ): View? {
         binding = FragmentViewPagerBinding.inflate(inflater, container, false)
         setupView()
-        setViewModel(viewModel)
         return binding.root
     }
     
-    private fun setupView(){
-        viewModel = instance<ViewpagerViewModel>().value
+    private fun setupView() {
         adapter = with(Pair(childFragmentManager, userName)).instance<ProfilePagerAdapter>().value
         binding.apply {
             pager.adapter = adapter
             tabLayout.setupWithViewPager(pager)
         }
+    }
+    
+    override val errorCallback: ErrorCallback = {
+        errorToast()
     }
     
     companion object {

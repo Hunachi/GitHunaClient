@@ -8,6 +8,7 @@ import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
 import com.example.hunachi.githunaclient.util.BottomNavigationListener
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
+import com.example.hunachi.githunaclient.util.ErrorCallback
 import com.example.hunachi.githunaclient.util.NavigatorCallback
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 import io.reactivex.processors.PublishProcessor
@@ -25,14 +26,14 @@ class MainViewModel(
     val user: LiveData<User> = LiveDataReactiveStreams.fromPublisher(userProcessor)
     val isShowingList: LiveData<MenuItem> = LiveDataReactiveStreams.fromPublisher(isShowingListProcessor)
     
-    fun setupUser() {
+    fun setupUser(errorCallback: ErrorCallback) {
         if (user.value == null) githubApiRepository.ownerUser()
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .subscribe({
                     userProcessor.onNext(it)
                 }, {
-                    userProcessor.onError(it)
+                    errorCallback()
                 })
     }
     

@@ -15,7 +15,6 @@ import com.example.hunachi.githunaclient.presentation.fragment.ownerinfo.OwnerIn
 import com.example.hunachi.githunaclient.presentation.fragment.userinfo.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.fragment.userinfo.userInfoViewModelModule
 import com.example.hunachi.githunaclient.presentation.fragment.viewpager.adapter.profilePagerAdapterModule
-import com.example.hunachi.githunaclient.presentation.fragment.viewpager.viewPagerViewModelModule
 import com.example.hunachi.githunaclient.presentation.helper.navigatorModule
 import com.example.hunachi.githunaclient.presentation.login.LoginGithubActivity
 import com.example.hunachi.githunaclient.presentation.login.loginViewModelModule
@@ -37,7 +36,6 @@ val MainApplication.kodeinModules by Kodein.lazy {
     //view model
     import(eventViewModelModule)
     import(userInfoViewModelModule)
-    import(viewPagerViewModelModule)
     import(loginViewModelModule)
     import(mainViewModelModule)
     //view
