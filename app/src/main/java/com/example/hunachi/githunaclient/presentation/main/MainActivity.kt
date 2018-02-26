@@ -3,7 +3,6 @@ package com.example.hunachi.githunaclient.presentation.main
 import android.arch.lifecycle.Observer
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.view.MenuItem
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.databinding.ActivityMainBinding
 import com.example.hunachi.githunaclient.presentation.MyApplication
@@ -67,11 +66,11 @@ class MainActivity : BaseActivity() {
             ownerInfoFragment = with(it).instance<UserInfoFragment>().value
             timeLineFragment = with(ListsArgument(it, ListType.TL)).instance<ListsFragment>().value
         }
-        replaceFragment(fragmentFrag)
-        viewModel.init(replaceFragment)
+        if (viewModel.init(replaceFragment) == null || fragmentFrag != null) replaceFragmentToFrag(fragmentFrag)
+        else replaceFragment(viewModel.init(replaceFragment)!!)
     }
     
-    val replaceFragment: NavigatorCallback = { item ->
+    private val replaceFragment: NavigatorCallback = { item ->
         when (item.itemId) {
             R.id.action_profile -> {
                 binding.navigation.selectedItemId = menuProfileId
@@ -91,7 +90,7 @@ class MainActivity : BaseActivity() {
         }
     }
     
-    private fun replaceFragment(frag: FragmentFrag?) {
+    private fun replaceFragmentToFrag(frag: FragmentFrag?) {
         val menu = binding.navigation.menu
         when (frag) {
             FragmentFrag.PROFILE    -> replaceFragment(menu.getItem(FragmentFrag.PROFILE.ordinal))

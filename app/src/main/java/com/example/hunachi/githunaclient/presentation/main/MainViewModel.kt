@@ -2,6 +2,7 @@ package com.example.hunachi.githunaclient.presentation.main
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.LiveDataReactiveStreams
+import android.support.annotation.CheckResult
 import android.view.MenuItem
 import com.example.hunachi.githunaclient.data.api.responce.User
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
@@ -22,14 +23,14 @@ class MainViewModel(
 ) : BaseViewModel() {
     
     private val userProcessor: PublishProcessor<User> = PublishProcessor.create()
-    //private val isShowingListProcessor: PublishProcessor<MenuItem> = PublishProcessor.create()
     val user: LiveData<User> = LiveDataReactiveStreams.fromPublisher(userProcessor)
-    //val isShowingList: LiveData<MenuItem> = LiveDataReactiveStreams.fromPublisher(isShowingListProcessor)
     private var callback: NavigatorCallback? = null
     private var nowItem: MenuItem? = null
     
-    fun init(callback: NavigatorCallback){
+    @CheckResult
+    fun init(callback: NavigatorCallback): MenuItem? {
         this.callback = callback
+        return nowItem
     }
     
     fun setupUser(errorCallback: ErrorCallback) {
@@ -45,7 +46,7 @@ class MainViewModel(
     
     fun onItemSelected(): BottomNavigationListener = BottomNavigationListener { item ->
         //if (isShowingList.value != item) isShowingListProcessor.onNext(item)
-        if(nowItem != item){
+        if (nowItem != item) {
             nowItem = item
             callback?.let { it(item) }
         }

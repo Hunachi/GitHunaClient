@@ -34,9 +34,13 @@ class ListsViewModel(
     //TODO 時間があったらlistを下向きに更新できるようにしたい．．
     
     /*call this by all means first*/
-    fun updateList(setUp: Boolean, callback: LoadingCallback, errorCallback: ErrorCallback) {
+    fun init( loadingCallback: LoadingCallback, errorCallback: ErrorCallback){
         this.errorCallback = errorCallback
-        loadingCallback = callback
+        this.loadingCallback = loadingCallback
+    }
+    
+    /*call this by all means second*/
+    fun updateList(setUp: Boolean) {
         if (listSize.value == null || !setUp) {
             loadingCallback(true)
             when (listsArgument.listsType) {
@@ -141,7 +145,7 @@ class ListsViewModel(
     }
     
     fun updateEvents(): SwipeRefreshLayout.OnRefreshListener = SwipeRefreshLayout.OnRefreshListener {
-        updateList(setUp = false, callback = loadingCallback, errorCallback = errorCallback)
+        updateList(setUp = false)
     }
     
 }

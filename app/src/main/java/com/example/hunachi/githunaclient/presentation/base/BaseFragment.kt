@@ -33,7 +33,7 @@ abstract class BaseFragment: KodeinSupportFragment() {
         super.onCreate(savedInstanceState)
     }
     
-    open override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewModel?.onCreateView()
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -78,7 +78,7 @@ abstract class BaseFragment: KodeinSupportFragment() {
     }
     
     fun errorToast(text: String){
-        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+        context?.let { Toast.makeText(it, text, Toast.LENGTH_SHORT).show() }
     }
     
     abstract val errorCallback: ErrorCallback

@@ -70,7 +70,8 @@ class ListsFragment : BaseFragment() {
     
     override fun onStart() {
         super.onStart()
-        if (viewModel.list.size <= 0) viewModel.updateList(true, loadingCallback, errorCallback)
+        viewModel.init(loadingCallback, errorCallback)
+        if (viewModel.list.size <= 0) viewModel.updateList(true)
     }
     
     /*once*/
@@ -158,6 +159,7 @@ class ListsFragment : BaseFragment() {
     }
     
     override val errorCallback: ErrorCallback = {
+        loadingCallback(false)
         errorToast()
     }
     
