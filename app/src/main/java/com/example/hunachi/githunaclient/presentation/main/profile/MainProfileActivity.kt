@@ -28,14 +28,13 @@ class MainProfileActivity : BaseActivity() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //if (userName == (application as MyApplication).userName) navigator.navigateToMain(FragmentFrag.PROFILE) else
-            setupView()
+        setupView()
     }
     
     private fun setupView() {
         viewPagerFragment = with(userName).instance<ViewPagerFragment>().value
         userInfoFragment = with(userName).instance<UserInfoFragment>().value
-        adapter = with(Pair(supportFragmentManager, userName)).instance<ProfilePagerAdapter>().value
+        adapter = with(supportFragmentManager to userName).instance<ProfilePagerAdapter>().value
         binding.apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }

@@ -39,11 +39,15 @@ interface GithubApi {
     @GET("users/{username}/repos")
     fun repositories(
             @Path("username") userName: String,
+            @Query("page") page: Int,
+            @Query("per_page") perPage: Int,
             @Query("access_token") token: String
     ): Observable<List<Repository>>
     
     @GET("user/repos")
     fun ownerRepositories(
+            @Query("page") page: Int,
+            @Query("per_page") perPage: Int,
             @Query("access_token") token: String
     ): Observable<List<Repository>>
     
@@ -57,12 +61,16 @@ interface GithubApi {
     @GET("users/{username}/followers")
     fun follower(
             @Path("username") userName: String,
+            @Query("page") page: Int,
+            @Query("per_page") perPage: Int,
             @Query("access_token") token: String
     ): Observable<List<ChildUser>>
     
     @GET("users/{username}/following")
     fun following(
             @Path("username") userName: String,
+            @Query("page") page: Int,
+            @Query("per_page") perPage: Int,
             @Query("access_token") token: String
     ): Observable<List<ChildUser>>
     

@@ -3,6 +3,7 @@ package com.example.hunachi.githunaclient.presentation.fragment.list
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.LiveDataReactiveStreams
 import android.support.v4.widget.SwipeRefreshLayout
+import com.example.hunachi.githunaclient.data.api.responce.ChildUser
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel
 import com.example.hunachi.githunaclient.presentation.fragment.list.feed.FeedType
@@ -31,7 +32,7 @@ class ListsViewModel(
     val list: MutableList<BaseItem> = mutableListOf()
     private lateinit var loadingCallback: LoadingCallback
     private lateinit var errorCallback: ErrorCallback
-    //TODO 時間があったらlistを下向きに更新できるようにしたい．．
+    //TODO 時間があったらpading....に....して下にpage更新できるようにする．
     
     /*call this by all means first*/
     fun init(loadingCallback: LoadingCallback, errorCallback: ErrorCallback) {
@@ -82,10 +83,7 @@ class ListsViewModel(
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({
-                    loadingCallback(false)
-                    addList(it.sortedBy {
-                        it.name?.toLowerCase() ?: it.userName.toLowerCase()
-                    }.filterNot { list.contains(it) })
+                    addUserList(it.filterNot { list.contains(it) })
                 }, {
                     it.printStackTrace()
                     errorCallback()
@@ -142,11 +140,16 @@ class ListsViewModel(
                 })
     }
     
-    private fun addList(addList: List<BaseItem>) {
-        loadingCallback(false)
-        list.addAll(0, addList)
-        listSizePublishProcessor.onNext(addList.size)
-    }
+     private fun addUserList(addList: List<BaseItem>) {
+         loadingCallback(false)
+         if (addList.isNotEmpty()) {
+             list.addAll(0, addList)
+             (list as MutableList<ChildUser>).sortBy {
+                 it.name?.toLowerCase() ?: it.userName.toLowerCase()
+             }
+             listSizePublishProcessor.onNext(addList.size)
+         }
+     }
     
     fun updateEvents(): SwipeRefreshLayout.OnRefreshListener = SwipeRefreshLayout.OnRefreshListener {
         updateList(setUp = false)

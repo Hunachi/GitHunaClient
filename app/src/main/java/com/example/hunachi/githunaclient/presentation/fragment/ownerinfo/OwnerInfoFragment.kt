@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.os.bundleOf
 
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.databinding.FragmentOwnerInfoBinding
@@ -47,9 +48,7 @@ class OwnerInfoFragment : BaseFragment() {
     companion object {
         const val USERNAME_PARAM = "userName"
         fun newInstance(userName: String) = OwnerInfoFragment().apply {
-            arguments = Bundle().apply {
-                putString(USERNAME_PARAM, userName)
-            }
+            arguments = bundleOf(USERNAME_PARAM to userName)
         }
     }
 }

@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.os.bundleOf
 import com.example.hunachi.githunaclient.databinding.FragmentUserInfoBinding
 
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
@@ -95,9 +96,7 @@ class UserInfoFragment : BaseFragment() {
         private const val USERNAME_PARAM = "userName"
         fun newInstance(userName: String): UserInfoFragment =
                 UserInfoFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(USERNAME_PARAM, userName)
-                    }
+                    arguments = bundleOf(USERNAME_PARAM to userName)
                 }
     }
     

@@ -18,6 +18,6 @@ data class Gist(
         @Json(name = "updated_at")
         val updatedAt: String
 ) : BaseItem {
-    val existDiscriotion = description.isNotBlank()
-    val subDiscription = "No description"
+    val existDescription = description.isNotBlank()
+    val subDescription = "No description"
 }

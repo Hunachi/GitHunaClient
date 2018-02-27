@@ -14,6 +14,8 @@ class GithubApiRepository(
         private val ownerName: String
 ) {
     
+    private val perPage = 20 //TODO page operating.
+    
     fun ownerUser(): Observable<User> = GithubApiAdapter.githubApi
             .ownerUser(token = token)
     
@@ -23,25 +25,25 @@ class GithubApiRepository(
             else ownerUser()
     
     fun followerEvent(userName: String) = GithubApiAdapter.githubApi
-            .followerEvents(userName = userName, token = token, page = 1, perPage = 30)
+            .followerEvents(userName = userName, token = token, page = 1, perPage = perPage * 2)
     
     fun feed(userName: String) = GithubApiAdapter.githubApi
             .feeds(userName = userName, token = token)
     
     fun repositories(userName: String) =
             if (userName == ownerName) GithubApiAdapter.githubApi
-                    .ownerRepositories(token)
+                    .ownerRepositories(token = token, page = 1, perPage = perPage * 3)
             else GithubApiAdapter.githubApi
-                    .repositories(userName = userName, token = token)
+                    .repositories(userName = userName, token = token, page = 1, perPage = perPage * 3)
     
     fun repository(ownerName: String, repositoryName: String) = GithubApiAdapter.githubApi
             .repository(ownerName = ownerName, repositoryName = repositoryName, token = token)
     
     fun follower(userName: String) = GithubApiAdapter.githubApi
-            .follower(userName = userName, token = token)
+            .follower(userName = userName, token = token, page = 1, perPage = perPage * 5)
     
     fun following(userName: String) = GithubApiAdapter.githubApi
-            .following(userName = userName, token = token)
+            .following(userName = userName, token = token, page = 1, perPage = perPage * 5)
     
     fun gists(userName: String) = GithubApiAdapter.githubApi
             .gists(userName = userName, token = token)
