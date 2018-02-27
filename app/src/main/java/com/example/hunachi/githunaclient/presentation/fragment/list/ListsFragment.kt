@@ -18,7 +18,8 @@ import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter
 import com.example.hunachi.githunaclient.presentation.fragment.list.feed.Feed
-import com.example.hunachi.githunaclient.presentation.fragment.list.feed.FeedsAdapter
+import com.example.hunachi.githunaclient.presentation.fragment.list.feed.FeedAdapter
+import com.example.hunachi.githunaclient.presentation.fragment.list.feed.TimeLineAdapter
 import com.example.hunachi.githunaclient.presentation.fragment.list.follow.UserAdapter
 import com.example.hunachi.githunaclient.presentation.fragment.list.gist.GistAdapter
 import com.example.hunachi.githunaclient.presentation.fragment.list.repository.RepositoryAdapter
@@ -36,9 +37,10 @@ import com.github.salomonbrys.kodein.with
 class ListsFragment : BaseFragment() {
     
     private lateinit var binding: FragmentFollowerEventBinding
-    private lateinit var feedsAdapter: FeedsAdapter
+    private lateinit var timeLineAdapter: TimeLineAdapter
     private lateinit var userAdapter: UserAdapter
     private lateinit var gistAdapter: GistAdapter
+    private lateinit var feedAdapter: FeedAdapter
     private lateinit var repositoryAdapter: RepositoryAdapter
     private lateinit var viewModel: ListsViewModel
     private lateinit var tabsIntent: CustomTabsIntent
@@ -97,8 +99,8 @@ class ListsFragment : BaseFragment() {
     
     private fun setUpAdapter() {
         when (listsArgument.listsType) {
-            ListType.FEED,
-            ListType.TL           -> feedsAdapter = FeedsAdapter(viewModel.list, itemIconCallback, itemCallback)
+            ListType.FEED         -> feedAdapter = FeedAdapter(viewModel.list, itemCallback)
+            ListType.TL           -> timeLineAdapter = TimeLineAdapter(viewModel.list, itemIconCallback, itemCallback)
             ListType.FOLLOWERS,
             ListType.FOLLOWING    -> userAdapter = UserAdapter(viewModel.list, itemCallback)
             ListType.GISTS        -> gistAdapter = GistAdapter(viewModel.list, itemCallback)
@@ -111,8 +113,8 @@ class ListsFragment : BaseFragment() {
     
     private val adapter by lazy {
         when (listsArgument.listsType) {
-            ListType.FEED,
-            ListType.TL           -> feedsAdapter
+            ListType.FEED         -> feedAdapter
+            ListType.TL           -> timeLineAdapter
             ListType.FOLLOWERS,
             ListType.FOLLOWING    -> userAdapter
             ListType.GISTS        -> gistAdapter

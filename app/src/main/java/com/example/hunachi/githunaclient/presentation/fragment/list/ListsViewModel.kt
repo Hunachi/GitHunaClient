@@ -34,7 +34,7 @@ class ListsViewModel(
     //TODO 時間があったらlistを下向きに更新できるようにしたい．．
     
     /*call this by all means first*/
-    fun init( loadingCallback: LoadingCallback, errorCallback: ErrorCallback){
+    fun init(loadingCallback: LoadingCallback, errorCallback: ErrorCallback) {
         this.errorCallback = errorCallback
         this.loadingCallback = loadingCallback
     }
@@ -117,7 +117,11 @@ class ListsViewModel(
                 .observeOn(schedulers.ui())
                 .subscribe({
                     loadingCallback(false)
-                    addList(it.sortedByDescending { it.updatedAt }.filterNot { list.contains(it) })
+                    listSizePublishProcessor.onNext(
+                        if (repositoryType == RepositoryType.MY_REPOSITORY)
+                            list.addListItem(it.sortedByDescending { it.updatedAt }, isTopAddPosition = true)
+                        else list.addListItem(it, isTopAddPosition = true)
+                    )
                 }, {
                     it.printStackTrace()
                     errorCallback()

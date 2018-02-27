@@ -7,22 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.hunachi.githunaclient.BR
 import com.example.hunachi.githunaclient.R
-import com.example.hunachi.githunaclient.databinding.ItemFeedBinding
+import com.example.hunachi.githunaclient.databinding.ItemTimelineBinding
 import com.example.hunachi.githunaclient.presentation.fragment.list.BaseItem
 import com.example.hunachi.githunaclient.util.ItemCallback
 
 /**
  * Created by hunachi on 2018/02/05.
  */
-class FeedsAdapter(
+class TimeLineAdapter(
         private val list: MutableList<BaseItem>,
         private val iconCallback: ItemCallback,
         private val callback: ItemCallback
-) : RecyclerView.Adapter<FeedsAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<TimeLineAdapter.ViewHolder>() {
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_feed, parent, false)
+                .inflate(R.layout.item_timeline, parent, false)
         return ViewHolder(view)
     }
     
@@ -41,7 +41,7 @@ class FeedsAdapter(
     override fun getItemCount() = list.size
     
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val binding: ItemFeedBinding? = DataBindingUtil.bind(view)
+        val binding: ItemTimelineBinding? = DataBindingUtil.bind(view)
     }
     
 }
