@@ -46,7 +46,11 @@ val viewModelModules = Kodein.Module {
         )
     }
     
-    bind<OwnerInfoViewModel>() with singleton {
-        OwnerInfoViewModel()
+    bind<OwnerInfoViewModel>() with multiton { ownerName: String ->
+        OwnerInfoViewModel(
+            githubApiRepository = with((instance() as MyApplication)).instance(),
+            scheduler = instance(),
+            ownerName = ownerName
+        )
     }
 }

@@ -14,7 +14,7 @@ class GithubApiRepository(
         private val ownerName: String
 ) {
     
-    private val perPage = 20 //TODO page operating.
+    private val perPage = 20 //I wanted time more...pieeeen.
     
     fun ownerUser(): Observable<User> = GithubApiAdapter.githubApi
             .ownerUser(token = token)
@@ -56,4 +56,8 @@ class GithubApiRepository(
     
     fun staring(userName: String) = GithubApiAdapter.githubApi
             .staring(userName = userName, token = token)
+    
+    fun repoCommitStatus(ownerName: String, repositoryName: String) = GithubApiAdapter.githubApi
+            .repoCommitStatus(ownerName = ownerName, repositoryName = repositoryName, token = token)
+    
 }

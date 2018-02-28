@@ -20,7 +20,7 @@ android {
         debug {
             buildConfigField "String", "CLIENT_ID", "\"${project.property("CLIENT_ID")}\""
             buildConfigField "String", "CLIENT_SECRET", "\"${project.property("CLIENT_SECRET")}\""
-            //buildConfigField "String", "TOKEN", "\"${project.property("TOKEN")}\""
+            buildConfigField "String", "TOKEN", "\"${project.property("TOKEN")}\""
         }
         release {
             buildConfigField "String", "CLIENT_ID", "\"${project.property("CLIENT_ID")}\""

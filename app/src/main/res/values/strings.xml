@@ -7,6 +7,7 @@
     <string name="my_page">my page</string>
     <string name="time_line">time line</string>
     <string name="lists">lists</string>
-    <string name="contribution_explain_text">Today\'s Your contribution is ...</string>
+    <string name="contribution_title">This Week\'s Your number of commit is ...</string>
+    <string name="contribution_explain">This\'s including only in your repository,\nand it\'s expensive operation,\n  so I recommend you reload after a few moments.</string>
 
 </resources>

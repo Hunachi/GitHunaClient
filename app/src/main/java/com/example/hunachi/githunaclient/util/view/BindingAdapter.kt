@@ -11,6 +11,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.util.BottomNavigationListener
 import com.example.hunachi.githunaclient.util.extension.setBackgroundTranspot
 
@@ -26,15 +27,16 @@ fun ImageButton.setIcon(url: String?) {
     Glide.with(this).load(url).apply(RequestOptions.circleCropTransform()).into(this)
 }
 
-@BindingAdapter("app:setImage")
+@BindingAdapter("app:setCommitCountImage")
 fun ImageView.setImage(url: String) {
     Glide.with(this).load(url).into(this)
 }
 
 @SuppressLint("ResourceType")
-@BindingAdapter("app:setImage")
-fun ImageView.setImage(@IdRes resourceId: Int) {
-    Glide.with(this).load(resourceId).into(this)
+@BindingAdapter("app:setCommitCountImage")
+fun ImageView.setCommitCountImage(@IdRes resourceId: Int) {
+    val resourceId_ = if (resourceId > 0) resourceId else R.drawable.contribute_loading_image
+    Glide.with(this).load(resourceId_).into(this)
 }
 
 @BindingAdapter("app:listRefresh")

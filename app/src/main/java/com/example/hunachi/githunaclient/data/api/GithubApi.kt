@@ -18,7 +18,7 @@ interface GithubApi {
     
     @GET("users/{user_name}")
     fun user(
-            @Path("user_name")userName: String,
+            @Path("user_name") userName: String,
             @Query("access_token") token: String
     ): Observable<User>
     
@@ -89,12 +89,19 @@ interface GithubApi {
     fun watchingRepo(
             @Path("username") userName: String,
             @Query("access_token") token: String
-    ):Observable<List<Repository>>
+    ): Observable<List<Repository>>
     
     @GET("users/{username}/starred")
     fun staring(
             @Path("username") userName: String,
             @Query("access_token") token: String
     ): Observable<List<Repository>>
+    
+    @GET("repos/{ownername}/{repositoryname}/stats/participation")
+    fun repoCommitStatus(
+            @Path("ownername") ownerName: String,
+            @Path("repositoryname") repositoryName: String,
+            @Query("access_token") token: String
+    ): Observable<WeeklyCommit>
     
 }
