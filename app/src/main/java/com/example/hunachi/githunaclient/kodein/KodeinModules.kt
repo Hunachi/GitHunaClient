@@ -1,48 +1,29 @@
-package com.example.hunachi.githunaclient.presentation
+package com.example.hunachi.githunaclient.kodein
 
 import android.content.Context
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
-import com.example.hunachi.githunaclient.data.repository.githubTokenModule
 import com.example.hunachi.githunaclient.presentation.MainApplication
 import com.example.hunachi.githunaclient.presentation.MyApplication
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter
 import com.example.hunachi.githunaclient.presentation.dialog.WarningDialogAdapter
-import com.example.hunachi.githunaclient.presentation.fragment.list.ListsArgument
+import com.example.hunachi.githunaclient.presentation.fragment.list.*
 import com.example.hunachi.githunaclient.presentation.fragment.viewpager.ViewPagerFragment
-import com.example.hunachi.githunaclient.presentation.fragment.list.ListsFragment
-import com.example.hunachi.githunaclient.presentation.fragment.list.eventViewModelModule
 import com.example.hunachi.githunaclient.presentation.fragment.ownerinfo.OwnerInfoFragment
-import com.example.hunachi.githunaclient.presentation.fragment.ownerinfo.ownerInfoViewModelModule
 import com.example.hunachi.githunaclient.presentation.fragment.userinfo.UserInfoFragment
-import com.example.hunachi.githunaclient.presentation.fragment.userinfo.userInfoViewModelModule
-import com.example.hunachi.githunaclient.presentation.fragment.viewpager.adapter.profilePagerAdapterModule
-import com.example.hunachi.githunaclient.presentation.helper.navigatorModule
 import com.example.hunachi.githunaclient.presentation.login.LoginGithubActivity
-import com.example.hunachi.githunaclient.presentation.login.loginViewModelModule
 import com.example.hunachi.githunaclient.presentation.main.MainActivity
-import com.example.hunachi.githunaclient.presentation.main.mainViewModelModule
 import com.example.hunachi.githunaclient.presentation.main.profile.MainProfileActivity
 import com.example.hunachi.githunaclient.util.rx.AppSchedulerProvider
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 import com.github.salomonbrys.kodein.*
-import kotlin.math.sin
 
 /**
  * Created by hunachi on 2018/02/20.
  */
 val MainApplication.kodeinModules by Kodein.lazy {
-    //model
-    import(githubTokenModule)
-    import(navigatorModule)
-    import(profilePagerAdapterModule)
-    //view model
-    import(eventViewModelModule)
-    import(userInfoViewModelModule)
-    import(loginViewModelModule)
-    import(mainViewModelModule)
-    import(ownerInfoViewModelModule)
-    //view
-    /*if you want to user same args fragment, please it make multiton -> factory*/
+    import(modelModules)
+    import(viewModelModules)
+    /*if you want difference instance of same args fragment, please it make multiton -> factory*/
     bind<MainActivity>() with singleton { MainActivity() }
     bind<MainProfileActivity>() with singleton { MainProfileActivity() }
     bind<LoginGithubActivity>() with singleton { LoginGithubActivity() }
