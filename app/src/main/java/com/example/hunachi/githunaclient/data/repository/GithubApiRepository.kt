@@ -56,8 +56,4 @@ class GithubApiRepository(
     
     fun staring(userName: String) = GithubApiAdapter.githubApi
             .staring(userName = userName, token = token)
-    
-    fun contribution(@Url url: String) = GithubApiAdapter.githubApi
-            .contribute(url = url)
-    
 }

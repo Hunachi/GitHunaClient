@@ -140,16 +140,16 @@ class ListsViewModel(
                 })
     }
     
-     private fun addUserList(addList: List<BaseItem>) {
-         loadingCallback(false)
-         if (addList.isNotEmpty()) {
-             list.addAll(0, addList)
-             (list as MutableList<ChildUser>).sortBy {
-                 it.name?.toLowerCase() ?: it.userName.toLowerCase()
-             }
-             listSizePublishProcessor.onNext(addList.size)
-         }
-     }
+    private fun addUserList(addList: List<ChildUser>) {
+        loadingCallback(false)
+        if (addList.isNotEmpty()) {
+            list.addAll(0, addList)
+            (list as MutableList<ChildUser>).sortBy {
+                it.name?.toLowerCase() ?: it.userName.toLowerCase()
+            }
+            listSizePublishProcessor.onNext(addList.size)
+        }
+    }
     
     fun updateEvents(): SwipeRefreshLayout.OnRefreshListener = SwipeRefreshLayout.OnRefreshListener {
         updateList(setUp = false)

@@ -83,8 +83,10 @@ class ListsFragment : BaseFragment() {
         setViewModel(viewModel)
         viewModel.apply {
             listSize.observe(this@ListsFragment, Observer { listSize ->
-                if (listSize == null) return@Observer
-                adapter.notifyItemRangeInserted(0, listSize)
+                if (listSize == null || listSize == 0) return@Observer
+                if (listsArgument.listsType == ListType.FOLLOWERS || listsArgument.listsType == ListType.FOLLOWING)
+                    adapter.notifyDataSetChanged()
+                else adapter.notifyItemRangeInserted(0, listSize)
             })
         }
     }

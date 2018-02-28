@@ -18,9 +18,10 @@ import com.github.salomonbrys.kodein.with
 class OwnerInfoFragment : BaseFragment() {
     
     private val userName: String? by lazy { arguments?.getString(USERNAME_PARAM) }
+    private lateinit var viewModel: OwnerInfoViewModel
     private lateinit var binding: FragmentOwnerInfoBinding
     private lateinit var userInfoFragment: UserInfoFragment
-    private val navigator: Navigator by with(activity).instance()
+    private lateinit var navigator: Navigator
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,12 +34,21 @@ class OwnerInfoFragment : BaseFragment() {
             savedInstanceState: Bundle?
     ): View? {
         binding = FragmentOwnerInfoBinding.inflate(inflater, container, false)
+        setupViewModel()
         return binding.root
     }
     
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        navigator = with(activity).instance<Navigator>().value
         navigator.replaceFragment(R.id.user_info_container, userInfoFragment)
+    }
+    
+    private fun setupViewModel(){
+        viewModel = instance<OwnerInfoViewModel>().value
+        setViewModel(viewModel)
+        binding.viewModel = viewModel
+        binding.setLifecycleOwner(this)
     }
     
     override val errorCallback: ErrorCallback = {

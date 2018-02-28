@@ -97,6 +97,4 @@ interface GithubApi {
             @Query("access_token") token: String
     ): Observable<List<Repository>>
     
-    @GET
-    fun contribute(@Url url: String): Observable<String>
 }

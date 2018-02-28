@@ -7,5 +7,6 @@
     <string name="my_page">my page</string>
     <string name="time_line">time line</string>
     <string name="lists">lists</string>
+    <string name="contribution_explain_text">Today\'s Your contribution is ...</string>
 
 </resources>

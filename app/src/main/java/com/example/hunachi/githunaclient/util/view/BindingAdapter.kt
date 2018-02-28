@@ -1,9 +1,14 @@
 package com.example.hunachi.githunaclient.util.view
 
+import android.annotation.SuppressLint
 import android.databinding.BindingAdapter
+import android.graphics.drawable.Drawable
+import android.support.annotation.IdRes
+import android.support.annotation.LayoutRes
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.widget.SwipeRefreshLayout
 import android.widget.ImageButton
+import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.hunachi.githunaclient.util.BottomNavigationListener
@@ -19,6 +24,17 @@ fun BottomNavigationView.selectedListener(listener: BottomNavigationListener) = 
 fun ImageButton.setIcon(url: String?) {
     this.setBackgroundTranspot()
     Glide.with(this).load(url).apply(RequestOptions.circleCropTransform()).into(this)
+}
+
+@BindingAdapter("app:setImage")
+fun ImageView.setImage(url: String) {
+    Glide.with(this).load(url).into(this)
+}
+
+@SuppressLint("ResourceType")
+@BindingAdapter("app:setImage")
+fun ImageView.setImage(@IdRes resourceId: Int) {
+    Glide.with(this).load(resourceId).into(this)
 }
 
 @BindingAdapter("app:listRefresh")

@@ -12,6 +12,7 @@ import com.example.hunachi.githunaclient.presentation.fragment.viewpager.ViewPag
 import com.example.hunachi.githunaclient.presentation.fragment.list.ListsFragment
 import com.example.hunachi.githunaclient.presentation.fragment.list.eventViewModelModule
 import com.example.hunachi.githunaclient.presentation.fragment.ownerinfo.OwnerInfoFragment
+import com.example.hunachi.githunaclient.presentation.fragment.ownerinfo.ownerInfoViewModelModule
 import com.example.hunachi.githunaclient.presentation.fragment.userinfo.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.fragment.userinfo.userInfoViewModelModule
 import com.example.hunachi.githunaclient.presentation.fragment.viewpager.adapter.profilePagerAdapterModule
@@ -39,6 +40,7 @@ val MainApplication.kodeinModules by Kodein.lazy {
     import(userInfoViewModelModule)
     import(loginViewModelModule)
     import(mainViewModelModule)
+    import(ownerInfoViewModelModule)
     //view
     /*if you want to user same args fragment, please it make multiton -> factory*/
     bind<MainActivity>() with singleton { MainActivity() }

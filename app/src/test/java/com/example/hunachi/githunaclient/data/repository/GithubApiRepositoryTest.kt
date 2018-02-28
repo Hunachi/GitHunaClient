@@ -151,17 +151,4 @@ class GithubApiRepositoryTest {
                 })
     }
     
-    @Test
-    fun contribution() {
-        val url = "https://github.com/users/hunachi/contributions"
-        githubApiRepository.contribution(url)
-                .subscribeOn(scheduler.io())
-                .observeOn(scheduler.ui())
-                .subscribe({
-                    assertEquals(it.toString(), "hoge!")
-                }, {
-                    it.printStackTrace()
-                })
-    }
-    
 }

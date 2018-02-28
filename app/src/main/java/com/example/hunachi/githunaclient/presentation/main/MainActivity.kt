@@ -10,6 +10,7 @@ import com.example.hunachi.githunaclient.presentation.base.BaseActivity
 import com.example.hunachi.githunaclient.presentation.fragment.list.ListType
 import com.example.hunachi.githunaclient.presentation.fragment.list.ListsArgument
 import com.example.hunachi.githunaclient.presentation.fragment.list.ListsFragment
+import com.example.hunachi.githunaclient.presentation.fragment.ownerinfo.OwnerInfoFragment
 import com.example.hunachi.githunaclient.presentation.fragment.viewpager.ViewPagerFragment
 import com.example.hunachi.githunaclient.presentation.fragment.userinfo.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
@@ -19,14 +20,13 @@ import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
 
 class MainActivity : BaseActivity() {
-    //TODO Duration
     private lateinit var viewModel: MainViewModel
     private val navigator: Navigator by with(this).instance()
     private val binding: ActivityMainBinding by lazy {
         DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
     }
     private val myApplication: MyApplication by lazy { application as MyApplication }
-    private lateinit var ownerInfoFragment: UserInfoFragment
+    private lateinit var ownerInfoFragment: OwnerInfoFragment
     private lateinit var viewPagerFragment: ViewPagerFragment
     private lateinit var timeLineFragment: ListsFragment
     private var userName: String? = null
@@ -63,7 +63,7 @@ class MainActivity : BaseActivity() {
     private fun setupFragmentManager() {
         userName?.let {
             viewPagerFragment = with(it).instance<ViewPagerFragment>().value
-            ownerInfoFragment = with(it).instance<UserInfoFragment>().value
+            ownerInfoFragment = with(it).instance<OwnerInfoFragment>().value
             timeLineFragment = with(ListsArgument(it, ListType.TL)).instance<ListsFragment>().value
         }
         if (viewModel.init(replaceFragment) == null || fragmentFrag != null) replaceFragmentToFrag(fragmentFrag)

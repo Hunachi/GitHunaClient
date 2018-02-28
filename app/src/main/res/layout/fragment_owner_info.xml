@@ -1,19 +1,148 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-<data>
-    <variable
-        name="viewModel"
-        type="com.example.hunachi.githunaclient.presentation.fragment.ownerinfo.OwnerInfoViewModel"/>
-</data>
-    <LinearLayout
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.hunachi.githunaclient.presentation.fragment.ownerinfo.OwnerInfoViewModel" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/droid_background">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/user_info_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" />
+            android:layout_height="match_parent">
 
-    </LinearLayout>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/user_info_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" />
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <android.support.constraint.ConstraintLayout
+                            android:id="@+id/contribution_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="40dp"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/contribution_background"
+                            app:layout_constraintBottom_toTopOf="@+id/imageView"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:id="@+id/coutribution_unit_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="48dp"
+                                android:layout_marginLeft="8dp"
+                                android:layout_marginRight="48dp"
+                                android:layout_marginStart="8dp"
+                                android:layout_weight="1"
+                                android:text="@{viewModel.contributionUnitText}"
+                                app:layout_constraintBaseline_toBaselineOf="@+id/contribution_count_text"
+                                app:layout_constraintEnd_toEndOf="@+id/contribution_layout"
+                                app:layout_constraintStart_toEndOf="@+id/contribution_count_text" />
+
+                            <TextView
+                                android:id="@+id/contribution_count_text"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="@{viewModel.contribution}"
+                                android:textAlignment="textEnd"
+                                android:textSize="24sp"
+                                app:layout_constraintBottom_toBottomOf="@+id/contribution_layout"
+                                app:layout_constraintEnd_toStartOf="@+id/coutribution_unit_text"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toEndOf="@+id/imageButton"
+                                app:layout_constraintTop_toBottomOf="@+id/textView3"
+                                app:layout_constraintVertical_bias="0.0" />
+
+                            <TextView
+                                android:id="@+id/textView3"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_weight="1"
+                                android:gravity="start"
+                                android:text="@string/contribution_explain_text"
+                                android:textAlignment="textStart"
+                                android:textSize="14sp"
+                                app:layout_constraintEnd_toEndOf="@+id/contribution_layout"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="@+id/contribution_layout"
+                                app:layout_constraintTop_toTopOf="@+id/contribution_layout" />
+
+                            <ImageButton
+                                android:id="@+id/imageButton"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="8dp"
+                                android:background="@drawable/reload_icon"
+                                android:scaleType="fitXY"
+                                android:onClick="@{() -> viewModel.noClickReload()}"
+                                app:layout_constraintBottom_toBottomOf="@+id/contribution_count_text"
+                                app:layout_constraintDimensionRatio="h,1:1"
+                                app:layout_constraintEnd_toStartOf="@+id/contribution_count_text"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                        </android.support.constraint.ConstraintLayout>
+
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="0dp"
+                            android:layout_height="150dp"
+                            android:layout_marginBottom="96dp"
+                            android:layout_marginStart="100dp"
+                            android:foregroundGravity="right"
+                            android:scaleType="fitEnd"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/contribution_layout"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="@+id/contribution_layout"
+                            app:layout_constraintTop_toBottomOf="@+id/contribution_layout"
+                            app:layout_constraintVertical_bias="0.0"
+                            app:setImage="@{viewModel.imageId}"
+                            app:srcCompat="@drawable/contribute_great_image"
+                            android:layout_marginLeft="100dp" />
+
+                    </android.support.constraint.ConstraintLayout>
+
+                </LinearLayout>
+
+            </ScrollView>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
 </layout>

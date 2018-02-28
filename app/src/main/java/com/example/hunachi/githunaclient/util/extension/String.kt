@@ -20,7 +20,7 @@ fun String.convertToLowerText(): String {
 }
 
 //TODO if you have time, add detail info for these actions.
-fun String.convertToActionText(actions: String?) =
+infix fun String.convertToActionText(actions: String?) =
         when (this) {
             "CommitCommentEvent"                         -> "committed"
             "CreateEvent"                                -> "created"
