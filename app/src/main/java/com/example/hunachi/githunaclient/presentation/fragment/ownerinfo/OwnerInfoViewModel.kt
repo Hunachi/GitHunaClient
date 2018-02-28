@@ -26,7 +26,7 @@ class OwnerInfoViewModel(
     private val commits: LiveData<Int> = LiveDataReactiveStreams.fromPublisher(commitCountProcessor)
     var commitsString = commits.value?.toString() ?: "0"
         private set
-    var commitsUnitText = if (commits.value == 1) "commits" else "commitsString"
+    var commitsUnitText = if (commits.value == 1) "commit" else "commits"
     private val imageIcProcessor: PublishProcessor<Int> = PublishProcessor.create()
     val imageId: LiveData<Int> = LiveDataReactiveStreams.fromPublisher(imageIcProcessor)
     private lateinit var loadingCallback: LoadingCallback
