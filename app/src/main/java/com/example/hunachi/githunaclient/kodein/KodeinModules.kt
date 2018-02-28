@@ -24,15 +24,15 @@ val MainApplication.kodeinModules by Kodein.lazy {
     import(modelModules)
     import(viewModelModules)
     /*if you want difference instance of same args fragment, please it make multiton -> factory*/
-    bind<MainActivity>() with singleton { MainActivity() }
+    bind<MainActivity>() with provider { MainActivity() }
     bind<MainProfileActivity>() with singleton { MainProfileActivity() }
-    bind<LoginGithubActivity>() with singleton { LoginGithubActivity() }
+    bind<LoginGithubActivity>() with provider { LoginGithubActivity() }
     bind<SchedulerProvider>() with singleton { AppSchedulerProvider() }
     bind<UserInfoFragment>() with factory { userName: String -> UserInfoFragment.newInstance(userName) }
     bind<ListsFragment>() with factory { listsArgument: ListsArgument -> ListsFragment.newInstance(listsArgument) }
-    bind<GithubApiRepository>() with multiton { application: MyApplication -> GithubApiRepository(application.token, application.userName) }
-    bind<ViewPagerFragment>() with multiton { userName: String -> ViewPagerFragment.newInstance(userName) }
-    bind<OwnerInfoFragment>() with multiton { userName: String -> OwnerInfoFragment.newInstance(userName) }
+    bind<GithubApiRepository>() with factory { application: MyApplication -> GithubApiRepository(application.token, application.userName) }
+    bind<ViewPagerFragment>() with factory { userName: String -> ViewPagerFragment.newInstance(userName) }
+    bind<OwnerInfoFragment>() with factory { userName: String -> OwnerInfoFragment.newInstance(userName) }
     bind<LoadingDialogAdapter>() with factory { context: Context -> LoadingDialogAdapter(context) }
     bind<WarningDialogAdapter>() with factory { context: Context -> WarningDialogAdapter(context) }
 }
