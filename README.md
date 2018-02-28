@@ -1,8 +1,8 @@
-# GitHunaClient
+GitHunaClient
+====
+git-push-hackathonと可愛い娘の為の github client (for Android).
 
-git-push-hackathonと女の子の為のAndroid用 github client.
-
-###Usage (to build.)
+##Usage (to build.)
 `~/GitHunaClient`下に`gradle.properties`を作成し，
 client idとclient secretを以下の形式で追加して下さい．
 
