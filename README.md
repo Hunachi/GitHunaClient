@@ -1,6 +1,6 @@
 GitHunaClient
 ====
-git-push-hackathonと可愛い娘の為の github client (for Android).
+git-push-hackathonと女の子の為の github client (for Android).
 
 ##Usage (to build.)
 `~/GitHunaClient`下に`gradle.properties`を作成し，
