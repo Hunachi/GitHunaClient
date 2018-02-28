@@ -1,0 +1,4 @@
+#please write your client id.(eg.neko)
+CLIENT_ID=neko
+#please write your client secret.(eg.nuko)
+CLIENT_SECRET=nuko
