@@ -1,9 +1,16 @@
 # GitHunaClient
 
-client idとclient secretを`project.property`に下の形式で追加して下さい．
+git-push-hackathonと女の子の為のAndroid用 github client.
+
+###Usage (to build.)
+`~/GitHunaClient`下に`gradle.properties`を作成し，
+client idとclient secretを以下の形式で追加して下さい．
+
 ```
-#please write your client id.
+#~/GitHunaClient/gradle.properties
+ 
+#please write your client id.(eg.neko)
 CLIENT_ID=neko
-#please write your client secret.
+#please write your client secret.(eg.nuko)
 CLIENT_SECRET=nuko
 ```
