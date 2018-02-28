@@ -2,20 +2,15 @@ package com.example.hunachi.githunaclient.presentation.fragment.ownerinfo
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.LiveDataReactiveStreams
-import android.arch.lifecycle.Observer
-import android.util.Log
 import com.example.hunachi.githunaclient.R
-import com.example.hunachi.githunaclient.data.api.responce.Repository
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel
 import com.example.hunachi.githunaclient.util.LoadingCallback
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
-import io.reactivex.Single
 import io.reactivex.processors.PublishProcessor
+import io.reactivex.rxkotlin.toObservable
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
-import org.joda.time.format.DateTimeFormatter
-import java.text.DateFormat
 
 
 /**
@@ -41,7 +36,7 @@ class OwnerInfoViewModel(
     
     override fun onCreate() {
         super.onCreate()
-        localDate = LocalDate.now().minusDays(7).toString(formatter)
+        localDate = LocalDate.now().minusDays(8).toString(formatter)
     }
     
     fun init(callback: LoadingCallback) {
@@ -49,46 +44,29 @@ class OwnerInfoViewModel(
         imageIcProcessor.onNext(loadingImageId)
     }
     
-    fun updateContributionCount() {
-        loadingCallback(true)
-        imageIcProcessor.onNext(loadingImageId)
-        githubApiRepository.repositories(ownerName)
-                .subscribeOn(scheduler.io())
-                .observeOn(scheduler.ui())
-                .subscribe {
-                    if (it.isNotEmpty()) updateCommits(it)
-                }
-    }
-    
-    private fun updateCommits(list: List<Repository>) {
+    private fun updateCommitCounter(){
         var newContributionCount = 0
-        Single.fromCallable {
-            list.filter { it.updatedAt > localDate }
-                    .forEach {
-                        githubApiRepository.repoCommitStatus(ownerName, it.name)
-                                .subscribeOn(scheduler.io())
-                                .observeOn(scheduler.ui())
-                                .subscribe({
-                                    newContributionCount += it.owner?.last() ?: 0
-                                }, {
-                                    it.printStackTrace()
-                                })
-                    }
-    }
+        loadingCallback(true)
+        githubApiRepository.repositories(ownerName)
+                .flatMap { it.toObservable()  }
+                .filter { it.updatedAt > localDate }
+                .flatMap { githubApiRepository.repoCommitStatus(ownerName, it.name) }
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .subscribe({
-                    loadingCallback(false)
-                    if (commits.value ?: 0 > 10) imageIcProcessor.onNext(greatImageId)
-                    else imageIcProcessor.onNext(notgoodImageId)
+                    newContributionCount += it.owner?.last() ?: 0
                 }, {
                     it.printStackTrace()
+                },{
+                    loadingCallback(false)
+                    commitCountProcessor.onNext(newContributionCount)
+                    if (newContributionCount >= 10) imageIcProcessor.onNext(greatImageId)
+                    else imageIcProcessor.onNext(notgoodImageId)
                 })
-        
     }
     
     fun noClickReload() {
-        updateContributionCount()
+        updateCommitCounter()
     }
     
     companion object {

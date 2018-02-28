@@ -69,7 +69,7 @@ class OwnerInfoFragment : BaseFragment() {
     
     private val loadingCallback: LoadingCallback = {
         if (!it && loadingDialog.isShowing) loadingDialog.dismiss()
-        else loadingDialog.show()
+        else if (it) loadingDialog.show()
     }
     
     companion object {
