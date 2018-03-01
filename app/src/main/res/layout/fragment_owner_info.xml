@@ -1,5 +1,4 @@
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -73,7 +72,7 @@
                                 android:layout_marginTop="8dp"
                                 android:layout_weight="1"
                                 android:gravity="end"
-                                android:text="@{viewModel.commitsString}"
+                                android:text="@{(viewModel.commits != null)?viewModel.commits.toString(): viewModel.zero}"
                                 android:textAlignment="textEnd"
                                 android:textSize="24sp"
                                 app:layout_constraintBottom_toBottomOf="@+id/contribution_layout"
@@ -150,7 +149,9 @@
                             app:layout_constraintHorizontal_bias="0.012"
                             app:layout_constraintStart_toStartOf="@+id/contribution_layout"
                             app:layout_constraintTop_toBottomOf="@+id/contribution_layout"
-                            app:layout_constraintVertical_bias="0.279" />
+                            app:layout_constraintVertical_bias="0.279"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="8dp" />
 
                     </android.support.constraint.ConstraintLayout>
 

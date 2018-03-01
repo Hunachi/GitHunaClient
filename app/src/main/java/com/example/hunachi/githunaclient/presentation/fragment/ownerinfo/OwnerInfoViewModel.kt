@@ -23,9 +23,7 @@ class OwnerInfoViewModel(
 ) : BaseFragmentViewModel() {
     
     private val commitCountProcessor: PublishProcessor<Int> = PublishProcessor.create()
-    private val commits: LiveData<Int> = LiveDataReactiveStreams.fromPublisher(commitCountProcessor)
-    var commitsString = commits.value?.toString() ?: "0"
-        private set
+    val commits: LiveData<Int> = LiveDataReactiveStreams.fromPublisher(commitCountProcessor)
     var commitsUnitText = if (commits.value == 1) "commit" else "commits"
     private val imageIcProcessor: PublishProcessor<Int> = PublishProcessor.create()
     val imageId: LiveData<Int> = LiveDataReactiveStreams.fromPublisher(imageIcProcessor)
@@ -44,11 +42,11 @@ class OwnerInfoViewModel(
         imageIcProcessor.onNext(loadingImageId)
     }
     
-    private fun updateCommitCounter(){
+    private fun updateCommitCounter() {
         var newContributionCount = 0
         loadingCallback(true)
         githubApiRepository.repositories(ownerName)
-                .flatMap { it.toObservable()  }
+                .flatMap { it.toObservable() }
                 .filter { it.updatedAt > localDate }
                 .flatMap { githubApiRepository.repoCommitStatus(ownerName, it.name) }
                 .subscribeOn(scheduler.io())
@@ -57,7 +55,7 @@ class OwnerInfoViewModel(
                     newContributionCount += it.owner?.last() ?: 0
                 }, {
                     it.printStackTrace()
-                },{
+                }, {
                     loadingCallback(false)
                     commitCountProcessor.onNext(newContributionCount)
                     if (newContributionCount >= 10) imageIcProcessor.onNext(greatImageId)
@@ -73,5 +71,6 @@ class OwnerInfoViewModel(
         const val loadingImageId = R.drawable.contribute_loading_image
         const val greatImageId = R.drawable.contribute_great_image
         const val notgoodImageId = R.drawable.contribute_notgood_image
+        const val zero = "0"
     }
 }
