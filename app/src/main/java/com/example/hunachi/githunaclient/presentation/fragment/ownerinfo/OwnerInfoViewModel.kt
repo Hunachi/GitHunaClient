@@ -2,6 +2,7 @@ package com.example.hunachi.githunaclient.presentation.fragment.ownerinfo
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.LiveDataReactiveStreams
+import android.databinding.ObservableField
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel

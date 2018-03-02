@@ -5,7 +5,7 @@ import android.databinding.BaseObservable
 /**
  * Created by hunachi on 2018/01/27.
  */
-abstract class BaseViewModel: BaseObservable() {
+abstract class BaseViewModel {
     /*多分役立つのでActivity LifeCycleに同期させた🍣*/
     open fun onCreate(){}
     
