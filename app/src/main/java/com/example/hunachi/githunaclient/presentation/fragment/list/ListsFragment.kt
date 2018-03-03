@@ -76,7 +76,7 @@ class ListsFragment : BaseFragment() {
         super.onStart()
         //viewModel.init(loadingCallback, errorCallback)
         if (viewModel.list.size <= 0) {
-            loadingCallback(true)
+            loadingDialog(true)
             viewModel.updateList(true)
         }
     }
@@ -94,11 +94,15 @@ class ListsFragment : BaseFragment() {
             })
             loading.observe(this@ListsFragment, Observer {
                 if (it == null) return@Observer
-                loadingCallback(it)
+                loadingDialog(it)
             })
             error.observerOnChanged(this@ListsFragment, Observer {
                 if (it == null) return@Observer
                 errorCallback()
+            })
+            lunchWeb.observerOnChanged(this@ListsFragment, Observer {
+                if (it == null) return@Observer
+                lunchWeb(it)
             })
         }
     }
@@ -152,10 +156,10 @@ class ListsFragment : BaseFragment() {
     
     private val itemCallback: ItemCallback = {
         when (it) {
-            is Feed       -> viewModel.repository(it.repositoryName.separateOwnerRepo(), goWebCallback)
+            is Feed       -> viewModel.repository(it.repositoryName.separateOwnerRepo())
             is ChildUser  -> if (isNotOwner(it.userName)) navigator.navigateToMainProfile(it.userName)
-            is Gist       -> goWebCallback(it.html_url)
-            is Repository -> goWebCallback(it.htmlUrl)
+            is Gist       -> lunchWeb(it.html_url)
+            is Repository -> lunchWeb(it.htmlUrl)
         }
     }
     
@@ -167,16 +171,15 @@ class ListsFragment : BaseFragment() {
         return true
     }
     
-    private val goWebCallback: GoWebCallback = { url: String ->
+    private fun lunchWeb(url: String) {
         tabsIntent.launchUrl(activity, Uri.parse(url))
     }
     
-    private fun loadingCallback(show: Boolean){
+    private fun loadingDialog(show: Boolean) {
         binding.swiperefresh.isRefreshing = show
     }
     
-    override val errorCallback: ErrorCallback = {
-        //loadingCallback(false)
+    fun errorCallback() {
         errorToast()
     }
     

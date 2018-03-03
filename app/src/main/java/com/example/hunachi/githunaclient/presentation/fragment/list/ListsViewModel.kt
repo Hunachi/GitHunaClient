@@ -27,11 +27,13 @@ class ListsViewModel(
     private val listSizeProcessor: PublishProcessor<Int> = PublishProcessor.create()
     private val loadingProcessor: PublishProcessor<Boolean> = PublishProcessor.create()
     private val errorProcessor: PublishProcessor<Boolean> = PublishProcessor.create()
+    private val lunchWebProcessor: PublishProcessor<String> = PublishProcessor.create()
     val listSize: LiveData<Int> = LiveDataReactiveStreams.fromPublisher(listSizeProcessor)
     /*It was the neck that I could access it from View, but became strong in the turn of the screen thanks to this*/
     val list: MutableList<BaseItem> = mutableListOf()
     val loading: LiveData<Boolean> = LiveDataReactiveStreams.fromPublisher(loadingProcessor)
     val error: LiveData<Boolean> = LiveDataReactiveStreams.fromPublisher(errorProcessor)
+    val lunchWeb: LiveData<String> = LiveDataReactiveStreams.fromPublisher(lunchWebProcessor)
     //TODO 時間があったらpading....に....して下にpage更新できるようにする．
     
     /*call this by all means second*/
@@ -125,14 +127,14 @@ class ListsViewModel(
                 })
     }
     
-    fun repository(ownerRepo: Pair<String, String>, callback: GoWebCallback) {
+    fun repository(ownerRepo: Pair<String, String>) {
         loadingProcessor.onNext(true)
         githubApiRepository.repository(ownerRepo.first, ownerRepo.second)
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({
                     //loadingProcessor.onNext(false)
-                    callback(it.htmlUrl)
+                    lunchWebProcessor.onNext(it.htmlUrl)
                 }, {
                     it.printStackTrace()
                     onError()

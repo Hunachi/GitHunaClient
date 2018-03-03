@@ -24,28 +24,32 @@ class MainViewModel(
     
     private val userProcessor: PublishProcessor<User> = PublishProcessor.create()
     private val navigatorProcessor: PublishProcessor<Int> = PublishProcessor.create()
+    private val errorProcessor: PublishProcessor<Boolean> = PublishProcessor.create()
     val user: LiveData<User> = LiveDataReactiveStreams.fromPublisher(userProcessor)
     val navigator: LiveData<Int> = LiveDataReactiveStreams.fromPublisher(navigatorProcessor)
+    val error: LiveData<Boolean> = LiveDataReactiveStreams.fromPublisher(errorProcessor)
     var fragmentFrag: FragmentFrag? = null
     
-    fun setupUser(errorCallback: ErrorCallback) {
+    fun setupUser() {
         if (user.value == null) githubApiRepository.ownerUser()
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .subscribe({
                     userProcessor.onNext(it)
                 }, {
-                    errorCallback()
+                    onError()
                 })
     }
     
     fun onItemSelected(): BottomNavigationListener = BottomNavigationListener { item ->
-        //if (isShowingList.value != item) isShowingListProcessor.onNext(item)
-        /*if (nowItem != item) {
-            nowItem = item
-            callback?.let { it(item) }
-        }*/
         navigatorProcessor.onNext(item.itemId)
         true
+    }
+    
+    private fun onError(){
+        errorProcessor.run {
+            onNext(true)
+            onNext(false)
+        }
     }
 }

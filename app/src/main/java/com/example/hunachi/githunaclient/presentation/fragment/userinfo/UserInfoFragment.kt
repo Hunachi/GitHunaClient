@@ -41,7 +41,7 @@ class UserInfoFragment : BaseFragment() {
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         container?.removeAllViews()
-        if (userName == null) errorCallback
+        if (userName == null) errorToast()
         binding = FragmentUserInfoBinding.inflate(inflater, container, false)
         setupDialog()
         binding.setLifecycleOwner(this)
@@ -95,10 +95,6 @@ class UserInfoFragment : BaseFragment() {
     private fun loadingCallback(show: Boolean) {
         if (show) loadingDialog.show()
         else if (loadingDialog.isShowing) loadingDialog.dismiss()
-    }
-    
-    override val errorCallback: ErrorCallback = {
-        errorToast()
     }
     
     companion object {

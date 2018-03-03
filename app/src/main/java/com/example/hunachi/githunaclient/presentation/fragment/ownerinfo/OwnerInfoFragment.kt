@@ -31,7 +31,7 @@ class OwnerInfoFragment : BaseFragment() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (userName == null) errorCallback
+        if (userName == null) errorToast()
         userInfoFragment = with(userName).instance<UserInfoFragment>().value
     }
     
@@ -63,7 +63,7 @@ class OwnerInfoFragment : BaseFragment() {
                 loadingCallback(it)
             })
             error.observerOnChanged(this@OwnerInfoFragment, Observer {
-                if(it == null || it == false)return@Observer
+                if (it == null || it == false) return@Observer
                 errorToast()
             })
         }
@@ -75,10 +75,6 @@ class OwnerInfoFragment : BaseFragment() {
     private fun setupDialog() {
         loadingDialog = with(activity as Context).instance<LoadingDialogAdapter>().value
                 .onCreateDialog()
-    }
-    
-    override val errorCallback: ErrorCallback = {
-        errorToast()
     }
     
     private fun loadingCallback(show: Boolean) {

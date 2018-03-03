@@ -2,6 +2,7 @@ package com.example.hunachi.githunaclient.presentation.main
 
 import android.arch.lifecycle.Observer
 import android.databinding.DataBindingUtil
+import android.databinding.ObservableShort
 import android.os.Bundle
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.databinding.ActivityMainBinding
@@ -66,11 +67,15 @@ class MainActivity : BaseActivity() {
                 }
                 replaceFragment(it)
             })
+            error.observerOnChanged(this@MainActivity, Observer {
+                if(it == null || it == false) return@Observer
+                errorToast()
+            })
         }
         binding.setLifecycleOwner(this)
         setViewModel(viewModel)
         /*if userName is uninitialized, let's get user info.*/
-        if (userName.isNullOrBlank()) viewModel.setupUser(errorCallback) else setupFragmentManager()
+        if (userName.isNullOrBlank()) viewModel.setupUser() else setupFragmentManager()
     }
     
     private fun setupFragmentManager() {
@@ -95,8 +100,4 @@ class MainActivity : BaseActivity() {
                 FragmentFrag.LISTS.id   -> viewPagerFragment
                 else                    -> throw IllegalStateException("not exist navigation itemId")
             }
-    
-    override val errorCallback: ErrorCallback = {
-        errorToast()
-    }
 }

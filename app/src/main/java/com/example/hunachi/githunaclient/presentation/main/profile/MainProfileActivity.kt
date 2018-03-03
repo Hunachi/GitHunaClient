@@ -53,10 +53,6 @@ class MainProfileActivity : BaseActivity() {
         return super.onOptionsItemSelected(item)
     }
     
-    override val errorCallback: ErrorCallback = {
-        errorToast()
-    }
-    
     override fun onDestroy() {
         super.onDestroy()
     }

@@ -22,7 +22,7 @@ class ViewPagerFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.getString(USERNAME_PARAM).let {
-            if (it == null) errorCallback
+            if (it == null) errorToast()
             else userName = it
         }
     }
@@ -42,10 +42,6 @@ class ViewPagerFragment : BaseFragment() {
             pager.adapter = adapter
             tabLayout.setupWithViewPager(pager)
         }
-    }
-    
-    override val errorCallback: ErrorCallback = {
-        errorToast()
     }
     
     companion object {

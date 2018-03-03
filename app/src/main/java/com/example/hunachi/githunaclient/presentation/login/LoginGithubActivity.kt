@@ -40,7 +40,7 @@ class LoginGithubActivity : BaseActivity() {
             code.observe(this@LoginGithubActivity, Observer { status ->
                 when (status) {
                     SignalStatus.SUCCESS -> dialog.show()
-                    SignalStatus.ERROR   -> errorCallback()
+                    SignalStatus.ERROR   -> onError()
                 }
             })
             token.observe(this@LoginGithubActivity, Observer { status ->
@@ -49,14 +49,14 @@ class LoginGithubActivity : BaseActivity() {
                         if (dialog.isShowing) dialog.dismiss()
                         navigator.navigateToMain()
                     }
-                    SignalStatus.ERROR   -> errorCallback()
+                    SignalStatus.ERROR   -> onError()
                 }
             })
         }
         setViewModel(viewModel)
     }
     
-    override val errorCallback: ErrorCallback = {
+    fun onError() {
         errorToast("failed to login")
     }
 }

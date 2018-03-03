@@ -80,6 +80,4 @@ abstract class BaseFragment: KodeinSupportFragment() {
     fun errorToast(text: String){
         context?.let { Toast.makeText(it, text, Toast.LENGTH_SHORT).show() }
     }
-    
-    abstract val errorCallback: ErrorCallback
 }
