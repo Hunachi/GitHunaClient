@@ -2,11 +2,9 @@ package com.example.hunachi.githunaclient.presentation.fragment.ownerinfo
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.LiveDataReactiveStreams
-import android.databinding.ObservableField
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.data.repository.GithubApiRepository
 import com.example.hunachi.githunaclient.presentation.base.BaseFragmentViewModel
-import com.example.hunachi.githunaclient.util.LoadingCallback
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 import io.reactivex.processors.PublishProcessor
 import io.reactivex.rxkotlin.toObservable
@@ -24,11 +22,14 @@ class OwnerInfoViewModel(
 ) : BaseFragmentViewModel() {
     
     private val commitCountProcessor: PublishProcessor<Int> = PublishProcessor.create()
+    private val imageIdProcessor: PublishProcessor<Int> = PublishProcessor.create()
+    private val loadingProcessor: PublishProcessor<Boolean> = PublishProcessor.create()
+    private val errorProcessor: PublishProcessor<Boolean> = PublishProcessor.create()
     val commits: LiveData<Int> = LiveDataReactiveStreams.fromPublisher(commitCountProcessor)
     var commitsUnitText = if (commits.value == 1) "commit" else "commits"
-    private val imageIcProcessor: PublishProcessor<Int> = PublishProcessor.create()
-    val imageId: LiveData<Int> = LiveDataReactiveStreams.fromPublisher(imageIcProcessor)
-    private lateinit var loadingCallback: LoadingCallback
+    val imageId: LiveData<Int> = LiveDataReactiveStreams.fromPublisher(imageIdProcessor)
+    val loading: LiveData<Boolean> = LiveDataReactiveStreams.fromPublisher(loadingProcessor)
+    val error: LiveData<Boolean> = LiveDataReactiveStreams.fromPublisher(errorProcessor)
     /*it's not absolutely necessary*/
     private lateinit var localDate: String
     private val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'hh:mm:ss'Z'")
@@ -38,14 +39,16 @@ class OwnerInfoViewModel(
         localDate = LocalDate.now().minusDays(8).toString(formatter)
     }
     
-    fun init(callback: LoadingCallback) {
-        loadingCallback = callback
-        imageIcProcessor.onNext(loadingImageId)
+    override fun onResume() {
+        super.onResume()
+        errorProcessor.onNext(false)
+        if (imageId.value == null) imageIdProcessor.onNext(loadingImageId)
     }
     
     private fun updateCommitCounter() {
+        if(loading.value == true) return
         var newContributionCount = 0
-        loadingCallback(true)
+        loadingProcessor.onNext(true)
         githubApiRepository.repositories(ownerName)
                 .flatMap { it.toObservable() }
                 .filter { it.updatedAt > localDate }
@@ -55,17 +58,18 @@ class OwnerInfoViewModel(
                 .subscribe({
                     newContributionCount += it.owner?.last() ?: 0
                 }, {
+                    errorProcessor.onNext(true)
                     it.printStackTrace()
                 }, {
-                    loadingCallback(false)
+                    loadingProcessor.onNext(false)
                     commitCountProcessor.onNext(newContributionCount)
-                    if (newContributionCount >= 10) imageIcProcessor.onNext(greatImageId)
-                    else imageIcProcessor.onNext(notgoodImageId)
+                    if (newContributionCount >= 10) imageIdProcessor.onNext(greatImageId)
+                    else imageIdProcessor.onNext(notgoodImageId)
                 })
     }
     
     fun noClickReload() {
-        updateCommitCounter()
+        if (loading.value != true) updateCommitCounter()
     }
     
     companion object {

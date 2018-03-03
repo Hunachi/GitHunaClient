@@ -1,5 +1,7 @@
 package com.example.hunachi.githunaclient.presentation.login
 
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.LiveDataReactiveStreams
 import com.example.hunachi.githunaclient.data.repository.GithubTokenRepository
 import com.example.hunachi.githunaclient.presentation.base.BaseViewModel
 import com.example.hunachi.githunaclient.presentation.MyApplication
@@ -16,8 +18,10 @@ class LoginGithubViewModel(
         private val application: MyApplication
 ) : BaseViewModel(), GithubTokenRepository.Callback {
     
-    val tokenProcessor: PublishProcessor<SignalStatus> = PublishProcessor.create()
-    val codeProcessor: PublishProcessor<SignalStatus> = PublishProcessor.create()
+    private val tokenProcessor: PublishProcessor<SignalStatus> = PublishProcessor.create()
+    private val codeProcessor: PublishProcessor<SignalStatus> = PublishProcessor.create()
+    val token: LiveData<SignalStatus> = LiveDataReactiveStreams.fromPublisher(tokenProcessor)
+    val code: LiveData<SignalStatus> = LiveDataReactiveStreams.fromPublisher(codeProcessor)
     
     private val kodein = Kodein.lazy {
         bind<GithubTokenRepository>() with singleton {

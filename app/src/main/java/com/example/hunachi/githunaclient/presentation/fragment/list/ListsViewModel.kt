@@ -10,8 +10,6 @@ import com.example.hunachi.githunaclient.presentation.fragment.list.feed.FeedTyp
 import com.example.hunachi.githunaclient.presentation.fragment.list.follow.FollowType
 import com.example.hunachi.githunaclient.presentation.fragment.list.repository.RepositoryType
 import com.example.hunachi.githunaclient.util.GoWebCallback
-import com.example.hunachi.githunaclient.util.ErrorCallback
-import com.example.hunachi.githunaclient.util.LoadingCallback
 import com.example.hunachi.githunaclient.util.extension.addListItem
 import com.example.hunachi.githunaclient.util.extension.convertToFollowerEvent
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
@@ -26,24 +24,19 @@ class ListsViewModel(
         private val schedulers: SchedulerProvider
 ) : BaseFragmentViewModel() {
     
-    private val listSizePublishProcessor: PublishProcessor<Int> = PublishProcessor.create()
-    val listSize: LiveData<Int> = LiveDataReactiveStreams.fromPublisher(listSizePublishProcessor)
+    private val listSizeProcessor: PublishProcessor<Int> = PublishProcessor.create()
+    private val loadingProcessor: PublishProcessor<Boolean> = PublishProcessor.create()
+    private val errorProcessor: PublishProcessor<Boolean> = PublishProcessor.create()
+    val listSize: LiveData<Int> = LiveDataReactiveStreams.fromPublisher(listSizeProcessor)
     /*It was the neck that I could access it from View, but became strong in the turn of the screen thanks to this*/
     val list: MutableList<BaseItem> = mutableListOf()
-    private lateinit var loadingCallback: LoadingCallback
-    private lateinit var errorCallback: ErrorCallback
+    val loading: LiveData<Boolean> = LiveDataReactiveStreams.fromPublisher(loadingProcessor)
+    val error: LiveData<Boolean> = LiveDataReactiveStreams.fromPublisher(errorProcessor)
     //TODO 時間があったらpading....に....して下にpage更新できるようにする．
-    
-    /*call this by all means first*/
-    fun init(loadingCallback: LoadingCallback, errorCallback: ErrorCallback) {
-        this.errorCallback = errorCallback
-        this.loadingCallback = loadingCallback
-    }
     
     /*call this by all means second*/
     fun updateList(setUp: Boolean) {
         if (listSize.value == null || !setUp) {
-            loadingCallback(true)
             when (listsArgument.listsType) {
                 ListType.TL           -> updateFeeds(FeedType.FOLLOWER_FEED)
                 ListType.FEED         -> updateFeeds(FeedType.MY_FEED)
@@ -65,13 +58,14 @@ class ListsViewModel(
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({
-                    loadingCallback(false)
-                    listSizePublishProcessor.onNext(
+                    listSizeProcessor.onNext(
                         list.addListItem(it.map { it.convertToFollowerEvent() }, isTopAddPosition = true)
                     )
                 }, {
                     it.printStackTrace()
-                    errorCallback()
+                    onError()
+                },{
+                    loadingProcessor.onNext(false)
                 })
     }
     
@@ -86,7 +80,9 @@ class ListsViewModel(
                     addUserList(it.filterNot { list.contains(it) })
                 }, {
                     it.printStackTrace()
-                    errorCallback()
+                    onError()
+                },{
+                    loadingProcessor.onNext(false)
                 })
     }
     
@@ -95,13 +91,14 @@ class ListsViewModel(
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({
-                    loadingCallback(false)
-                    listSizePublishProcessor.onNext(
+                    listSizeProcessor.onNext(
                         list.addListItem(it.sortedByDescending { it.updatedAt }, isTopAddPosition = true)
                     )
                 }, {
                     it.printStackTrace()
-                    errorCallback()
+                    onError()
+                }, {
+                    loadingProcessor.onNext(false)
                 })
     }
     
@@ -114,40 +111,51 @@ class ListsViewModel(
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({
-                    loadingCallback(false)
-                    listSizePublishProcessor.onNext(
+                    //loadingProcessor.onNext(false)
+                    listSizeProcessor.onNext(
                         if (repositoryType == RepositoryType.MY_REPOSITORY)
                             list.addListItem(it.sortedByDescending { it.updatedAt }, isTopAddPosition = true)
                         else list.addListItem(it, isTopAddPosition = true)
                     )
                 }, {
                     it.printStackTrace()
-                    errorCallback()
+                    onError()
+                }, {
+                    loadingProcessor.onNext(false)
                 })
     }
     
     fun repository(ownerRepo: Pair<String, String>, callback: GoWebCallback) {
-        loadingCallback(true)
+        loadingProcessor.onNext(true)
         githubApiRepository.repository(ownerRepo.first, ownerRepo.second)
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({
-                    loadingCallback(false)
+                    //loadingProcessor.onNext(false)
                     callback(it.htmlUrl)
                 }, {
                     it.printStackTrace()
-                    errorCallback()
+                    onError()
+                }, {
+                    loadingProcessor.onNext(false)
                 })
     }
     
     private fun addUserList(addList: List<ChildUser>) {
-        loadingCallback(false)
+        loadingProcessor.onNext(false)
         if (addList.isNotEmpty()) {
             list.addAll(0, addList)
             (list as MutableList<ChildUser>).sortBy {
                 it.name?.toLowerCase() ?: it.userName.toLowerCase()
             }
-            listSizePublishProcessor.onNext(addList.size)
+            listSizeProcessor.onNext(addList.size)
+        }
+    }
+    
+    private fun onError() {
+        errorProcessor.run {
+            onNext(true)
+            onNext(false)
         }
     }
     

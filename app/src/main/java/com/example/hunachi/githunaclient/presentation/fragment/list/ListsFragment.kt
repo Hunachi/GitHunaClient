@@ -28,6 +28,7 @@ import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.presentation.main.FragmentFrag
 import com.example.hunachi.githunaclient.util.*
 import com.example.hunachi.githunaclient.util.extension.customTabsIntent
+import com.example.hunachi.githunaclient.util.extension.observerOnChanged
 import com.example.hunachi.githunaclient.util.extension.separateOwnerRepo
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
@@ -73,8 +74,11 @@ class ListsFragment : BaseFragment() {
     
     override fun onStart() {
         super.onStart()
-        viewModel.init(loadingCallback, errorCallback)
-        if (viewModel.list.size <= 0) viewModel.updateList(true)
+        //viewModel.init(loadingCallback, errorCallback)
+        if (viewModel.list.size <= 0) {
+            loadingCallback(true)
+            viewModel.updateList(true)
+        }
     }
     
     /*once*/
@@ -87,6 +91,14 @@ class ListsFragment : BaseFragment() {
                 if (listsArgument.listsType == ListType.FOLLOWERS || listsArgument.listsType == ListType.FOLLOWING)
                     adapter.notifyDataSetChanged()
                 else adapter.notifyItemRangeInserted(0, listSize)
+            })
+            loading.observe(this@ListsFragment, Observer {
+                if (it == null) return@Observer
+                loadingCallback(it)
+            })
+            error.observerOnChanged(this@ListsFragment, Observer {
+                if (it == null) return@Observer
+                errorCallback()
             })
         }
     }
@@ -159,12 +171,12 @@ class ListsFragment : BaseFragment() {
         tabsIntent.launchUrl(activity, Uri.parse(url))
     }
     
-    private val loadingCallback: LoadingCallback = {
-        binding.swiperefresh.isRefreshing = it
+    private fun loadingCallback(show: Boolean){
+        binding.swiperefresh.isRefreshing = show
     }
     
     override val errorCallback: ErrorCallback = {
-        loadingCallback(false)
+        //loadingCallback(false)
         errorToast()
     }
     

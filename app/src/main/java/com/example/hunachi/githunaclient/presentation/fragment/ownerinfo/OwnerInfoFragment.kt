@@ -1,5 +1,6 @@
 package com.example.hunachi.githunaclient.presentation.fragment.ownerinfo
 
+import android.arch.lifecycle.Observer
 import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -15,7 +16,7 @@ import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapte
 import com.example.hunachi.githunaclient.presentation.fragment.userinfo.UserInfoFragment
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.util.ErrorCallback
-import com.example.hunachi.githunaclient.util.LoadingCallback
+import com.example.hunachi.githunaclient.util.extension.observerOnChanged
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
 
@@ -39,20 +40,33 @@ class OwnerInfoFragment : BaseFragment() {
             savedInstanceState: Bundle?
     ): View? {
         binding = FragmentOwnerInfoBinding.inflate(inflater, container, false)
-        setupViewModel()
         return binding.root
     }
     
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setupDialog()
+        setupViewModel()
         navigator = with(activity).instance<Navigator>().value
         navigator.replaceFragment(R.id.user_info_container, userInfoFragment)
-        viewModel.init(loadingCallback)
+    }
+    
+    override fun onStart() {
+        super.onStart()
+        setupDialog()
     }
     
     private fun setupViewModel() {
         viewModel = with(userName).instance<OwnerInfoViewModel>().value
+        viewModel.apply {
+            loading.observerOnChanged(this@OwnerInfoFragment, Observer {
+                if (it == null) return@Observer
+                loadingCallback(it)
+            })
+            error.observerOnChanged(this@OwnerInfoFragment, Observer {
+                if(it == null || it == false)return@Observer
+                errorToast()
+            })
+        }
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
         setViewModel(viewModel)
@@ -67,9 +81,9 @@ class OwnerInfoFragment : BaseFragment() {
         errorToast()
     }
     
-    private val loadingCallback: LoadingCallback = {
-        if (!it && loadingDialog.isShowing) loadingDialog.dismiss()
-        else if (it) loadingDialog.show()
+    private fun loadingCallback(show: Boolean) {
+        if (!show && loadingDialog.isShowing) loadingDialog.dismiss()
+        else if (show && !loadingDialog.isShowing) loadingDialog.show()
     }
     
     companion object {

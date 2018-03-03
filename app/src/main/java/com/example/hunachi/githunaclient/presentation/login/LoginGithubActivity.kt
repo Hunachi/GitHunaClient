@@ -1,5 +1,6 @@
 package com.example.hunachi.githunaclient.presentation.login
 
+import android.arch.lifecycle.Observer
 import android.content.Context
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -36,13 +37,13 @@ class LoginGithubActivity : BaseActivity() {
     private fun setUpViewModel() {
         binding.viewModel = this@LoginGithubActivity.viewModel
         viewModel.apply {
-            codeProcessor.subscribe { status ->
+            code.observe(this@LoginGithubActivity, Observer { status ->
                 when (status) {
                     SignalStatus.SUCCESS -> dialog.show()
                     SignalStatus.ERROR   -> errorCallback()
                 }
-            }
-            tokenProcessor.subscribe { status ->
+            })
+            token.observe(this@LoginGithubActivity, Observer { status ->
                 when (status) {
                     SignalStatus.SUCCESS -> {
                         if (dialog.isShowing) dialog.dismiss()
@@ -50,7 +51,7 @@ class LoginGithubActivity : BaseActivity() {
                     }
                     SignalStatus.ERROR   -> errorCallback()
                 }
-            }
+            })
         }
         setViewModel(viewModel)
     }
