@@ -60,14 +60,13 @@ class ListsViewModel(
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({
+                    loadingProcessor.onNext(false)
                     listSizeProcessor.onNext(
                         list.addListItem(it.map { it.convertToFollowerEvent() }, isTopAddPosition = true)
                     )
                 }, {
                     it.printStackTrace()
                     onError()
-                },{
-                    loadingProcessor.onNext(false)
                 })
     }
     
@@ -79,12 +78,11 @@ class ListsViewModel(
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({
+                    loadingProcessor.onNext(false)
                     addUserList(it.filterNot { list.contains(it) })
                 }, {
                     it.printStackTrace()
                     onError()
-                },{
-                    loadingProcessor.onNext(false)
                 })
     }
     
@@ -93,14 +91,13 @@ class ListsViewModel(
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({
+                    loadingProcessor.onNext(false)
                     listSizeProcessor.onNext(
                         list.addListItem(it.sortedByDescending { it.updatedAt }, isTopAddPosition = true)
                     )
                 }, {
                     it.printStackTrace()
                     onError()
-                }, {
-                    loadingProcessor.onNext(false)
                 })
     }
     
@@ -113,7 +110,7 @@ class ListsViewModel(
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({
-                    //loadingProcessor.onNext(false)
+                    loadingProcessor.onNext(false)
                     listSizeProcessor.onNext(
                         if (repositoryType == RepositoryType.MY_REPOSITORY)
                             list.addListItem(it.sortedByDescending { it.updatedAt }, isTopAddPosition = true)
@@ -122,8 +119,6 @@ class ListsViewModel(
                 }, {
                     it.printStackTrace()
                     onError()
-                }, {
-                    loadingProcessor.onNext(false)
                 })
     }
     
@@ -133,13 +128,11 @@ class ListsViewModel(
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe({
-                    //loadingProcessor.onNext(false)
+                    loadingProcessor.onNext(false)
                     lunchWebProcessor.onNext(it.htmlUrl)
                 }, {
                     it.printStackTrace()
                     onError()
-                }, {
-                    loadingProcessor.onNext(false)
                 })
     }
     

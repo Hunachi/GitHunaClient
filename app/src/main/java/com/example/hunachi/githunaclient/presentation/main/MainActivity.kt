@@ -31,7 +31,7 @@ class MainActivity : BaseActivity() {
     private lateinit var ownerInfoFragment: OwnerInfoFragment
     private lateinit var viewPagerFragment: ViewPagerFragment
     private lateinit var timeLineFragment: ListsFragment
-    private var isFragmentFragExist = false
+    private var fragmentFrag: FragmentFrag? = null
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,11 +44,7 @@ class MainActivity : BaseActivity() {
     
     private fun setupViewModel() {
         viewModel = instance<MainViewModel>().value
-        val frag = intent.getSerializableExtra(FRAGMENT_FRAG_NAME) as FragmentFrag?
-        if(frag != null){
-            viewModel.fragmentFrag = frag
-            isFragmentFragExist = true
-        }
+        fragmentFrag = intent.getSerializableExtra(FRAGMENT_FRAG_NAME) as FragmentFrag?
         binding.viewModel = viewModel.apply {
             user.observerOnChanged(this@MainActivity, Observer { user ->
                 if (user == null) return@Observer
@@ -58,13 +54,8 @@ class MainActivity : BaseActivity() {
                     setupFragmentManager()
                 }
             })
-            navigator.observe(this@MainActivity, Observer {
-                if (it == null || (!isFragmentFragExist && fragmentFrag == FragmentFrag.frag(it))) return@Observer
-                if(isFragmentFragExist){
-                    replaceFragment(fragmentFrag?.id!!)
-                    isFragmentFragExist = false
-                    return@Observer
-                }
+            navigator.observerOnChanged(this@MainActivity, Observer {
+                if (it == null || (fragmentFrag == null && fragmentFrag == FragmentFrag.frag(it))) return@Observer
                 replaceFragment(it)
             })
             error.observerOnChanged(this@MainActivity, Observer {
@@ -84,12 +75,13 @@ class MainActivity : BaseActivity() {
             ownerInfoFragment = with(it).instance<OwnerInfoFragment>().value
             timeLineFragment = with(ListsArgument(it, ListType.TL)).instance<ListsFragment>().value
         }
-        if (viewModel.fragmentFrag == null) replaceFragment(FragmentFrag.TL.id)
+        if (fragmentFrag == null) replaceFragment(FragmentFrag.TL.id)
+        else replaceFragment(fragmentFrag?.id!!)
+        fragmentFrag = null
     }
     
     private fun replaceFragment(id: Int) {
         binding.navigation.selectedItemId = id
-        viewModel.fragmentFrag = FragmentFrag.frag(id)
         navigator.replaceFragment(R.id.container, fragment(id))
     }
     

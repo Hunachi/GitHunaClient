@@ -69,7 +69,7 @@ class OwnerInfoViewModel(
     }
     
     fun noClickReload() {
-        if (loading.value != true) updateCommitCounter()
+        updateCommitCounter()
     }
     
     companion object {

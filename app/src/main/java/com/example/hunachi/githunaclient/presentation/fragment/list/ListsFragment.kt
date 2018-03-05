@@ -54,6 +54,7 @@ class ListsFragment : BaseFragment() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = with(listsArgument).instance<ListsViewModel>().value
         setUpViewModel()
     }
     
@@ -74,7 +75,7 @@ class ListsFragment : BaseFragment() {
     
     override fun onStart() {
         super.onStart()
-        //viewModel.init(loadingCallback, errorCallback)
+        //viewModel.init(loadingCallback, onError)
         if (viewModel.list.size <= 0) {
             loadingDialog(true)
             viewModel.updateList(true)
@@ -83,7 +84,6 @@ class ListsFragment : BaseFragment() {
     
     /*once*/
     private fun setUpViewModel() {
-        viewModel = with(listsArgument).instance<ListsViewModel>().value
         setViewModel(viewModel)
         viewModel.apply {
             listSize.observe(this@ListsFragment, Observer { listSize ->
@@ -98,7 +98,7 @@ class ListsFragment : BaseFragment() {
             })
             error.observerOnChanged(this@ListsFragment, Observer {
                 if (it == null) return@Observer
-                errorCallback()
+                onError()
             })
             lunchWeb.observerOnChanged(this@ListsFragment, Observer {
                 if (it == null) return@Observer
@@ -179,7 +179,8 @@ class ListsFragment : BaseFragment() {
         binding.swiperefresh.isRefreshing = show
     }
     
-    fun errorCallback() {
+    private fun onError() {
+        loadingDialog(false)
         errorToast()
     }
     

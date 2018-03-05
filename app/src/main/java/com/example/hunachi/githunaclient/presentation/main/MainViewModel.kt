@@ -28,7 +28,10 @@ class MainViewModel(
     val user: LiveData<User> = LiveDataReactiveStreams.fromPublisher(userProcessor)
     val navigator: LiveData<Int> = LiveDataReactiveStreams.fromPublisher(navigatorProcessor)
     val error: LiveData<Boolean> = LiveDataReactiveStreams.fromPublisher(errorProcessor)
-    var fragmentFrag: FragmentFrag? = null
+    
+    override fun onResume() {
+        super.onResume()
+    }
     
     fun setupUser() {
         if (user.value == null) githubApiRepository.ownerUser()
