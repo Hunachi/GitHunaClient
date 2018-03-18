@@ -2,8 +2,8 @@ package com.example.hunachi.githunaclient.presentation.main
 
 import android.arch.lifecycle.Observer
 import android.databinding.DataBindingUtil
-import android.databinding.ObservableShort
 import android.os.Bundle
+import android.util.Log
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.databinding.ActivityMainBinding
 import com.example.hunachi.githunaclient.presentation.MyApplication
@@ -15,7 +15,6 @@ import com.example.hunachi.githunaclient.presentation.fragment.list.ListsFragmen
 import com.example.hunachi.githunaclient.presentation.fragment.ownerinfo.OwnerInfoFragment
 import com.example.hunachi.githunaclient.presentation.fragment.viewpager.ViewPagerFragment
 import com.example.hunachi.githunaclient.presentation.helper.Navigator
-import com.example.hunachi.githunaclient.util.ErrorCallback
 import com.example.hunachi.githunaclient.util.extension.observerOnChanged
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with

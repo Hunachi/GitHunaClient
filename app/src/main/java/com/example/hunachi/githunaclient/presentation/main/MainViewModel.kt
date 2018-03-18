@@ -29,10 +29,6 @@ class MainViewModel(
     val navigator: LiveData<Int> = LiveDataReactiveStreams.fromPublisher(navigatorProcessor)
     val error: LiveData<Boolean> = LiveDataReactiveStreams.fromPublisher(errorProcessor)
     
-    override fun onResume() {
-        super.onResume()
-    }
-    
     fun setupUser() {
         if (user.value == null) githubApiRepository.ownerUser()
                 .subscribeOn(scheduler.io())

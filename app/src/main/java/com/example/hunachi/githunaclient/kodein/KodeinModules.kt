@@ -26,10 +26,10 @@ val MainApplication.kodeinModules by Kodein.lazy {
     import(modelModules)
     import(viewModelModules)
     /*if you want difference instance of same args fragment, please it make multiton -> factory*/
-    bind<MainActivity>() with provider { MainActivity() }
+    bind<MainActivity>() with refSingleton(softReference) { MainActivity() }
     bind<MainProfileActivity>() with provider { MainProfileActivity() }
     bind<LoginGithubActivity>() with provider { LoginGithubActivity() }
-    bind<SchedulerProvider>() with singleton { AppSchedulerProvider() }
+    bind<SchedulerProvider>() with refSingleton(softReference) { AppSchedulerProvider() }
     bind<UserInfoFragment>() with factory { userName: String -> UserInfoFragment.newInstance(userName) }
     bind<ListsFragment>() with factory { listsArgument: ListsArgument -> ListsFragment.newInstance(listsArgument) }
     bind<GithubApiRepository>() with multiton { application: MyApplication -> GithubApiRepository(application.token, application.userName) }
