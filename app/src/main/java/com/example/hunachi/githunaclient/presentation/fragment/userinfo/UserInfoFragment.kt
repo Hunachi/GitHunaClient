@@ -12,7 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.os.bundleOf
+import androidx.core.os.bundleOf
 import com.example.hunachi.githunaclient.databinding.FragmentUserInfoBinding
 
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment

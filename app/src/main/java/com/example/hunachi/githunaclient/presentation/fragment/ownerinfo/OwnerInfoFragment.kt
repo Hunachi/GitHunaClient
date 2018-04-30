@@ -7,7 +7,7 @@ import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.os.bundleOf
+import androidx.core.os.bundleOf
 
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.databinding.FragmentOwnerInfoBinding
