@@ -2,6 +2,7 @@ package com.example.hunachi.githunaclient.presentation.main.profile
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.view.MenuItem
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.databinding.ActivityMainProfileBinding
 import com.example.hunachi.githunaclient.presentation.MyApplication
@@ -42,7 +43,17 @@ class MainProfileActivity : BaseActivity() {
         navigator.replaceFragment(R.id.user_info_container, userInfoFragment)
     }
     
-    override val errorCallback: ErrorCallback = {
-        errorToast()
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        item?.let {
+            if (it.itemId == android.R.id.home) {
+                navigator.navigateToMain()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+    
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }

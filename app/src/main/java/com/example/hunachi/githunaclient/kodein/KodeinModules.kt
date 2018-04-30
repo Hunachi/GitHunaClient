@@ -16,6 +16,8 @@ import com.example.hunachi.githunaclient.presentation.main.profile.MainProfileAc
 import com.example.hunachi.githunaclient.util.rx.AppSchedulerProvider
 import com.example.hunachi.githunaclient.util.rx.SchedulerProvider
 import com.github.salomonbrys.kodein.*
+import com.github.salomonbrys.kodein.android.androidContextScope
+import kotlin.math.sin
 
 /**
  * Created by hunachi on 2018/02/20.
@@ -24,15 +26,15 @@ val MainApplication.kodeinModules by Kodein.lazy {
     import(modelModules)
     import(viewModelModules)
     /*if you want difference instance of same args fragment, please it make multiton -> factory*/
-    bind<MainActivity>() with provider { MainActivity() }
-    bind<MainProfileActivity>() with singleton { MainProfileActivity() }
+    bind<MainActivity>() with refSingleton(softReference) { MainActivity() }
+    bind<MainProfileActivity>() with provider { MainProfileActivity() }
     bind<LoginGithubActivity>() with provider { LoginGithubActivity() }
-    bind<SchedulerProvider>() with singleton { AppSchedulerProvider() }
+    bind<SchedulerProvider>() with refSingleton(softReference) { AppSchedulerProvider() }
     bind<UserInfoFragment>() with factory { userName: String -> UserInfoFragment.newInstance(userName) }
     bind<ListsFragment>() with factory { listsArgument: ListsArgument -> ListsFragment.newInstance(listsArgument) }
-    bind<GithubApiRepository>() with factory { application: MyApplication -> GithubApiRepository(application.token, application.userName) }
+    bind<GithubApiRepository>() with multiton { application: MyApplication -> GithubApiRepository(application.token, application.userName) }
     bind<ViewPagerFragment>() with factory { userName: String -> ViewPagerFragment.newInstance(userName) }
     bind<OwnerInfoFragment>() with factory { userName: String -> OwnerInfoFragment.newInstance(userName) }
-    bind<LoadingDialogAdapter>() with factory { context: Context -> LoadingDialogAdapter(context) }
-    bind<WarningDialogAdapter>() with factory { context: Context -> WarningDialogAdapter(context) }
+    bind<LoadingDialogAdapter>() with factory { it: Context -> LoadingDialogAdapter(it) }
+    bind<WarningDialogAdapter>() with scopedSingleton(androidContextScope) { WarningDialogAdapter(it) }
 }

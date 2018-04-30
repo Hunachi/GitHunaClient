@@ -17,13 +17,10 @@ import com.example.hunachi.githunaclient.databinding.FragmentUserInfoBinding
 
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter
-import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.util.ErrorCallback
-import com.example.hunachi.githunaclient.util.GoWebCallback
-import com.example.hunachi.githunaclient.util.LoadingCallback
 import com.example.hunachi.githunaclient.util.extension.customTabsIntent
+import com.example.hunachi.githunaclient.util.extension.observerOnChanged
 import com.github.salomonbrys.kodein.*
-import kotlinx.android.synthetic.main.activity_main.*
 
 
 class UserInfoFragment : BaseFragment() {
@@ -44,7 +41,7 @@ class UserInfoFragment : BaseFragment() {
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         container?.removeAllViews()
-        if (userName == null) errorCallback
+        if (userName == null) errorToast()
         binding = FragmentUserInfoBinding.inflate(inflater, container, false)
         setupDialog()
         binding.setLifecycleOwner(this)
@@ -53,43 +50,51 @@ class UserInfoFragment : BaseFragment() {
     
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        tabsIntent = activity.customTabsIntent()
         setupViewModel()
     }
     
     private fun setupViewModel() {
-        viewModel.let {
+        viewModel.also {
             setViewModel(it)
             binding.viewModel = it
-            it.user.observe(this, Observer {
-                if (it == null) return@Observer
-                when {
-                    it.bio.isNullOrBlank()  -> binding.userbioText.visibility = View.GONE
-                    it.blog.isNullOrBlank() -> binding.userurlText.visibility = View.GONE
+        }.apply {
+                    user.observe(this@UserInfoFragment, Observer {
+                        if (it == null) return@Observer
+                        when {
+                            it.bio.isNullOrBlank()  -> binding.userbioText.visibility = View.GONE
+                            it.blog.isNullOrBlank() -> binding.userurlText.visibility = View.GONE
+                        }
+                        it.blog?.let { binding.userurlText.toMakeUnderline(it) }
+                    })
+                    launchWeb.observerOnChanged(this@UserInfoFragment, Observer {
+                        if (it == null) return@Observer
+                        launchWebCallback(it)
+                    })
+                    loading.observerOnChanged(this@UserInfoFragment, Observer {
+                        if (it == null) return@Observer
+                        loadingCallback(it)
+                    })
+                    error.observe(this@UserInfoFragment, Observer {
+                        if (it == null || it == false) return@Observer
+                        errorToast()
+                    })
                 }
-                it.blog?.let { binding.userurlText.toMakeUnderline(it) }
-            })
-            tabsIntent = activity.customTabsIntent()
-            /*userName has already null check.*/
-            it.setUp(goWebCallback, loadingCallback, errorCallback)
-        }
     }
     
     private fun setupDialog() {
         loadingDialog = with(activity as Context).instance<LoadingDialogAdapter>().value
                 .onCreateDialog()
+        loadingDialog.show()
     }
     
-    private val goWebCallback: GoWebCallback = { url ->
+    private fun launchWebCallback(url: String) {
         tabsIntent.launchUrl(activity, Uri.parse(url))
     }
     
-    private val loadingCallback: LoadingCallback = { show ->
+    private fun loadingCallback(show: Boolean) {
         if (show) loadingDialog.show()
         else if (loadingDialog.isShowing) loadingDialog.dismiss()
-    }
-    
-    override val errorCallback: ErrorCallback = {
-        errorToast()
     }
     
     companion object {

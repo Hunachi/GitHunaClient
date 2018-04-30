@@ -31,12 +31,15 @@ class Navigator(
     fun navigateToMain(flag: FragmentFrag) {
         activity.startActivity(Intent(activity, mainActivity::class.java).apply {
             putExtra(FRAGMENT_FRAG_NAME, flag)
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         })
         activityFinish()
     }
     
     fun navigateToMain() {
-        activity.startActivity(Intent(activity, mainActivity::class.java))
+        activity.startActivity(Intent(activity, mainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        })
         activityFinish()
     }
     
@@ -49,7 +52,7 @@ class Navigator(
             Intent(activity, mainProfileActivity::class.java)
                     .apply { putExtra("userName", userName) }
         )
-        if (activity is MainProfileActivity) activityFinish()
+       // if (activity is MainProfileActivity) activityFinish()
     }
     
     fun replaceFragment(@IdRes @LayoutRes resourceId: Int, fragment: BaseFragment) {

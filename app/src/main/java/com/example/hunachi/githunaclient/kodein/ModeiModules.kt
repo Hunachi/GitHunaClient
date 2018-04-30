@@ -32,7 +32,7 @@ val modelModules = Kodein.Module {
         )
     }
     
-    bind<ProfilePagerAdapter>() with factory { it: Pair<FragmentManager, String> ->
+    bind<ProfilePagerAdapter>() with multiton { it: Pair<FragmentManager, String> ->
         val fragments = mutableListOf<ListsFragment>()
         ListType.values().forEach { listType ->
             if (listType != ListType.TL) fragments.add(with(ListsArgument(it.second, listType)).instance())

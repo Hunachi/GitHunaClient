@@ -79,7 +79,4 @@ abstract class BaseActivity : KodeinAppCompatActivity() {
     fun errorToast(text: String){
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
-    
-    abstract val errorCallback: ErrorCallback
-    
 }

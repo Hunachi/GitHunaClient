@@ -28,6 +28,7 @@ import com.example.hunachi.githunaclient.presentation.helper.Navigator
 import com.example.hunachi.githunaclient.presentation.main.FragmentFrag
 import com.example.hunachi.githunaclient.util.*
 import com.example.hunachi.githunaclient.util.extension.customTabsIntent
+import com.example.hunachi.githunaclient.util.extension.observerOnChanged
 import com.example.hunachi.githunaclient.util.extension.separateOwnerRepo
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
@@ -53,6 +54,7 @@ class ListsFragment : BaseFragment() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = with(listsArgument).instance<ListsViewModel>().value
         setUpViewModel()
     }
     
@@ -73,13 +75,15 @@ class ListsFragment : BaseFragment() {
     
     override fun onStart() {
         super.onStart()
-        viewModel.init(loadingCallback, errorCallback)
-        if (viewModel.list.size <= 0) viewModel.updateList(true)
+        //viewModel.init(loadingCallback, onError)
+        if (viewModel.list.size <= 0) {
+            loadingDialog(true)
+            viewModel.updateList(true)
+        }
     }
     
     /*once*/
     private fun setUpViewModel() {
-        viewModel = with(listsArgument).instance<ListsViewModel>().value
         setViewModel(viewModel)
         viewModel.apply {
             listSize.observe(this@ListsFragment, Observer { listSize ->
@@ -87,6 +91,18 @@ class ListsFragment : BaseFragment() {
                 if (listsArgument.listsType == ListType.FOLLOWERS || listsArgument.listsType == ListType.FOLLOWING)
                     adapter.notifyDataSetChanged()
                 else adapter.notifyItemRangeInserted(0, listSize)
+            })
+            loading.observe(this@ListsFragment, Observer {
+                if (it == null) return@Observer
+                loadingDialog(it)
+            })
+            error.observerOnChanged(this@ListsFragment, Observer {
+                if (it == null) return@Observer
+                onError()
+            })
+            lunchWeb.observerOnChanged(this@ListsFragment, Observer {
+                if (it == null) return@Observer
+                lunchWeb(it)
             })
         }
     }
@@ -140,10 +156,10 @@ class ListsFragment : BaseFragment() {
     
     private val itemCallback: ItemCallback = {
         when (it) {
-            is Feed       -> viewModel.repository(it.repositoryName.separateOwnerRepo(), goWebCallback)
+            is Feed       -> viewModel.repository(it.repositoryName.separateOwnerRepo())
             is ChildUser  -> if (isNotOwner(it.userName)) navigator.navigateToMainProfile(it.userName)
-            is Gist       -> goWebCallback(it.html_url)
-            is Repository -> goWebCallback(it.htmlUrl)
+            is Gist       -> lunchWeb(it.html_url)
+            is Repository -> lunchWeb(it.htmlUrl)
         }
     }
     
@@ -155,16 +171,16 @@ class ListsFragment : BaseFragment() {
         return true
     }
     
-    private val goWebCallback: GoWebCallback = { url: String ->
+    private fun lunchWeb(url: String) {
         tabsIntent.launchUrl(activity, Uri.parse(url))
     }
     
-    private val loadingCallback: LoadingCallback = {
-        binding.swiperefresh.isRefreshing = it
+    private fun loadingDialog(show: Boolean) {
+        binding.swiperefresh.isRefreshing = show
     }
     
-    override val errorCallback: ErrorCallback = {
-        loadingCallback(false)
+    private fun onError() {
+        loadingDialog(false)
         errorToast()
     }
     
