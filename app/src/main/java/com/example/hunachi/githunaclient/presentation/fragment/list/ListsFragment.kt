@@ -10,7 +10,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.os.bundleOf
+import androidx.core.os.bundleOf
 import com.example.hunachi.githunaclient.data.api.responce.ChildUser
 import com.example.hunachi.githunaclient.data.api.responce.Gist
 import com.example.hunachi.githunaclient.data.api.responce.Repository
