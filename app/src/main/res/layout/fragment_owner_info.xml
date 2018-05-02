@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.hunachi.githunaclient.presentation.fragment.ownerinfo.OwnerInfoViewModel" />
+            type="com.hunachi.hunachi.githunaclient.presentation.fragment.ownerinfo.OwnerInfoViewModel" />
     </data>
 
     <RelativeLayout

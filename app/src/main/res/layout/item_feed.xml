@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.example.hunachi.githunaclient.presentation.fragment.list.feed.Feed" />
+            type="com.hunachi.hunachi.githunaclient.presentation.fragment.list.feed.Feed" />
 
     </data>
 
@@ -48,7 +48,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/actor_name_text_view"
-                app:layout_constraintTop_toBottomOf="@+id/action_text_view" />
+                app:layout_constraintTop_toBottomOf="@+id/action_text_view"
+                android:layout_marginRight="8dp" />
 
             <TextView
                 android:id="@+id/actor_name_text_view"

@@ -1,12 +1,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="viewModel"
-            type="com.example.hunachi.githunaclient.presentation.fragment.userinfo.UserInfoViewModel" />
+            type="com.hunachi.hunachi.githunaclient.presentation.fragment.userinfo.UserInfoViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout

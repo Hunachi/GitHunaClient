@@ -9,7 +9,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.example.hunachi.githunaclient"
+        applicationId "com.hunachi.hunachi.githunaclient"
         minSdkVersion 15
         targetSdkVersion 27
         versionCode 1
@@ -99,9 +99,6 @@ dependencies {
 
     //chrome custom tabs
     implementation 'com.android.support:customtabs:27.1.1'
-}
-kapt {
-    generateStubs = true
 }
 
 repositories {

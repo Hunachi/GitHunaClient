@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.example.hunachi.githunaclient.presentation.fragment.list.feed.Feed" />
+            type="com.hunachi.hunachi.githunaclient.presentation.fragment.list.feed.Feed" />
 
     </data>
 
@@ -101,7 +101,8 @@
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:setIcon="@{item.avatarUrl}" />
+            app:setIcon="@{item.avatarUrl}"
+            android:layout_marginLeft="8dp" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

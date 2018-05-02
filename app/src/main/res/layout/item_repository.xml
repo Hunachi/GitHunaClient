@@ -5,7 +5,7 @@
     <data>
         <variable
             name="item"
-            type="com.example.hunachi.githunaclient.data.api.responce.Repository"/>
+            type="com.hunachi.hunachi.githunaclient.data.api.responce.Repository"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -23,7 +23,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView4"
-            app:layout_constraintTop_toBottomOf="@+id/description_text" />
+            app:layout_constraintTop_toBottomOf="@+id/description_text"
+            android:layout_marginRight="8dp" />
 
         <TextView
             android:id="@+id/description_text"
@@ -57,7 +58,8 @@
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="@+id/description_text"
             app:layout_constraintTop_toTopOf="@+id/updated_at_text"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            android:layout_marginRight="8dp" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

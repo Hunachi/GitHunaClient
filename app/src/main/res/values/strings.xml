@@ -3,7 +3,7 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="updated_at">updated at</string>
-    <string name="bottom_layout_behavior" translatable="false">com.example.hunachi.githunaclient.util.view.ButtomLayoutBehaivor</string>
+    <string name="bottom_layout_behavior" translatable="false">com.hunachi.hunachi.githunaclient.util.view.ButtomLayoutBehaivor</string>
     <string name="my_page">my page</string>
     <string name="time_line">time line</string>
     <string name="lists">lists</string>

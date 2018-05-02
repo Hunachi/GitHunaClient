@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.example.hunachi.githunaclient.data.api.responce.Gist" />
+            type="com.hunachi.hunachi.githunaclient.data.api.responce.Gist" />
 
     </data>
 
@@ -25,7 +25,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView4"
-            app:layout_constraintTop_toBottomOf="@+id/description_text" />
+            app:layout_constraintTop_toBottomOf="@+id/description_text"
+            android:layout_marginRight="8dp" />
 
         <TextView
             android:id="@+id/description_text"
