@@ -19,22 +19,27 @@ import io.reactivex.processors.PublishProcessor
  * Created by hunachi on 2018/02/05.
  */
 class ListsViewModel(
-        private val githubApiRepository: GithubApiRepository,
-        private val listsArgument: ListsArgument,
-        private val schedulers: SchedulerProvider
+    private val githubApiRepository: GithubApiRepository,
+    private val listsArgument: ListsArgument,
+    private val schedulers: SchedulerProvider
 ) : BaseFragmentViewModel() {
     
     private val listSizeProcessor: PublishProcessor<Int> = PublishProcessor.create()
     private val loadingProcessor: PublishProcessor<Boolean> = PublishProcessor.create()
     private val errorProcessor: PublishProcessor<Boolean> = PublishProcessor.create()
-    private val lunchWebProcessor: PublishProcessor<String> = PublishProcessor.create()
     val listSize: LiveData<Int> = LiveDataReactiveStreams.fromPublisher(listSizeProcessor)
-    /*It was the neck that I could access it from View, but became strong in the turn of the screen thanks to this*/
     val list: MutableList<BaseItem> = mutableListOf()
     val loading: LiveData<Boolean> = LiveDataReactiveStreams.fromPublisher(loadingProcessor)
     val error: LiveData<Boolean> = LiveDataReactiveStreams.fromPublisher(errorProcessor)
-    val lunchWeb: LiveData<String> = LiveDataReactiveStreams.fromPublisher(lunchWebProcessor)
-    //TODO 時間があったらpading....に....して下にpage更新できるようにする．
+    var lunchWeb: GoWebCallback? = null
+    
+    fun onSetUp(listener: GoWebCallback) {
+        lunchWeb = listener
+    }
+    
+    fun onDestory() {
+        lunchWeb = null
+    }
     
     /*call this by all means second*/
     fun updateList(setUp: Boolean) {
@@ -57,17 +62,20 @@ class ListsViewModel(
             FeedType.FOLLOWER_FEED -> githubApiRepository.followerEvent(userName = listsArgument.userName)
             FeedType.MY_FEED       -> githubApiRepository.feed(userName = listsArgument.userName)
         }
-                .subscribeOn(schedulers.io())
-                .observeOn(schedulers.ui())
-                .subscribe({
-                    loadingProcessor.onNext(false)
-                    listSizeProcessor.onNext(
-                        list.addListItem(it.map { it.convertToFollowerEvent() }, isTopAddPosition = true)
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
+            .subscribe({
+                loadingProcessor.onNext(false)
+                listSizeProcessor.onNext(
+                    list.addListItem(
+                        it.map { it.convertToFollowerEvent() },
+                        isTopAddPosition = true
                     )
-                }, {
-                    it.printStackTrace()
-                    onError()
-                })
+                )
+            }, {
+                it.printStackTrace()
+                onError()
+            })
     }
     
     private fun updateFollows(followType: FollowType) {
@@ -75,30 +83,33 @@ class ListsViewModel(
             FollowType.Follower  -> githubApiRepository.follower(userName = listsArgument.userName)
             FollowType.Following -> githubApiRepository.following(userName = listsArgument.userName)
         }
-                .subscribeOn(schedulers.io())
-                .observeOn(schedulers.ui())
-                .subscribe({
-                    loadingProcessor.onNext(false)
-                    addUserList(it.filterNot { list.contains(it) })
-                }, {
-                    it.printStackTrace()
-                    onError()
-                })
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
+            .subscribe({
+                loadingProcessor.onNext(false)
+                addUserList(it.filterNot { list.contains(it) })
+            }, {
+                it.printStackTrace()
+                onError()
+            })
     }
     
     private fun updateGists() {
         githubApiRepository.gists(userName = listsArgument.userName)
-                .subscribeOn(schedulers.io())
-                .observeOn(schedulers.ui())
-                .subscribe({
-                    loadingProcessor.onNext(false)
-                    listSizeProcessor.onNext(
-                        list.addListItem(it.sortedByDescending { it.updatedAt }, isTopAddPosition = true)
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
+            .subscribe({
+                loadingProcessor.onNext(false)
+                listSizeProcessor.onNext(
+                    list.addListItem(
+                        it.sortedByDescending { it.updatedAt },
+                        isTopAddPosition = true
                     )
-                }, {
-                    it.printStackTrace()
-                    onError()
-                })
+                )
+            }, {
+                it.printStackTrace()
+                onError()
+            })
     }
     
     private fun updateRepositories(repositoryType: RepositoryType) {
@@ -107,33 +118,36 @@ class ListsViewModel(
             RepositoryType.STARED        -> githubApiRepository.staring(userName = listsArgument.userName)
             RepositoryType.MY_REPOSITORY -> githubApiRepository.repositories(userName = listsArgument.userName)
         }
-                .subscribeOn(schedulers.io())
-                .observeOn(schedulers.ui())
-                .subscribe({
-                    loadingProcessor.onNext(false)
-                    listSizeProcessor.onNext(
-                        if (repositoryType == RepositoryType.MY_REPOSITORY)
-                            list.addListItem(it.sortedByDescending { it.updatedAt }, isTopAddPosition = true)
-                        else list.addListItem(it, isTopAddPosition = true)
-                    )
-                }, {
-                    it.printStackTrace()
-                    onError()
-                })
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
+            .subscribe({
+                loadingProcessor.onNext(false)
+                listSizeProcessor.onNext(
+                    if (repositoryType == RepositoryType.MY_REPOSITORY)
+                        list.addListItem(
+                            it.sortedByDescending { it.updatedAt },
+                            isTopAddPosition = true
+                        )
+                    else list.addListItem(it, isTopAddPosition = true)
+                )
+            }, {
+                it.printStackTrace()
+                onError()
+            })
     }
     
     fun repository(ownerRepo: Pair<String, String>) {
         loadingProcessor.onNext(true)
         githubApiRepository.repository(ownerRepo.first, ownerRepo.second)
-                .subscribeOn(schedulers.io())
-                .observeOn(schedulers.ui())
-                .subscribe({
-                    loadingProcessor.onNext(false)
-                    lunchWebProcessor.onNext(it.htmlUrl)
-                }, {
-                    it.printStackTrace()
-                    onError()
-                })
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
+            .subscribe({
+                loadingProcessor.onNext(false)
+                lunchWeb?.invoke(it.htmlUrl)
+            }, {
+                it.printStackTrace()
+                onError()
+            })
     }
     
     private fun addUserList(addList: List<ChildUser>) {
@@ -154,8 +168,9 @@ class ListsViewModel(
         }
     }
     
-    fun updateEvents(): SwipeRefreshLayout.OnRefreshListener = SwipeRefreshLayout.OnRefreshListener {
-        updateList(setUp = false)
-    }
+    fun updateEvents(): SwipeRefreshLayout.OnRefreshListener =
+        SwipeRefreshLayout.OnRefreshListener {
+            updateList(setUp = false)
+        }
     
 }
