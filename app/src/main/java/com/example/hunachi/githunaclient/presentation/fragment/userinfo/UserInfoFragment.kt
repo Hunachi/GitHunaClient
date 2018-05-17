@@ -17,7 +17,7 @@ import com.example.hunachi.githunaclient.databinding.FragmentUserInfoBinding
 
 import com.example.hunachi.githunaclient.presentation.base.BaseFragment
 import com.example.hunachi.githunaclient.presentation.dialog.LoadingDialogAdapter
-import com.example.hunachi.githunaclient.util.ErrorCallback
+import com.example.hunachi.githunaclient.util.GoWebCallback
 import com.example.hunachi.githunaclient.util.extension.customTabsIntent
 import com.example.hunachi.githunaclient.util.extension.observerOnChanged
 import com.github.salomonbrys.kodein.*
@@ -28,7 +28,7 @@ class UserInfoFragment : BaseFragment() {
     private lateinit var binding: FragmentUserInfoBinding
     private lateinit var viewModel: UserInfoViewModel
     private val userName: String? by lazy { arguments?.getString(USERNAME_PARAM) }
-    private lateinit var loadingDialog: AlertDialog //目がチカチカするから消し他方がいいかも．
+    private lateinit var loadingDialog: AlertDialog
     private lateinit var tabsIntent: CustomTabsIntent
     
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +37,7 @@ class UserInfoFragment : BaseFragment() {
     }
     
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         container?.removeAllViews()
@@ -59,36 +59,33 @@ class UserInfoFragment : BaseFragment() {
             setViewModel(it)
             binding.viewModel = it
         }.apply {
-                    user.observe(this@UserInfoFragment, Observer {
-                        if (it == null) return@Observer
-                        when {
-                            it.bio.isNullOrBlank()  -> binding.userbioText.visibility = View.GONE
-                            it.blog.isNullOrBlank() -> binding.userurlText.visibility = View.GONE
-                        }
-                        it.blog?.let { binding.userurlText.toMakeUnderline(it) }
-                    })
-                    launchWeb.observerOnChanged(this@UserInfoFragment, Observer {
-                        if (it == null) return@Observer
-                        launchWebCallback(it)
-                    })
-                    loading.observerOnChanged(this@UserInfoFragment, Observer {
-                        if (it == null) return@Observer
-                        loadingCallback(it)
-                    })
-                    error.observe(this@UserInfoFragment, Observer {
-                        if (it == null || it == false) return@Observer
-                        errorToast()
-                    })
+            setUp(launchWebCallback)
+            user.observe(this@UserInfoFragment, Observer {
+                if (it == null) return@Observer
+                when {
+                    it.bio.isNullOrBlank()  -> binding.userbioText.visibility = View.GONE
+                    it.blog.isNullOrBlank() -> binding.userurlText.visibility = View.GONE
                 }
+                it.blog?.let { binding.userurlText.toMakeUnderline(it) }
+            })
+            loading.observerOnChanged(this@UserInfoFragment, Observer {
+                if (it == null) return@Observer
+                loadingCallback(it)
+            })
+            error.observe(this@UserInfoFragment, Observer {
+                if (it == null || it == false) return@Observer
+                errorToast()
+            })
+        }
     }
     
     private fun setupDialog() {
         loadingDialog = with(activity as Context).instance<LoadingDialogAdapter>().value
-                .onCreateDialog()
+            .onCreateDialog()
         loadingDialog.show()
     }
     
-    private fun launchWebCallback(url: String) {
+    private val launchWebCallback: GoWebCallback = { url ->
         tabsIntent.launchUrl(activity, Uri.parse(url))
     }
     
@@ -100,9 +97,9 @@ class UserInfoFragment : BaseFragment() {
     companion object {
         private const val USERNAME_PARAM = "userName"
         fun newInstance(userName: String): UserInfoFragment =
-                UserInfoFragment().apply {
-                    arguments = bundleOf(USERNAME_PARAM to userName)
-                }
+            UserInfoFragment().apply {
+                arguments = bundleOf(USERNAME_PARAM to userName)
+            }
     }
     
     private fun TextView.toMakeUnderline(text: String) {

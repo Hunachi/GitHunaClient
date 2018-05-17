@@ -59,7 +59,7 @@ class ListsFragment : BaseFragment() {
     }
     
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = FragmentFollowerEventBinding.inflate(inflater, container!!, false)
         setUpRecycler()
@@ -86,6 +86,7 @@ class ListsFragment : BaseFragment() {
     private fun setUpViewModel() {
         setViewModel(viewModel)
         viewModel.apply {
+            onSetUp(this@ListsFragment.lunchWeb)
             listSize.observe(this@ListsFragment, Observer { listSize ->
                 if (listSize == null || listSize == 0) return@Observer
                 if (listsArgument.listsType == ListType.FOLLOWERS || listsArgument.listsType == ListType.FOLLOWING)
@@ -99,10 +100,6 @@ class ListsFragment : BaseFragment() {
             error.observerOnChanged(this@ListsFragment, Observer {
                 if (it == null) return@Observer
                 onError()
-            })
-            lunchWeb.observerOnChanged(this@ListsFragment, Observer {
-                if (it == null) return@Observer
-                lunchWeb(it)
             })
         }
     }
@@ -119,13 +116,15 @@ class ListsFragment : BaseFragment() {
     private fun setUpAdapter() {
         when (listsArgument.listsType) {
             ListType.FEED         -> feedAdapter = FeedAdapter(viewModel.list, itemCallback)
-            ListType.TL           -> timeLineAdapter = TimeLineAdapter(viewModel.list, itemIconCallback, itemCallback)
+            ListType.TL           -> timeLineAdapter =
+                    TimeLineAdapter(viewModel.list, itemIconCallback, itemCallback)
             ListType.FOLLOWERS,
             ListType.FOLLOWING    -> userAdapter = UserAdapter(viewModel.list, itemCallback)
             ListType.GISTS        -> gistAdapter = GistAdapter(viewModel.list, itemCallback)
             ListType.STARED,
             ListType.WATCH,
-            ListType.REPOSITORIES -> repositoryAdapter = RepositoryAdapter(viewModel.list, itemCallback)
+            ListType.REPOSITORIES -> repositoryAdapter =
+                    RepositoryAdapter(viewModel.list, itemCallback)
         }
         binding.list.adapter = adapter
     }
@@ -145,7 +144,7 @@ class ListsFragment : BaseFragment() {
     
     private fun setupDialog() {
         loadingDialog = with(activity as Context).instance<LoadingDialogAdapter>().value
-                .onCreateDialog()
+            .onCreateDialog()
     }
     
     private val itemIconCallback: ItemCallback = {
@@ -171,7 +170,7 @@ class ListsFragment : BaseFragment() {
         return true
     }
     
-    private fun lunchWeb(url: String) {
+    private val lunchWeb: GoWebCallback = { url ->
         tabsIntent.launchUrl(activity, Uri.parse(url))
     }
     
@@ -184,11 +183,16 @@ class ListsFragment : BaseFragment() {
         errorToast()
     }
     
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.onDestroy()
+    }
+    
     companion object {
         private const val LISTTIPE_PARAM = "listType"
         fun newInstance(listsArgument: ListsArgument): ListsFragment =
-                ListsFragment().apply {
-                    arguments = bundleOf(LISTTIPE_PARAM to listsArgument)
-                }
+            ListsFragment().apply {
+                arguments = bundleOf(LISTTIPE_PARAM to listsArgument)
+            }
     }
 }
