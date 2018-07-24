@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/kotlinOrange</color>
-    <color name="colorPrimaryDark">@color/kotlinBlue</color>
+    <color name="colorPrimary">@color/bugDroid</color>
+    <color name="colorPrimaryDark">@color/droidDark</color>
     <color name="colorAccent">@color/kotlinPink</color>
     <color name="bugDroid">#A4C639</color>
     <color name="droidLight">#dff2a2</color>

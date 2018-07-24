@@ -1,7 +1,10 @@
 package com.example.hunachi.githunaclient.presentation.main.profile
 
+import android.content.res.Resources
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.annotation.ColorRes
+import android.support.annotation.LayoutRes
 import android.view.MenuItem
 import com.example.hunachi.githunaclient.R
 import com.example.hunachi.githunaclient.databinding.ActivityMainProfileBinding
@@ -15,11 +18,13 @@ import com.example.hunachi.githunaclient.presentation.main.FragmentFrag
 import com.example.hunachi.githunaclient.util.ErrorCallback
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainProfileActivity : BaseActivity() {
     
     private val binding: ActivityMainProfileBinding by lazy {
-        DataBindingUtil.setContentView<ActivityMainProfileBinding>(this, R.layout.activity_main_profile)
+        DataBindingUtil
+            .setContentView<ActivityMainProfileBinding>(this, R.layout.activity_main_profile)
     }
     private val userName: String? by lazy { intent?.getStringExtra("userName") }
     private lateinit var adapter: ProfilePagerAdapter
@@ -36,9 +41,13 @@ class MainProfileActivity : BaseActivity() {
         viewPagerFragment = with(userName).instance<ViewPagerFragment>().value
         userInfoFragment = with(userName).instance<UserInfoFragment>().value
         adapter = with(supportFragmentManager to userName).instance<ProfilePagerAdapter>().value
-        binding.apply {
+        
+        with(binding) {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setBackgroundDrawable(resources.getDrawable(R.color.colorPrimary))
+            toolbar?.setTitleTextColor(resources.getColor(R.color.white))
         }
+        
         navigator.replaceFragment(R.id.viewpager_container, viewPagerFragment)
         navigator.replaceFragment(R.id.user_info_container, userInfoFragment)
     }

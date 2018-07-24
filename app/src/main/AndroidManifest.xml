@@ -39,6 +39,7 @@
         <activity
             android:name=".presentation.main.profile.MainProfileActivity"
             android:parentActivityName=".presentation.main.MainActivity"
+            android:theme="@style/Theme.Design.Light"
             tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -56,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_gravity="start"
-                android:background="@color/kotlinOrange"
+                android:background="@color/colorPrimary"
                 app:itemIconTint="@animator/bnv_item_selected"
                 app:itemTextColor="@animator/bnv_item_selected"
                 app:layout_constraintBottom_toBottomOf="parent"
