@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.hunachi.githunaclient.presentation.login.LoginGithubViewModel" />
+            type="io.github.hunachi.githunaclient.presentation.login.LoginGithubViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout

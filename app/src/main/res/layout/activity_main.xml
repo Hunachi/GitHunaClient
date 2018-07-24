@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.hunachi.githunaclient.presentation.main.MainViewModel" />
+            type="io.github.hunachi.githunaclient.presentation.main.MainViewModel" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout

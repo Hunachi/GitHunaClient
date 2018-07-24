@@ -9,7 +9,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.example.hunachi.githunaclient"
+        applicationId "io.github.hunachi.githunaclient"
         minSdkVersion 15
         targetSdkVersion 27
         versionCode 1

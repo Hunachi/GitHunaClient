@@ -5,7 +5,7 @@
     <data>
         <variable
             name="item"
-            type="com.example.hunachi.githunaclient.data.api.responce.Repository"/>
+            type="io.github.hunachi.githunaclient.data.api.responce.Repository"/>
     </data>
 
     <android.support.constraint.ConstraintLayout

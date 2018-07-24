@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.example.hunachi.githunaclient.presentation.fragment.list.feed.Feed" />
+            type="io.github.hunachi.githunaclient.presentation.fragment.list.feed.Feed" />
 
     </data>
 
